@@ -784,7 +784,7 @@ $('usbBtn').onclick = async () => {
 
 // Served by the robot itself (WiFi)? The PT Link website and local files have no /api/status.
 async function servedByRobot() {
-  if (!location.protocol.startsWith('http')) return false;
+  if (!location.protocol.startsWith('http') || location.hostname.endsWith('github.io')) return false;
   try {
     const ctl = new AbortController();
     setTimeout(() => ctl.abort(), 2500);
