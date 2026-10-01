@@ -1,0 +1,820 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PT Link</title>
+<meta name="theme-color" content="#e4572e">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<style>
+:root{--bg:#f4f5f7;--card:#fff;--fg:#1b1d21;--muted:#6b7280;--line:#e2e5ea;--accent:#e4572e;--ok:#1a8f4c;--bad:#c62828;--input:#fff;
+  --s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--out:#ec835a;--grid:#e1e0d9;--axis:#c3c2b7}
+@media (prefers-color-scheme:dark){:root{--bg:#111316;--card:#1b1e23;--fg:#e8eaed;--muted:#9aa0a8;--line:#2c3037;--accent:#ff7043;--ok:#4cc77f;--bad:#ff6b6b;--input:#14161a;
+  --s1:#3987e5;--s2:#d95926;--s3:#199e70;--out:#ec835a;--grid:#2c2c2a;--axis:#383835}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:720px;margin:0 auto;padding:16px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+h1{font-size:22px;margin:0}h1 b{color:var(--accent)}
+h2{font-size:16px;margin:0 0 10px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px}
+.hidden{display:none!important}
+.muted{color:var(--muted);font-size:13px}
+.pill{font-size:13px;padding:3px 10px;border-radius:99px;border:1px solid var(--line);white-space:nowrap}
+.pill.on{color:var(--ok);border-color:var(--ok)}
+dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:0}
+dt{color:var(--muted)}dd{margin:0;word-break:break-all}
+label{display:block;font-size:13px;color:var(--muted);margin:8px 0 2px}
+input,select,button{font:inherit;width:100%;padding:9px 10px;border-radius:8px;border:1px solid var(--line);background:var(--input);color:var(--fg)}
+button{cursor:pointer;background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600;margin-top:10px}
+button.ghost{background:transparent;color:var(--fg);border-color:var(--line);font-weight:500}
+button:disabled{opacity:.5;cursor:default}
+.row{display:flex;gap:8px}.row>*{flex:1}
+.net{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 0;border-bottom:1px solid var(--line)}
+.net button{width:auto;margin:0;padding:4px 12px}
+progress{width:100%;height:10px;margin-top:10px}
+.msg{min-height:1.5em;margin-top:8px;font-size:14px}.msg.ok{color:var(--ok)}.msg.bad{color:var(--bad)}
+.bars{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:3px;height:90px;align-items:end}
+.bar{position:relative;height:100%;background:var(--input);border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.bar i{position:absolute;left:0;right:0;bottom:0;background:var(--muted);opacity:.55}
+.bar.on i{background:var(--accent);opacity:1}
+.idx{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:3px;font-size:10px;color:var(--muted);text-align:center;margin-top:2px}
+.track{position:relative;height:16px;margin-top:10px;background:var(--input);border:1px solid var(--line);border-radius:8px}
+.track:before{content:"";position:absolute;left:50%;top:2px;bottom:2px;border-left:1px dashed var(--muted)}
+.marker{position:absolute;top:2px;width:10px;height:10px;border-radius:50%;background:var(--accent);transform:translateX(-50%);left:50%}
+.marker.out{background:var(--bad)}
+h3.sub{font-size:14px;margin:14px 0 0}
+.chart{position:relative;margin-top:10px}
+.chart h3{font-size:13px;font-weight:600;margin:0 0 4px;color:var(--muted)}
+.chart canvas{display:block;width:100%;height:170px;touch-action:none}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13px;color:var(--muted);margin:6px 0 0}
+.legend span:before{content:"";display:inline-block;width:14px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle;background:var(--c)}
+.legend .band:before{height:10px;opacity:.35}
+.tip{position:absolute;pointer-events:none;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 8px;font-size:12px;line-height:1.45;box-shadow:0 2px 8px rgba(0,0,0,.15);white-space:nowrap;z-index:2}
+.tip b{font-weight:600}
+pre{background:var(--input);border:1px solid var(--line);border-radius:8px;padding:8px;max-height:220px;overflow:auto;font-size:12px;margin:0;white-space:pre-wrap;word-break:break-all}
+</style>
+</head>
+<body>
+<main>
+<header><h1><b>PT</b> Link</h1><span id="conn" class="pill">ไม่ได้เชื่อมต่อ</span></header>
+
+<section id="connectCard" class="card hidden">
+  <h2>เชื่อมต่อหุ่น</h2>
+  <p class="muted" id="connectHelp">เสียบสาย USB ระหว่างคอมกับหุ่น แล้วกดปุ่มด้านล่าง เลือกพอร์ต COM ของหุ่น (ปิด Serial Monitor / Arduino IDE ก่อน)</p>
+  <button id="usbBtn">เชื่อมต่อผ่าน USB</button>
+  <p class="muted">หรือใช้มือถือ: เปิด WiFi ของหุ่น (กด A ค้าง 3 วิ) ต่อ WiFi ชื่อ PTLINK-xxxx แล้วเปิด http://192.168.4.1</p>
+</section>
+
+<section id="authCard" class="card hidden">
+  <label for="pw">รหัสผ่านหุ่น (รหัสโรงงาน) — ใช้ตอนเปลี่ยนค่าหรืออัปเดตผ่าน WiFi</label>
+  <input id="pw" type="password" autocomplete="current-password">
+</section>
+
+<section id="app" class="hidden">
+  <div class="card">
+    <h2>สถานะ</h2>
+    <dl id="status"></dl>
+    <div class="row"><button class="ghost" id="refreshBtn">รีเฟรช</button><button class="ghost" id="identifyBtn">ให้หุ่นส่งเสียง</button></div>
+    <button class="ghost" id="benchBtn">เปิดโหมดทดสอบบนโต๊ะ (พัดลมไม่หมุน)</button>
+    <p class="muted">โหมดทดสอบบนโต๊ะ: กด B แล้ววิ่งโดยไม่เปิดพัดลม — ยกล้อลอย วางกระดาษมีเส้นใต้เซนเซอร์ ดูทิศล้อและลูป/วินาที · ปิดเองทุกครั้งที่เปิดเครื่องใหม่</p>
+  </div>
+
+  <div class="card">
+    <h2>เซนเซอร์</h2>
+    <div class="bars" id="bars"></div>
+    <div class="idx" id="idx"></div>
+    <div class="track"><div class="marker" id="marker"></div></div>
+    <p class="muted" id="posText">—</p>
+    <div class="row"><button class="ghost" id="liveBtn">ดูค่าสด</button><button class="ghost" id="calViewBtn">ดูค่าคาลิเบรต</button></div>
+    <div class="row"><button id="calSpinBtn">คาลิเบรต (หมุนตัว)</button><button class="ghost" id="calManualBtn">คาลิเบรต (เลื่อนด้วยมือ)</button></div>
+    <div class="msg" id="calMsg"></div>
+    <pre id="calData" class="hidden"></pre>
+  </div>
+
+  <div class="card" id="logCardRun">
+    <h2>บันทึกการวิ่ง</h2>
+    <div class="row"><button id="logPtBtn">รอบล่าสุด (PT Link)</button><button class="ghost" id="logFlsrBtn">รอบล่าสุดของ FLSR_DM01</button></div>
+    <div class="msg" id="logMsg"></div>
+    <div id="logView" class="hidden">
+      <dl id="logInfo"></dl>
+      <div class="chart" id="chartBox">
+        <h3>ตำแหน่งเส้น (บวก = เส้นอยู่ซ้าย)</h3>
+        <canvas id="chartErr" aria-label="กราฟตำแหน่งเส้นตามเวลา"></canvas>
+        <h3 style="margin-top:10px">คำสั่งมอเตอร์ (%)</h3>
+        <canvas id="chartMotor" aria-label="กราฟคำสั่งมอเตอร์ตามเวลา"></canvas>
+        <div class="legend">
+          <span style="--c:var(--s1)">ล้อซ้าย</span><span style="--c:var(--s2)">ล้อขวา</span><span style="--c:var(--s3)">base (หลังลดตอนเข้าโค้ง)</span>
+          <span class="band" style="--c:var(--out)">ช่วงหลุดเส้น</span>
+        </div>
+        <div class="tip hidden" id="tip"></div>
+      </div>
+      <div class="row"><button class="ghost" id="csvBtn">ดาวน์โหลด CSV</button><button class="ghost" id="tableBtn">ดูเป็นตาราง</button></div>
+      <pre id="logTable" class="hidden"></pre>
+    </div>
+    <button class="ghost hidden" id="logFormatBtn">เตรียมพื้นที่เก็บ log (ล้างข้อมูล log ทั้งหมด)</button>
+  </div>
+
+  <div class="card">
+    <h2>ตั้งค่า</h2>
+    <label for="mode">โหมด</label>
+    <select id="mode"><option value="race">แข่ง — WiFi ปิดตอนเปิดเครื่อง, ตัดก่อนออกตัว</option><option value="practice">ฝึกซ้อม — WiFi เปิดตอนเปิดเครื่อง</option></select>
+    <h3 class="sub">WiFi ที่หุ่นปล่อยเอง <span class="muted">(มือถือต่อเข้าหุ่น — ไม่ใช่ WiFi บ้าน)</span></h3>
+    <label for="apSsid">ชื่อ — ตอนนี้: <b id="apNow">-</b> (เว้นว่าง = ไม่เปลี่ยน)</label>
+    <input id="apSsid" maxlength="32">
+    <label for="apPass">รหัสใหม่ (เว้นว่าง = ไม่เปลี่ยน, อย่างน้อย 8 ตัว)</label>
+    <input id="apPass" type="password" maxlength="63" autocomplete="new-password">
+    <label for="apChannel">ช่องสัญญาณ</label>
+    <select id="apChannel"></select>
+    <button id="saveBtn">บันทึก</button>
+    <button class="ghost" id="apResetBtn">คืนชื่อ / รหัส / ช่อง WiFi ของหุ่นเป็นค่าเริ่มต้น</button>
+    <div class="msg" id="saveMsg"></div>
+    <p class="muted">ค่า WiFi มีผลตอนเปิด WiFi ครั้งถัดไป · ค่าเริ่มต้น = ชื่อ PTLINK-xxxx กับรหัสโรงงานบนสติกเกอร์</p>
+  </div>
+
+  <div class="card">
+    <h2>WiFi บ้าน / ฮอตสปอต ที่ให้หุ่นไปต่อ <span class="muted">(ต้องติดเสาอากาศ)</span></h2>
+    <div id="nets"></div>
+    <div class="row"><div><label for="netSsid">ชื่อ WiFi</label><input id="netSsid" maxlength="32"></div>
+      <div><label for="netPass">รหัส</label><input id="netPass" type="password" maxlength="63" autocomplete="off"></div></div>
+    <button class="ghost" id="netAddBtn">เพิ่มเครือข่าย</button>
+    <div class="msg" id="netMsg"></div>
+  </div>
+
+  <div class="card">
+    <h2>อัปเดตเฟิร์มแวร์</h2>
+    <div id="latestBox" class="hidden">
+      <p class="muted" id="latestInfo"></p>
+      <button id="latestBtn">อัปเดตเป็นเวอร์ชันล่าสุด</button>
+      <p class="muted">หรือเลือกไฟล์เอง:</p>
+    </div>
+    <input id="fwFile" type="file" accept=".bin">
+    <button class="ghost" id="fwBtn">อัปเดตจากไฟล์</button>
+    <progress id="fwProg" max="100" value="0" class="hidden"></progress>
+    <div class="msg" id="fwMsg"></div>
+  </div>
+
+  <div class="card">
+    <button class="ghost" id="rebootBtn">รีสตาร์ทหุ่น</button>
+  </div>
+
+  <div class="card hidden" id="logCard">
+    <h2>ข้อความจากหุ่น</h2>
+    <pre id="log"></pre>
+  </div>
+</section>
+</main>
+
+<script>
+'use strict';
+const $ = id => document.getElementById(id);
+const TAG = 'PTLINK-FW|board=';
+const CHUNK = 3072;  // bytes per base64 USB chunk for older firmware (it accepts up to 4096 decoded)
+const CRC_TABLE = (() => {
+  const t = new Uint32Array(256);
+  for (let i = 0; i < 256; i++) { let c = i; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[i] = c >>> 0; }
+  return t;
+})();
+function crc32(bytes) {  // CRC-32 (IEEE), the same as the firmware's crc32_le(0, ...)
+  let c = 0xFFFFFFFF;
+  for (let i = 0; i < bytes.length; i++) c = CRC_TABLE[(c ^ bytes[i]) & 0xFF] ^ (c >>> 8);
+  return (c ^ 0xFFFFFFFF) >>> 0;
+}
+let link = null;
+let robot = null;   // last status
+
+function msg(id, text, ok) { const e = $(id); e.textContent = text; e.className = 'msg' + (ok === true ? ' ok' : ok === false ? ' bad' : ''); }
+
+const ERRORS = {
+  'wrong password': 'รหัสผ่านไม่ถูก',
+  'robot is running': 'หุ่นกำลังวิ่งอยู่ — รอให้หยุดก่อน',
+  'not a PT Link firmware': 'ไฟล์นี้ไม่ใช่เฟิร์มแวร์ PT Link',
+  'already 3 networks saved': 'บันทึกครบ 3 เครือข่ายแล้ว — ลบอันเดิมก่อน',
+  'robot is busy': 'หุ่นไม่ว่าง (กำลังวิ่งหรืออัปเดตอยู่)',
+};
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const th = e => ERRORS[e] || (e.startsWith('firmware is for another board') ? 'ไฟล์นี้เป็นของบอร์ดรุ่นอื่น' :
+  e.startsWith('current firmware not confirmed') ? 'เฟิร์มแวร์เพิ่งอัปเดต รอ 10 วินาทีแล้วลองใหม่' : e);
+
+// ---------- WiFi: the page is served by the robot ----------
+class HttpLink {
+  get name() { return 'WiFi'; }
+  async cmd(obj) {
+    const r = await fetch('/api/cmd', { method: 'POST', body: JSON.stringify({ ...obj, auth: $('pw').value }) });
+    return r.json();
+  }
+  update(file, onProgress) {
+    return new Promise(resolve => {
+      const fd = new FormData(); fd.append('firmware', file);
+      const x = new XMLHttpRequest();
+      x.open('POST', '/api/update');
+      x.setRequestHeader('Authorization', 'Basic ' + btoa('admin:' + $('pw').value));
+      x.upload.onprogress = e => e.lengthComputable && onProgress(e.loaded / e.total);
+      x.onload = () => { try { resolve(JSON.parse(x.responseText)); } catch (e) { resolve({ ok: false, error: 'HTTP ' + x.status }); } };
+      x.onerror = () => resolve({ ok: false, error: 'การเชื่อมต่อหลุดระหว่างอัปโหลด' });
+      x.send(fd);
+    });
+  }
+}
+
+// ---------- USB: Web Serial, one JSON request/reply per line ----------
+class SerialLink {
+  get name() { return 'USB'; }
+  async connect(port) {
+    this.port = port;
+    await this.port.open({ baudRate: 921600, bufferSize: 16384 });
+    this.writer = this.port.writable.getWriter();
+    this.enc = new TextEncoder();
+    this.pending = new Map();
+    this.nextId = 1;
+    this.closed = false;
+    this.readLoop();
+  }
+  async readLoop() {
+    const decoder = new TextDecoder();
+    let buf = '';
+    // A read error is not fatal: when the robot reboots its boot ROM prints at 115200, which arrives
+    // here as framing errors. Chrome then gives a fresh port.readable; keep reading from it.
+    while (this.port.readable && !this.closed) {
+      this.reader = this.port.readable.getReader();
+      try {
+        for (;;) {
+          const { value, done } = await this.reader.read();
+          if (done) break;
+          buf += decoder.decode(value, { stream: true });
+          let i;
+          while ((i = buf.indexOf('\n')) >= 0) { this.onLine(buf.slice(0, i).replace(/\r$/, '')); buf = buf.slice(i + 1); }
+        }
+      } catch (e) {
+      } finally {
+        this.reader.releaseLock();
+      }
+    }
+    if (!this.closed) { await this.close(); setConn(false, 'หลุดการเชื่อมต่อ USB'); }
+  }
+  async close() {
+    this.closed = true;
+    try { await this.reader.cancel(); } catch (e) {}
+    try { this.writer.releaseLock(); } catch (e) {}
+    try { await this.port.close(); } catch (e) {}
+  }
+  onLine(line) {
+    if (line.startsWith('{')) {
+      try {
+        const j = JSON.parse(line);
+        const p = this.pending.get(j.id);
+        if (p) { this.pending.delete(j.id); clearTimeout(p.timer); p.resolve(j); return; }
+      } catch (e) {}
+    }
+    log(line);
+  }
+  // payload: raw bytes sent right after the request line (otaChunk)
+  cmd(obj, timeout = 4000, payload = null) {
+    const id = this.nextId++;
+    return new Promise((resolve, reject) => {
+      const timer = setTimeout(() => { this.pending.delete(id); reject(new Error('หุ่นไม่ตอบ')); }, timeout);
+      this.pending.set(id, { resolve, timer });
+      let bytes = this.enc.encode(JSON.stringify({ ...obj, id }) + '\n');
+      if (payload) { const all = new Uint8Array(bytes.length + payload.length); all.set(bytes); all.set(payload, bytes.length); bytes = all; }
+      this.writer.write(bytes).catch(reject);
+    });
+  }
+  async update(file, onProgress) {
+    const data = new Uint8Array(await file.arrayBuffer());
+    let r = await this.cmd({ cmd: 'otaBegin', size: data.length }, 15000);  // erases the slot
+    if (!r.ok) return r;
+    // Firmware 0.6.0+ takes raw 16 KB chunks (with CRC-32); older firmware only base64 otaData.
+    const step = this.binChunk || CHUNK;
+    for (let off = 0; off < data.length; off += step) {
+      const part = data.subarray(off, off + step);
+      if (this.binChunk) {
+        r = await this.cmd({ cmd: 'otaChunk', off, len: part.length, crc: crc32(part) }, 10000, part);
+      } else {
+        let bin = ''; for (let i = 0; i < part.length; i++) bin += String.fromCharCode(part[i]);
+        r = await this.cmd({ cmd: 'otaData', off, b64: btoa(bin) }, 8000);
+      }
+      if (!r.ok) return r;
+      onProgress((off + part.length) / data.length);
+    }
+    return this.cmd({ cmd: 'otaEnd' }, 15000);
+  }
+}
+
+// ---------- UI ----------
+function setConn(ok, text) {
+  $('conn').textContent = text; $('conn').classList.toggle('on', ok);
+  $('app').classList.toggle('hidden', !ok);
+  if (!ok && !(link instanceof HttpLink)) $('connectCard').classList.remove('hidden');
+}
+
+// Boot ROM output arrives at the wrong baud rate as replacement characters: drop those lines.
+function isGarbage(line) {
+  let bad = 0;
+  for (const ch of line) if (ch === '�' || (ch < ' ' && ch !== '\t')) bad++;
+  return bad > line.length * 0.2;
+}
+
+// Passwords stay off the screen (someone may be watching over your shoulder).
+const maskSecrets = line => line.replace(/(password )(?!\()\S+/gi, '$1********').replace(/(sticker\): )\S+/i, '$1********');
+
+function log(line) {
+  if (!line.trim() || isGarbage(line)) return;
+  line = maskSecrets(line);
+  $('logCard').classList.remove('hidden');
+  const el = $('log'); el.textContent = (el.textContent + line + '\n').split('\n').slice(-200).join('\n');
+  el.scrollTop = el.scrollHeight;
+}
+
+function row(dl, name, value) {
+  const dt = document.createElement('dt'); dt.textContent = name;
+  const dd = document.createElement('dd'); dd.textContent = value;
+  dl.append(dt, dd);
+}
+
+async function refresh() {
+  const s = await link.cmd({ cmd: 'status' });
+  if (!s.ok) throw new Error(s.error);
+  robot = s;
+  const dl = $('status'); dl.textContent = '';
+  row(dl, 'หุ่น', `${s.robot} · ${s.board}`);
+  row(dl, 'เฟิร์มแวร์', `${s.fw}${s.raceBuild ? ' (race)' : ''} · ช่อง ${s.partition}${s.otaPending ? ' · ยังไม่ยืนยัน' : ''}`);
+  row(dl, 'โหมด', (s.mode === 'race' ? 'แข่ง' : 'ฝึกซ้อม') + (s.bench ? ' · ทดสอบบนโต๊ะ (พัดลมไม่หมุน)' : ''));
+  $('benchBtn').textContent = s.bench ? 'ปิดโหมดทดสอบบนโต๊ะ (กลับมาเปิดพัดลมตอนวิ่ง)' : 'เปิดโหมดทดสอบบนโต๊ะ (พัดลมไม่หมุน)';
+  $('benchBtn').dataset.on = s.bench ? '1' : '';
+  row(dl, 'WiFi หุ่น', s.wifiOn ? `เปิด · ${s.apSsid} · ช่อง ${s.channel} · ต่ออยู่ ${s.clients} เครื่อง` : `ปิด · ${s.apSsid}`);
+  if (s.network) row(dl, 'ต่อเครือข่าย', `${s.network} · ${s.networkIp} · ${s.hostname}`);
+  row(dl, 'แบต', s.battery == null ? 'ไม่มีวงจรวัด' : s.battery + ' V');
+  if (s.lastRun) {
+    const hz = s.lastRun.ms ? Math.round(s.lastRun.loops * 1000 / s.lastRun.ms) : 0;
+    row(dl, 'วิ่งรอบล่าสุด', `${(s.lastRun.ms / 1000).toFixed(1)} วินาที · ${hz} ลูป/วินาที${s.lastRun.aborted ? ' · หยุดเพราะหลุดเส้น' : ''}`);
+  }
+  row(dl, 'เปิดมา', Math.round(s.uptimeMs / 1000) + ' วินาที');
+  await showSensors();
+  $('mode').value = s.mode;
+  $('apChannel').value = String(s.apChannelSetting);
+  $('apSsid').placeholder = '';
+  $('apNow').textContent = s.apSsid;
+  await loadNets();
+  checkLatest();  // no await: the website check must not slow the robot view
+}
+
+// ---------- sensors ----------
+let live = false;
+
+async function showSensors() {
+  const r = await ok(link.cmd({ cmd: 'sensors' }));
+  const n = r.raw.length, bars = $('bars');
+  if (bars.children.length !== n) {
+    bars.textContent = ''; $('idx').textContent = '';
+    for (let i = 0; i < n; i++) {
+      const b = document.createElement('div'); b.className = 'bar'; b.append(document.createElement('i')); bars.append(b);
+      const t = document.createElement('span'); t.textContent = i; $('idx').append(t);
+    }
+  }
+  for (let i = 0; i < n; i++) {
+    const b = bars.children[i];
+    if (r.calValid) {  // strength: tall = on the line
+      b.firstChild.style.height = r.strength[i] / 10 + '%';
+      b.classList.toggle('on', r.strength[i] > r.threshold);
+      b.title = `S${i} ค่าดิบ ${r.raw[i]} ความเข้ม ${r.strength[i]}`;
+    } else {           // raw: tall = white floor
+      b.firstChild.style.height = r.raw[i] / 10.23 + '%';
+      b.classList.remove('on');
+      b.title = `S${i} ค่าดิบ ${r.raw[i]}`;
+    }
+  }
+  if (r.calValid) {
+    $('marker').style.left = (r.edge - r.position) / (2 * r.edge) * 100 + '%';
+    $('marker').classList.toggle('out', r.out);
+    $('posText').textContent = `ตำแหน่ง ${r.position}${r.out ? ' · หลุดเส้น' : ''}${r.allDark ? ' · มืดทุกตัว (ยกลอย/เส้นตัด/พื้นดำ — ตำแหน่งไม่แน่นอน)' : ''}${r.badRaw ? ' · อ่านเซนเซอร์ผิดพลาด' : ''}  (0 = กลาง, +${r.edge} = ฝั่ง S0 ซ้าย)`;
+  } else {
+    $('marker').style.left = '50%';
+    $('posText').textContent = 'ยังไม่ได้คาลิเบรต — แท่งแสดงค่าดิบ (สูง = พื้นขาว)';
+  }
+}
+
+async function liveLoop() {
+  while (live) {
+    try { await showSensors(); } catch (e) { msg('calMsg', th(e.message), false); live = false; }
+    await sleep(100);
+  }
+  $('liveBtn').textContent = 'ดูค่าสด';
+}
+
+async function calibrate(sweep) {
+  live = false;
+  const text = sweep === 'spin'
+    ? 'วางหุ่นคร่อมเส้น หุ่นจะหมุนตัวเอง 5 วินาที (มอเตอร์ทำงาน) — เริ่มเลยไหม?'
+    : 'กดตกลงแล้ว รอเสียงบี๊บ จากนั้นเลื่อนหุ่นข้ามเส้นไปมาให้เซนเซอร์ทุกตัวผ่านทั้งเส้นและพื้นขาว 5 วินาที';
+  if (!confirm(text)) return;
+  await run('calMsg', async () => {
+    msg('calMsg', 'กำลังคาลิเบรต… (ประมาณ 6 วินาที)');
+    await ok(link.cmd({ cmd: 'calibrate', sweep }, 15000));
+    await showSensors();
+    return 'บันทึกค่าคาลิเบรตแล้ว';
+  });
+}
+
+async function showCalibration() {
+  const r = await ok(link.cmd({ cmd: 'calibration' }));
+  const lines = [`${r.calValid ? 'ใช้ได้' : 'ใช้ไม่ได้'} (พื้น − เส้น ต้อง ≥ ${r.minSpan})`];
+  r.line.forEach((l, i) => {
+    const span = r.floor[i] - l;
+    lines.push(`S${String(i).padStart(2, '0')}  เส้น ${String(l).padStart(4)}  พื้น ${String(r.floor[i]).padStart(4)}  ต่าง ${String(span).padStart(4)}${span < r.minSpan ? '  ← น้อยไป' : ''}`);
+  });
+  $('calData').textContent = lines.join('\n');
+  $('calData').classList.remove('hidden');
+}
+
+// ---------- run log ----------
+let runLog = null;  // { file, info, samples: [{t,error,base,left,right,out,abort,seg}] }
+let hoverIndex = -1;
+
+function decodeSamples(b64) {
+  const bin = atob(b64), dv = new DataView(new ArrayBuffer(bin.length));
+  for (let i = 0; i < bin.length; i++) dv.setUint8(i, bin.charCodeAt(i));
+  const out = [];
+  for (let o = 0; o + 8 <= bin.length; o += 8) {  // 8-byte sample, little endian
+    const flags = dv.getUint8(o + 7);
+    out.push({ t: dv.getUint16(o, true), error: dv.getInt16(o + 2, true), base: dv.getInt8(o + 4),
+               left: dv.getInt8(o + 5), right: dv.getInt8(o + 6), out: flags & 1, abort: (flags >> 1) & 1, seg: flags >> 4 });
+  }
+  return out;
+}
+
+async function loadRunLog(file) {
+  const info = await ok(link.cmd({ cmd: 'logInfo', file }));
+  $('logFormatBtn').classList.toggle('hidden', info.storageReady);
+  if (!info.exists) throw new Error(!info.storageReady ? 'พื้นที่เก็บ log ยังไม่พร้อม — กดปุ่มเตรียมพื้นที่ด้านล่างหนึ่งครั้ง'
+    : file === 'flsr' ? 'ไม่พบ log ของ FLSR_DM01 ในหุ่น' : 'ยังไม่มีการวิ่งที่บันทึกไว้ — กด B ให้หุ่นวิ่งก่อน');
+  const samples = [];
+  while (samples.length < info.samples) {
+    msg('logMsg', `กำลังโหลด ${samples.length}/${info.samples}`);
+    const r = await ok(link.cmd({ cmd: 'logRead', file, start: samples.length, count: 300 }, 8000));
+    if (!r.count) break;
+    samples.push(...decodeSamples(r.b64));
+  }
+  runLog = { file, info, samples };
+  hoverIndex = -1;
+  showRunLog();
+  return `โหลดแล้ว ${samples.length} จุด`;
+}
+
+function showRunLog() {
+  const { info, samples } = runLog;
+  const dl = $('logInfo'); dl.textContent = '';
+  const hz = info.durationMs ? Math.round(info.loops * 1000 / info.durationMs) : 0;
+  row(dl, 'เฟิร์มแวร์', info.fw);
+  row(dl, 'เวลา', `${(info.durationMs / 1000).toFixed(2)} วินาที · ${hz} ลูป/วินาที · บันทึกทุก ${info.intervalMs} ms`);
+  row(dl, 'ผล', (info.aborted ? 'หยุดก่อนครบเวลา (หลุดเส้นนานเกิน)' : 'วิ่งครบ') +
+    (info.fanUs === 1000 ? ' · ทดสอบบนโต๊ะ (พัดลมปิด)' : ''));
+  info.segments.forEach((g, i) => row(dl, `ช่วง ${i + 1}`,
+    `${g.base ? 'base ' + g.base + ' · ' : ''}kp ${g.kp} · kd ${g.kd} · ${g.timeMs} ms (เริ่ม ${g.startMs} ms)`));
+  const outCount = samples.filter(s => s.out).length;
+  row(dl, 'หลุดเส้น', `${(outCount * info.intervalMs / 1000).toFixed(2)} วินาทีโดยประมาณ`);
+  $('logView').classList.remove('hidden');
+  $('logTable').classList.add('hidden');
+  drawCharts();
+}
+
+function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+
+// One chart: shared time axis, fixed y range, recessive grid, 2px lines, shaded line-out periods.
+function drawChart(canvas, yMin, yMax, yTicks, series) {
+  const { info, samples } = runLog;
+  const dpr = window.devicePixelRatio || 1;
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  canvas.width = w * dpr; canvas.height = h * dpr;
+  const g = canvas.getContext('2d');
+  g.setTransform(dpr, 0, 0, dpr, 0, 0);
+  g.clearRect(0, 0, w, h);
+  const L = 66, R = 8, T = 6, B = 18;  // plot margins (left fits "+750 ซ้าย")
+  const tMax = Math.max(1, samples.length ? samples[samples.length - 1].t : info.durationMs);
+  const x = t => L + (t / tMax) * (w - L - R);
+  const y = v => T + (yMax - v) / (yMax - yMin) * (h - T - B);
+  canvas._geom = { x, L, R, tMax, w };
+
+  g.font = '11px system-ui, sans-serif';
+  // line-out bands (status color, translucent, behind everything)
+  g.fillStyle = css('--out'); g.globalAlpha = 0.25;
+  for (let i = 0; i < samples.length; i++) {
+    if (!samples[i].out) continue;
+    let j = i; while (j + 1 < samples.length && samples[j + 1].out) j++;
+    const x0 = x(samples[i].t), x1 = x(samples[j].t + info.intervalMs);
+    g.fillRect(x0, T, Math.max(1, x1 - x0), h - T - B);
+    i = j;
+  }
+  g.globalAlpha = 1;
+  // grid + y labels
+  g.strokeStyle = css('--grid'); g.lineWidth = 1; g.fillStyle = css('--muted'); g.textAlign = 'right'; g.textBaseline = 'middle';
+  for (const [v, label] of yTicks) {
+    g.beginPath(); g.moveTo(L, y(v) + .5); g.lineTo(w - R, y(v) + .5); g.stroke();
+    g.fillText(label, L - 6, y(v));
+  }
+  g.strokeStyle = css('--axis');  // zero baseline
+  g.beginPath(); g.moveTo(L, y(0) + .5); g.lineTo(w - R, y(0) + .5); g.stroke();
+  // time labels
+  g.textAlign = 'center'; g.textBaseline = 'top';
+  const step = tMax > 8000 ? 2000 : tMax > 3000 ? 1000 : 500;
+  for (let t = 0; t <= tMax; t += step) g.fillText((t / 1000) + ' s', x(t), h - B + 4);
+  // segment boundaries
+  g.setLineDash([3, 3]); g.strokeStyle = css('--muted');
+  info.segments.forEach((s, i) => {
+    if (!i) return;
+    g.beginPath(); g.moveTo(x(s.startMs) + .5, T); g.lineTo(x(s.startMs) + .5, h - B); g.stroke();
+  });
+  g.setLineDash([]);
+  // series
+  for (const s of series) {
+    g.strokeStyle = s.color; g.lineWidth = 2; g.lineJoin = 'round';
+    g.beginPath();
+    samples.forEach((p, i) => { const px = x(p.t), py = y(Math.max(yMin, Math.min(yMax, p[s.key]))); i ? g.lineTo(px, py) : g.moveTo(px, py); });
+    g.stroke();
+  }
+  // abort marker
+  if (info.aborted && samples.length) {
+    const last = samples[samples.length - 1];
+    g.fillStyle = css('--bad'); g.beginPath(); g.arc(x(last.t), y(0), 5, 0, Math.PI * 2); g.fill();
+  }
+  // crosshair
+  if (hoverIndex >= 0 && samples[hoverIndex]) {
+    const px = x(samples[hoverIndex].t);
+    g.strokeStyle = css('--fg'); g.globalAlpha = .5; g.lineWidth = 1;
+    g.beginPath(); g.moveTo(px + .5, T); g.lineTo(px + .5, h - B); g.stroke(); g.globalAlpha = 1;
+    for (const s of series) {
+      g.fillStyle = s.color; g.strokeStyle = css('--card'); g.lineWidth = 2;
+      g.beginPath(); g.arc(px, y(Math.max(yMin, Math.min(yMax, samples[hoverIndex][s.key]))), 4, 0, Math.PI * 2); g.fill(); g.stroke();
+    }
+  }
+}
+
+function drawCharts() {
+  if (!runLog || $('logView').classList.contains('hidden')) return;
+  drawChart($('chartErr'), -800, 800, [[750, '+750 ซ้าย'], [0, '0'], [-750, '−750 ขวา']], [{ key: 'error', color: css('--s1') }]);
+  drawChart($('chartMotor'), -100, 100, [[100, '100'], [50, '50'], [0, '0'], [-50, '−50'], [-100, '−100']],
+    [{ key: 'base', color: css('--s3') }, { key: 'left', color: css('--s1') }, { key: 'right', color: css('--s2') }]);
+}
+
+function hover(ev) {
+  if (!runLog || !runLog.samples.length) return;
+  const canvas = ev.currentTarget, geom = canvas._geom, rect = canvas.getBoundingClientRect();
+  const clientX = ev.touches ? ev.touches[0].clientX : ev.clientX;
+  const t = (clientX - rect.left - geom.L) / (geom.w - geom.L - geom.R) * geom.tMax;
+  const s = runLog.samples;
+  let lo = 0, hi = s.length - 1;  // nearest sample by time
+  while (lo < hi) { const mid = (lo + hi) >> 1; if (s[mid].t < t) lo = mid + 1; else hi = mid; }
+  if (lo > 0 && Math.abs(s[lo - 1].t - t) < Math.abs(s[lo].t - t)) lo--;
+  hoverIndex = lo;
+  drawCharts();
+  const p = s[lo], tip = $('tip'), box = $('chartBox').getBoundingClientRect();
+  tip.innerHTML = `<b>${(p.t / 1000).toFixed(3)} s</b> · ช่วง ${p.seg + 1}${p.out ? ' · <b>หลุดเส้น</b>' : ''}${p.abort ? ' · <b>หยุด</b>' : ''}<br>` +
+    `ตำแหน่ง ${p.error}<br>ซ้าย ${p.left} · ขวา ${p.right} · base ${p.base}`;
+  tip.classList.remove('hidden');
+  const left = Math.min(clientX - box.left + 12, box.width - tip.offsetWidth - 4);
+  tip.style.left = Math.max(0, left) + 'px';
+  tip.style.top = (canvas.getBoundingClientRect().top - box.top + 4) + 'px';
+}
+
+function unhover() { hoverIndex = -1; $('tip').classList.add('hidden'); drawCharts(); }
+
+function runLogCsv() {
+  const { info, samples } = runLog;
+  const hz = info.durationMs ? Math.round(info.loops * 1000 / info.durationMs) : 0;
+  const lines = [`# ${info.fw} samples=${info.samples} interval_ms=${info.intervalMs} loop_hz=${hz} duration_ms=${info.durationMs} aborted=${info.aborted ? 1 : 0}`,
+    `# curve_slowdown=${info.curveSlowdown} out_stop_ms=${info.lineOutStopMs} pwm_hz=${info.pwmHz}`];
+  info.segments.forEach((g, i) => lines.push(`# segment ${i}: start_ms=${g.startMs} time_ms=${g.timeMs} base=${g.base} kp=${g.kp} kd=${g.kd}`));
+  lines.push('t_ms,error,base,left,right,out,abort,segment');
+  for (const p of samples) lines.push([p.t, p.error, p.base, p.left, p.right, p.out, p.abort, p.seg].join(','));
+  return lines.join('\n') + '\n';
+}
+
+async function loadNets() {
+  const r = await link.cmd({ cmd: 'networks' });
+  const box = $('nets'); box.textContent = '';
+  if (!r.networks.length) { box.innerHTML = '<p class="muted">ยังไม่มี</p>'; return; }
+  for (const ssid of r.networks) {
+    const d = document.createElement('div'); d.className = 'net';
+    const s = document.createElement('span'); s.textContent = ssid;
+    const b = document.createElement('button'); b.className = 'ghost'; b.textContent = 'ลบ';
+    b.onclick = () => run('netMsg', async () => { await ok(link.cmd({ cmd: 'netForget', ssid })); await loadNets(); return 'ลบแล้ว'; });
+    d.append(s, b); box.append(d);
+  }
+}
+
+async function ok(promise) { const r = await promise; if (!r.ok) throw new Error(r.error); return r; }
+
+async function run(msgId, fn) {
+  try { msg(msgId, '…'); msg(msgId, await fn(), true); }
+  catch (e) { msg(msgId, th(e.message), false); }
+}
+
+// The PT Link tag in a firmware file: "PTLINK-FW|board=<id>|v=<version>|". null = not PT Link.
+function firmwareTag(bytes) {
+  const text = new TextDecoder('latin1').decode(bytes);
+  let i = -1;
+  while ((i = text.indexOf(TAG, i + 1)) >= 0) {
+    const m = /^(\d)\|v=([^|\0]{1,15})\|/.exec(text.slice(i + TAG.length, i + TAG.length + 24));
+    if (m) return { board: +m[1], version: m[2] };
+  }
+  return null;
+}
+
+// -1 / 0 / 1 on the numeric part ("0.6.0-test" counts as 0.6.0).
+function compareVersions(a, b) {
+  const pa = a.split('-')[0].split('.').map(Number), pb = b.split('-')[0].split('.').map(Number);
+  for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
+    const d = (pa[i] || 0) - (pb[i] || 0);
+    if (d) return d < 0 ? -1 : 1;
+  }
+  return 0;
+}
+
+// Checks the file against the connected robot, asks before installing an older version, uploads.
+async function installFirmware(file) {
+  const tag = firmwareTag(new Uint8Array(await file.arrayBuffer()));
+  if (!tag) throw new Error('not a PT Link firmware');
+  if (robot && tag.board !== robot.boardId) throw new Error('firmware is for another board');
+  if (robot && compareVersions(tag.version, robot.fw) < 0 &&
+      !confirm(`ไฟล์นี้เป็นเวอร์ชัน ${tag.version} เก่ากว่าที่หุ่นใช้อยู่ (${robot.fw}) — ติดตั้งเวอร์ชันเก่าจริงไหม?`)) {
+    return 'ยกเลิก';
+  }
+  live = false;  // keep the link free for the upload
+  $('fwBtn').disabled = $('latestBtn').disabled = true;
+  $('fwProg').classList.remove('hidden'); $('fwProg').value = 0;
+  try {
+    const t0 = Date.now();
+    await ok(link.update(file, f => { $('fwProg').value = f * 100; msg('fwMsg', `กำลังอัปโหลด ${tag.version} ${Math.round(f * 100)}%`); }));
+    const sec = ((Date.now() - t0) / 1000).toFixed(1);
+    return link instanceof HttpLink
+      ? `ติดตั้ง ${tag.version} สำเร็จ (${sec} วิ) หุ่นกำลังรีสตาร์ท${robot && robot.mode === 'race' ? ' — โหมดแข่ง: WiFi จะปิด กด A ค้าง 3 วิ เพื่อเปิดใหม่' : ' รอสักครู่แล้วต่อ WiFi ใหม่'}`
+      : `ติดตั้ง ${tag.version} สำเร็จ (${sec} วิ) หุ่นกำลังรีสตาร์ท รอ 10 วินาทีแล้วกดรีเฟรช`;
+  } finally { $('fwBtn').disabled = $('latestBtn').disabled = false; }
+}
+
+// ---------- latest firmware (only on the PT Link website: firmware/manifest.json sits next to the page) ----------
+let latest = null;  // { version, file, size, sha256 } for the connected board
+
+async function checkLatest() {
+  latest = null;
+  if (link instanceof HttpLink || !location.protocol.startsWith('http')) return;  // robot page / local file
+  try {
+    const m = await (await fetch('firmware/manifest.json', { cache: 'no-cache' })).json();
+    latest = robot && m.boards && m.boards[robot.boardId];
+  } catch (e) { return; }
+  $('latestBox').classList.toggle('hidden', !latest);
+  if (!latest) return;
+  const cmp = compareVersions(latest.version, robot.fw);
+  $('latestInfo').textContent = cmp > 0 ? `มีเวอร์ชันใหม่ ${latest.version} (หุ่นใช้ ${robot.fw})`
+    : cmp === 0 ? `หุ่นใช้เวอร์ชันล่าสุดแล้ว (${robot.fw})` : `หุ่นใช้ ${robot.fw} ใหม่กว่าเวอร์ชันบนเว็บ (${latest.version})`;
+  $('latestBtn').textContent = cmp > 0 ? `อัปเดตเป็น ${latest.version}` : `ติดตั้ง ${latest.version} ซ้ำ`;
+  $('latestBtn').className = cmp > 0 ? '' : 'ghost';
+}
+
+async function sha256Hex(buffer) {
+  const hash = await crypto.subtle.digest('SHA-256', buffer);
+  return [...new Uint8Array(hash)].map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+for (let c = 0; c <= 13; c++) $('apChannel').add(new Option(c ? 'ช่อง ' + c : 'อัตโนมัติ', String(c)));
+
+$('liveBtn').onclick = () => { live = !live; $('liveBtn').textContent = live ? 'หยุด' : 'ดูค่าสด'; if (live) liveLoop(); };
+$('calSpinBtn').onclick = () => calibrate('spin');
+$('calManualBtn').onclick = () => calibrate('manual');
+$('calViewBtn').onclick = () => run('calMsg', async () => { await showCalibration(); return ''; });
+
+$('logPtBtn').onclick = () => { live = false; run('logMsg', () => loadRunLog('ptlink')); };
+$('logFlsrBtn').onclick = () => { live = false; run('logMsg', () => loadRunLog('flsr')); };
+$('logFormatBtn').onclick = () => {
+  if (!confirm('ล้างข้อมูล log ทั้งหมดในหุ่น (รวม log ของ FLSR_DM01) แล้วเตรียมพื้นที่ใหม่?')) return;
+  run('logMsg', async () => { await ok(link.cmd({ cmd: 'logFormat' }, 15000)); $('logFormatBtn').classList.add('hidden'); return 'พร้อมแล้ว — วิ่งรอบถัดไปจะบันทึกได้'; });
+};
+$('csvBtn').onclick = () => {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([runLogCsv()], { type: 'text/csv' }));
+  a.download = `${runLog.file === 'flsr' ? 'flsr' : 'ptlink'}-run-${new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-')}.csv`;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+};
+$('tableBtn').onclick = () => { $('logTable').textContent = runLogCsv(); $('logTable').classList.toggle('hidden'); };
+for (const id of ['chartErr', 'chartMotor']) {
+  $(id).addEventListener('pointermove', hover);
+  $(id).addEventListener('pointerleave', unhover);
+}
+window.addEventListener('resize', drawCharts);
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', drawCharts);
+
+$('refreshBtn').onclick = () => refresh().catch(e => setConn(false, th(e.message)));
+$('identifyBtn').onclick = () => link.cmd({ cmd: 'identify' });
+$('benchBtn').onclick = async () => {
+  try { await ok(link.cmd({ cmd: 'bench', on: !$('benchBtn').dataset.on })); await refresh(); }
+  catch (e) { alert(th(e.message)); }
+};
+
+$('apResetBtn').onclick = () => {
+  if (!confirm('คืนชื่อ รหัส และช่อง WiFi ของหุ่นเป็นค่าเริ่มต้น (PTLINK-xxxx + รหัสโรงงาน)?')) return;
+  run('saveMsg', async () => {
+    await ok(link.cmd({ cmd: 'set', apSsid: '', apPass: '', apChannel: 0 }));  // "" = back to the default
+    $('apSsid').value = $('apPass').value = '';
+    await refresh();
+    return 'คืนค่าเริ่มต้นแล้ว — มีผลตอนเปิด WiFi ครั้งถัดไป';
+  });
+};
+
+$('saveBtn').onclick = () => run('saveMsg', async () => {
+  const req = { cmd: 'set', mode: $('mode').value, apChannel: +$('apChannel').value };
+  if ($('apSsid').value) req.apSsid = $('apSsid').value;
+  if ($('apPass').value) req.apPass = $('apPass').value;
+  await ok(link.cmd(req));
+  $('apPass').value = '';
+  await refresh();
+  return 'บันทึกแล้ว';
+});
+
+$('netAddBtn').onclick = () => run('netMsg', async () => {
+  await ok(link.cmd({ cmd: 'netSave', ssid: $('netSsid').value, pass: $('netPass').value }));
+  $('netSsid').value = $('netPass').value = '';
+  await loadNets();
+  return 'เพิ่มแล้ว — มีผลตอนเปิด WiFi ครั้งถัดไป';
+});
+
+$('fwBtn').onclick = () => run('fwMsg', async () => {
+  const file = $('fwFile').files[0];
+  if (!file) throw new Error('เลือกไฟล์ .bin ก่อน');
+  return installFirmware(file);
+});
+
+$('latestBtn').onclick = () => run('fwMsg', async () => {
+  if (!latest) throw new Error('ไม่พบข้อมูลเวอร์ชันล่าสุด');
+  msg('fwMsg', `กำลังดาวน์โหลด ${latest.version}…`);
+  const response = await fetch(latest.file);  // cached by the service worker: works offline after one visit
+  if (!response.ok) throw new Error('ดาวน์โหลดไม่ได้ (HTTP ' + response.status + ')');
+  const buffer = await response.arrayBuffer();
+  if (buffer.byteLength !== latest.size || await sha256Hex(buffer) !== latest.sha256) {
+    throw new Error('ไฟล์ที่ดาวน์โหลดมาไม่สมบูรณ์ — ลองใหม่');
+  }
+  return installFirmware(new File([buffer], latest.file.split('/').pop()));
+});
+
+$('rebootBtn').onclick = () => { if (confirm('รีสตาร์ทหุ่น?')) link.cmd({ cmd: 'reboot' }); };
+
+$('usbBtn').onclick = async () => {
+  try {
+    const port = await navigator.serial.requestPort();
+    if (link instanceof SerialLink) await link.close();  // the same port may still be open from before
+    const s = new SerialLink();
+    await s.connect(port);
+    link = s;
+    msg('connectHelp', 'กำลังติดต่อหุ่น…');
+    let hello = null;
+    // The robot may reboot when the port opens: arming the ESC (3 s) and, in practice mode, starting WiFi
+    // (up to ~12 s) keep it from answering for a while.
+    for (let i = 0; i < 20 && !hello; i++) {
+      msg('connectHelp', `กำลังติดต่อหุ่น… (หุ่นอาจกำลังเปิดเครื่อง รอได้ถึง 20 วินาที) ${i + 1}`);
+      try { hello = await link.cmd({ cmd: 'hello' }, 1000); } catch (e) {}
+    }
+    if (!hello) throw new Error('หุ่นไม่ตอบ — ตรวจว่าเลือกพอร์ตของหุ่น และปิด Serial Monitor / Arduino IDE แล้ว');
+    if (hello.app !== 'PT Link') throw new Error('อุปกรณ์นี้ไม่ใช่หุ่น PT Link');
+    s.binChunk = hello.otaChunk || 0;  // firmware 0.6.0+: raw 16 KB update chunks
+    $('connectCard').classList.add('hidden');
+    setConn(true, 'USB');
+    await refresh();
+  } catch (e) { msg('connectHelp', th(e.message), false); }
+};
+
+// Served by the robot itself (WiFi)? The PT Link website and local files have no /api/status.
+async function servedByRobot() {
+  if (!location.protocol.startsWith('http')) return false;
+  try {
+    const ctl = new AbortController();
+    setTimeout(() => ctl.abort(), 2500);
+    const r = await fetch('/api/status', { signal: ctl.signal, cache: 'no-store' });
+    return r.ok && (await r.json()).app === 'PT Link';
+  } catch (e) { return false; }
+}
+
+// Offline use + self-update, on the https website only (not the robot's http page, not a local file);
+// localhost is allowed for testing the site with tools/serve_site.ps1.
+if ((location.protocol === 'https:' || location.hostname === 'localhost') && 'serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js');
+}
+
+(async () => {
+  if (await servedByRobot()) {
+    try {
+      link = new HttpLink();
+      $('authCard').classList.remove('hidden');
+      setConn(true, 'WiFi');
+      await refresh();
+      return;
+    } catch (e) { link = null; setConn(false, 'ติดต่อหุ่นไม่ได้'); }
+  }
+  $('connectCard').classList.remove('hidden');
+  if (!('serial' in navigator)) {
+    $('usbBtn').disabled = true;
+    msg('connectHelp', 'เบราว์เซอร์นี้ไม่รองรับ USB — ใช้ Chrome หรือ Edge บนคอม', false);
+  }
+})();
+</script>
+</body>
+</html>

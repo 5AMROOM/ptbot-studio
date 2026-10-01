@@ -1,0 +1,14 @@
+{
+  "name": "PT Link",
+  "short_name": "PT Link",
+  "description": "PT ROBOTICS robot settings, sensors, run logs and firmware updates",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#111316",
+  "theme_color": "#e4572e",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
