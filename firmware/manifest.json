@@ -1,12 +1,12 @@
 {
-    "generated":  "2026-10-01T19:34:37Z",
+    "generated":  "2026-10-01T19:47:13Z",
     "boards":  {
                    "1":  {
                              "name":  "PTBOT Strom mini",
                              "version":  "0.6.0",
                              "file":  "firmware/ptlink-strom-mini-0.6.0.bin",
-                             "size":  919168,
-                             "sha256":  "78b92fb37e3bf08b7fdacdadfec0662873bb5f04fe0b3c53fb3b47380ab5114a"
+                             "size":  919408,
+                             "sha256":  "fc19fce7b64be151dfc1a9fcdd1f776d7e3e621c00340b7733ae69fe0ac09775"
                          }
                }
 }

@@ -1,4 +1,5 @@
 {
+  "id": "./",
   "name": "PT Link",
   "short_name": "PT Link",
   "description": "PT ROBOTICS robot settings, sensors, run logs and firmware updates",

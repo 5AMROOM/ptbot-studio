@@ -23,6 +23,8 @@ h2{font-size:16px;margin:0 0 10px}
 .muted{color:var(--muted);font-size:13px}
 .pill{font-size:13px;padding:3px 10px;border-radius:99px;border:1px solid var(--line);white-space:nowrap}
 .pill.on{color:var(--ok);border-color:var(--ok)}
+.head-right{display:flex;align-items:center;gap:8px}
+button.install{width:auto;margin:0;padding:4px 12px;font-size:13px;border-radius:99px}
 dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:0}
 dt{color:var(--muted)}dd{margin:0;word-break:break-all}
 label{display:block;font-size:13px;color:var(--muted);margin:8px 0 2px}
@@ -58,7 +60,9 @@ pre{background:var(--input);border:1px solid var(--line);border-radius:8px;paddi
 </head>
 <body>
 <main>
-<header><h1><b>PT</b> Link</h1><span id="conn" class="pill">ไม่ได้เชื่อมต่อ</span></header>
+<header><h1><b>PT</b> Link</h1>
+  <div class="head-right"><button class="install hidden" id="installBtn">ติดตั้งแอป</button><span id="conn" class="pill">ไม่ได้เชื่อมต่อ</span></div>
+</header>
 
 <section id="connectCard" class="card hidden">
   <h2>เชื่อมต่อหุ่น</h2>
@@ -792,6 +796,23 @@ async function servedByRobot() {
     return r.ok && (await r.json()).app === 'PT Link';
   } catch (e) { return false; }
 }
+
+// "Install app" (Chrome/Edge): the browser offers it only on the https website, once it is installable and
+// not installed yet; the button shows only then.
+let installPrompt = null;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  installPrompt = e;
+  $('installBtn').classList.remove('hidden');
+});
+window.addEventListener('appinstalled', () => { installPrompt = null; $('installBtn').classList.add('hidden'); });
+$('installBtn').onclick = async () => {
+  if (!installPrompt) return;
+  installPrompt.prompt();
+  await installPrompt.userChoice;
+  installPrompt = null;
+  $('installBtn').classList.add('hidden');
+};
 
 // Offline use + self-update, on the https website only (not the robot's http page, not a local file);
 // localhost is allowed for testing the site with tools/serve_site.ps1.
