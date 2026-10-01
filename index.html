@@ -68,7 +68,7 @@ pre{background:var(--input);border:1px solid var(--line);border-radius:8px;paddi
   <h2>เชื่อมต่อหุ่น</h2>
   <p class="muted" id="connectHelp">เสียบสาย USB ระหว่างคอมกับหุ่น แล้วกดปุ่มด้านล่าง เลือกพอร์ต COM ของหุ่น (ปิด Serial Monitor / Arduino IDE ก่อน)</p>
   <button id="usbBtn">เชื่อมต่อผ่าน USB</button>
-  <p class="muted">หรือใช้มือถือ: เปิด WiFi ของหุ่น (กด A ค้าง 3 วิ) ต่อ WiFi ชื่อ PTLINK-xxxx แล้วเปิด http://192.168.4.1</p>
+  <p class="muted">ใช้ Chrome หรือ Edge บนคอมพิวเตอร์ (มือถือเชื่อมต่อผ่าน USB ไม่ได้)</p>
 </section>
 
 <section id="authCard" class="card hidden">
@@ -120,7 +120,7 @@ pre{background:var(--input);border:1px solid var(--line);border-radius:8px;paddi
     <button class="ghost hidden" id="logFormatBtn">เตรียมพื้นที่เก็บ log (ล้างข้อมูล log ทั้งหมด)</button>
   </div>
 
-  <div class="card">
+  <div class="card" id="settingsCard">
     <h2>ตั้งค่า</h2>
     <label for="mode">โหมด</label>
     <select id="mode"><option value="race">แข่ง — WiFi ปิดตอนเปิดเครื่อง, ตัดก่อนออกตัว</option><option value="practice">ฝึกซ้อม — WiFi เปิดตอนเปิดเครื่อง</option></select>
@@ -137,7 +137,7 @@ pre{background:var(--input);border:1px solid var(--line);border-radius:8px;paddi
     <p class="muted">ค่า WiFi มีผลตอนเปิด WiFi ครั้งถัดไป · ค่าเริ่มต้น = ชื่อ PTLINK-xxxx กับรหัสโรงงานบนสติกเกอร์</p>
   </div>
 
-  <div class="card">
+  <div class="card" id="netsCard">
     <h2>WiFi บ้าน / ฮอตสปอต ที่ให้หุ่นไปต่อ <span class="muted">(ต้องติดเสาอากาศ)</span></h2>
     <div id="nets"></div>
     <div class="row"><div><label for="netSsid">ชื่อ WiFi</label><input id="netSsid" maxlength="32"></div>
@@ -342,12 +342,18 @@ async function refresh() {
   robot = s;
   const dl = $('status'); dl.textContent = '';
   row(dl, 'หุ่น', `${s.robot} · ${s.board}`);
-  row(dl, 'เฟิร์มแวร์', `${s.fw}${s.raceBuild ? ' (race)' : ''} · ช่อง ${s.partition}${s.otaPending ? ' · ยังไม่ยืนยัน' : ''}`);
-  row(dl, 'โหมด', (s.mode === 'race' ? 'แข่ง' : 'ฝึกซ้อม') + (s.bench ? ' · ทดสอบบนโต๊ะ (พัดลมไม่หมุน)' : ''));
+  // Firmware 0.7.0+ reports "wifi"; older firmware reported "raceBuild" (true = no WiFi).
+  const wifi = s.wifi !== undefined ? s.wifi : !s.raceBuild;
+  row(dl, 'เฟิร์มแวร์', `${s.fw} · ช่อง ${s.partition}${s.otaPending ? ' · ยังไม่ยืนยัน' : ''}`);
+  if (wifi) row(dl, 'โหมด', (s.mode === 'race' ? 'แข่ง' : 'ฝึกซ้อม') + (s.bench ? ' · ทดสอบบนโต๊ะ (พัดลมไม่หมุน)' : ''));
+  else row(dl, 'การเชื่อมต่อ', 'USB' + (s.bench ? ' · ทดสอบบนโต๊ะ (พัดลมไม่หมุน)' : ''));
   $('benchBtn').textContent = s.bench ? 'ปิดโหมดทดสอบบนโต๊ะ (กลับมาเปิดพัดลมตอนวิ่ง)' : 'เปิดโหมดทดสอบบนโต๊ะ (พัดลมไม่หมุน)';
   $('benchBtn').dataset.on = s.bench ? '1' : '';
-  row(dl, 'WiFi หุ่น', s.wifiOn ? `เปิด · ${s.apSsid} · ช่อง ${s.channel} · ต่ออยู่ ${s.clients} เครื่อง` : `ปิด · ${s.apSsid}`);
+  if (wifi) row(dl, 'WiFi หุ่น', s.wifiOn ? `เปิด · ${s.apSsid} · ช่อง ${s.channel} · ต่ออยู่ ${s.clients} เครื่อง` : `ปิด · ${s.apSsid}`);
   if (s.network) row(dl, 'ต่อเครือข่าย', `${s.network} · ${s.networkIp} · ${s.hostname}`);
+  // Firmware without WiFi: the WiFi settings, saved networks and race/practice mode do nothing - hide them.
+  $('settingsCard').classList.toggle('hidden', !wifi);
+  $('netsCard').classList.toggle('hidden', !wifi);
   row(dl, 'แบต', s.battery == null ? 'ไม่มีวงจรวัด' : s.battery + ' V');
   if (s.lastRun) {
     const hz = s.lastRun.ms ? Math.round(s.lastRun.loops * 1000 / s.lastRun.ms) : 0;
