@@ -1,8 +1,8 @@
 // PT Link service worker (GitHub Pages only): the page works offline after the first visit and
 // updates itself whenever it is opened online. tools/build_site.ps1 fills in CACHE and SHELL.
-const CACHE = 'ptlink-0.8.5-ac427dd1';
+const CACHE = 'ptlink-0.8.6-20016082';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png',
-  './fonts/anuphan-400.woff2', './fonts/anuphan-600.woff2', './board-strom-mini.webp', './firmware/manifest.json', './firmware/ptlink-strom-mini-0.8.5.bin'];
+  './fonts/anuphan-400.woff2', './fonts/anuphan-600.woff2', './board-strom-mini.webp', './firmware/manifest.json', './firmware/ptlink-strom-mini-0.8.6.bin'];
 
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(SHELL)).then(() => self.skipWaiting()));
