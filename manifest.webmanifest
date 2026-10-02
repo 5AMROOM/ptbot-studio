@@ -1,7 +1,7 @@
 {
   "id": "./",
-  "name": "PT Link",
-  "short_name": "PT Link",
+  "name": "PTBOT Studio",
+  "short_name": "PTBOT Studio",
   "description": "PT ROBOTICS robot settings, sensors, run logs and firmware updates",
   "start_url": "./",
   "scope": "./",

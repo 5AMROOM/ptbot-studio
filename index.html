@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>PT Link</title>
+<title>PTBOT Studio</title>
+<script>try{const t=localStorage.getItem('ptlink.theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}</script>
 <meta name="theme-color" content="#e4572e">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
@@ -13,8 +14,10 @@
 
 :root{color-scheme:dark;--bg:#101214;--card:#191c20;--input:#111417;--fg:#f1f2f4;--muted:#a4abb5;--line:#343a43;--accent:#ff7043;--accent-fg:#17120f;--ok:#72d4a2;--bad:#ff9393;--warn:#e6c47d;--soft:#21252b;--s1:#72aeff;--s2:#df94df;--s3:#71cdb2;--out:#e6c47d;--grid:#2c323a;--axis:#6e7785;--radius:16px}
 
-@media(prefers-color-scheme:light){:root{color-scheme:light;--bg:#f3f4f6;--card:#fff;--input:#f8f9fb;--fg:#20252c;--muted:#586473;--line:#d6dbe2;--accent:#e4572e;--accent-fg:#17120f;--ok:#16774d;--bad:#b22d36;--warn:#89620d;--soft:#edf0f4;--s1:#2364b4;--s2:#954597;--s3:#187458;--out:#bd8a2f;--grid:#e1e5ea;--axis:#84909d}
+@media(prefers-color-scheme:light){:root:not([data-theme=dark]){color-scheme:light;--bg:#f3f4f6;--card:#fff;--input:#f8f9fb;--fg:#20252c;--muted:#586473;--line:#d6dbe2;--accent:#e4572e;--accent-fg:#17120f;--ok:#16774d;--bad:#b22d36;--warn:#89620d;--soft:#edf0f4;--s1:#2364b4;--s2:#954597;--s3:#187458;--out:#bd8a2f;--grid:#e1e5ea;--axis:#84909d}
 }
+:root[data-theme=light]{color-scheme:light;--bg:#f3f4f6;--card:#fff;--input:#f8f9fb;--fg:#20252c;--muted:#586473;--line:#d6dbe2;--accent:#e4572e;--accent-fg:#17120f;--ok:#16774d;--bad:#b22d36;--warn:#89620d;--soft:#edf0f4;--s1:#2364b4;--s2:#954597;--s3:#187458;--out:#bd8a2f;--grid:#e1e5ea;--axis:#84909d}
+:root[data-theme=dark]{color-scheme:dark;--bg:#101214;--card:#191c20;--input:#111417;--fg:#f1f2f4;--muted:#a4abb5;--line:#343a43;--accent:#ff7043;--accent-fg:#17120f;--ok:#72d4a2;--bad:#ff9393;--warn:#e6c47d;--soft:#21252b;--s1:#72aeff;--s2:#df94df;--s3:#71cdb2;--out:#e6c47d;--grid:#2c323a;--axis:#6e7785;--radius:16px}
 
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.7 "Anuphan",system-ui,-apple-system,"Segoe UI","Leelawadee UI","Sukhumvit Set","Noto Sans Thai",sans-serif;font-variant-numeric:tabular-nums}
@@ -113,6 +116,11 @@ header{min-height:88px;display:flex;align-items:center;justify-content:space-bet
 .pill.on:before{background:var(--ok)}
 .pill.pending:before{background:var(--warn);animation:pulse 1.5s infinite}
 .language{display:flex;gap:2px;border:1px solid var(--line);border-radius:9px;padding:3px}
+button.theme-btn{min-height:40px;width:40px;padding:0;background:transparent;border:1px solid var(--line);border-radius:9px;color:var(--muted)}
+button.theme-btn:hover{color:var(--fg)}
+button.theme-btn svg{width:18px;height:18px}
+.theme-btn .i-moon,.theme-btn.to-dark .i-sun{display:none}
+.theme-btn.to-dark .i-moon{display:block}
 .language button{min-height:32px;padding:3px 9px;border:0;background:transparent;color:var(--muted);font-size:11px}
 .language button[aria-pressed=true]{background:var(--soft);color:var(--fg)}
 .install{min-height:34px;font-size:12px;padding:4px 12px}
@@ -189,13 +197,13 @@ dd{white-space:pre-line;margin:0;overflow-wrap:anywhere}
 .tip{position:absolute;pointer-events:none;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:12px;line-height:1.65;white-space:nowrap;z-index:2}
 .bars{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px;height:160px;align-items:end;margin-top:32px}
 .bar{position:relative;height:100%;background:var(--input);border:1px solid var(--line);border-radius:6px;overflow:hidden}
-.bar i{position:absolute;left:0;right:0;bottom:0;background:var(--muted);opacity:.45}
+.bar i{position:absolute;left:0;right:0;bottom:0;background:var(--muted);opacity:.45;transition:height 70ms linear}
 .bar.on i{background:var(--s1);opacity:1}
 .idx{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px;text-align:center;font-size:10px;color:var(--muted);margin-top:8px}
 .sensor-sides{display:flex;justify-content:space-between;margin-top:8px}
 .track{position:relative;height:24px;background:var(--input);border:1px solid var(--line);border-radius:8px;margin-top:24px}
 .track:before{content:"";position:absolute;left:50%;top:3px;bottom:3px;border-left:1px dashed var(--muted)}
-.marker{position:absolute;top:5px;width:12px;height:12px;border-radius:50%;background:var(--s1);transform:translateX(-50%);left:50%}
+.marker{position:absolute;top:5px;width:12px;height:12px;border-radius:50%;background:var(--s1);transform:translateX(-50%);left:50%;transition:left 70ms linear}
 .marker.out{background:var(--bad)}
 #posText{margin:12px 0 0;white-space:pre-line}
 .advanced{margin-top:24px;border-top:1px solid var(--line);padding-top:12px}
@@ -223,7 +231,7 @@ pre{background:var(--input);border:1px solid var(--line);border-radius:10px;padd
 .sr-only{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 @keyframes pulse{50%{opacity:.35}
 }
-@media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}.switch-track,.switch-thumb{transition:none}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}.switch-track,.switch-thumb,.bar i,.marker{transition:none}
 }
 @media(max-width:760px){.shell{padding-left:20px;padding-right:20px}
 .welcome{padding:28px;grid-template-columns:1fr;gap:32px;min-height:0}
@@ -287,16 +295,17 @@ header{min-height:80px;gap:12px;flex-wrap:wrap;padding-top:16px;padding-bottom:1
 
 <div class="topbar">
 <header class="shell">
-  <a href="#" class="brand" aria-label="PT Link — PT ROBOTICS">
+  <a href="#" class="brand" aria-label="PTBOT Studio by PT ROBOTICS">
 <span class="brand-mark">PT</span>
 <span>
-<span class="brand-name">PT Link</span>
-<small>PT ROBOTICS</small>
+<span class="brand-name">PTBOT Studio</span>
+<small>by PT ROBOTICS</small>
 </span>
 </a>
   <div class="head-right">
 <span id="conn" class="pill" role="status" data-i18n="disconnected"></span>
 <button class="install ghost hidden" id="installBtn" data-i18n="installApp"></button>
+<button class="theme-btn" id="themeBtn"><svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></button>
 <div class="language" role="group" data-i18n-aria="language">
 <button id="langTh" lang="th" aria-pressed="false">TH</button>
 <button id="langEn" lang="en" aria-pressed="false">EN</button>
@@ -411,7 +420,7 @@ header{min-height:80px;gap:12px;flex-wrap:wrap;padding-top:16px;padding-bottom:1
 <p data-i18n="benchSafety"></p>
 </div>
     <div id="busyNotice" class="notice warn hidden" role="status" data-i18n="robotBusy"></div>
-    <nav class="tabs" role="tablist" aria-label="PT Link">
+    <nav class="tabs" role="tablist" aria-label="PTBOT Studio">
 <button id="tabRuns" role="tab" aria-controls="panelRuns" aria-selected="true" data-panel="panelRuns" data-i18n="runs"></button>
 <button id="tabSensors" role="tab" aria-controls="panelSensors" aria-selected="false" tabindex="-1" data-panel="panelSensors" data-i18n="sensors"></button>
 <button id="tabControl" role="tab" aria-controls="panelControl" aria-selected="false" tabindex="-1" data-panel="panelControl" data-i18n="control"></button>
@@ -643,7 +652,7 @@ header{min-height:80px;gap:12px;flex-wrap:wrap;padding-top:16px;padding-bottom:1
     </section>
   </section>
   <footer class="footer">
-<span>PT ROBOTICS <span aria-hidden="true">/</span> PT Link</span>
+<span>PTBOT Studio <span aria-hidden="true">·</span> PT ROBOTICS</span>
 <span data-i18n="footerHint"></span>
 </footer>
 <dialog id="askDialog" class="ask">
@@ -661,12 +670,14 @@ header{min-height:80px;gap:12px;flex-wrap:wrap;padding-top:16px;padding-bottom:1
 <script>
 'use strict';
 const $ = id => document.getElementById(id);
+// The robot's protocol app id: firmware up to 0.8.x says "PT Link" (the product's old name).
+const APP_IDS = ['PT Link', 'PTBOT Studio'];
 
 const TEXT = {
   "th": {
     "disconnected": "ไม่ได้เชื่อมต่อ",
     "installApp": "ติดตั้งแอป",
-    "workspace": "PT Link สำหรับทีมแข่ง",
+    "workspace": "PTBOT Studio สำหรับทีมแข่ง",
     "welcomeTitle": "เตรียมหุ่นยนต์ให้พร้อม\nสำหรับรอบต่อไป",
     "welcomeCopy": "ดูผลการวิ่ง ตรวจ Sensor และอัปเดต Firmware ผ่านสาย USB",
     "connectUsb": "เชื่อมต่อ USB",
@@ -765,9 +776,9 @@ const TEXT = {
     "updateHint": "ติดตั้งเวอร์ชันล่าสุดสำหรับบอร์ดนี้ หรือเลือกไฟล์ที่คอมไพล์เอง",
     "updateLatest": "ติดตั้งเวอร์ชันล่าสุด",
     "verifiedDownload": "ระบบตรวจรุ่นบอร์ดและความสมบูรณ์ของไฟล์ก่อนติดตั้งทุกครั้ง",
-    "latestUnavailable": "ติดตั้งเวอร์ชันล่าสุดได้จากเว็บไซต์ PT Link เมื่อมีข้อมูลของบอร์ดนี้ หากเปิดไฟล์ในเครื่องหรือหน้าจากหุ่นยนต์ ให้เลือกไฟล์ .bin",
+    "latestUnavailable": "ติดตั้งเวอร์ชันล่าสุดได้จากเว็บไซต์ PTBOT Studio เมื่อมีข้อมูลของบอร์ดนี้ หากเปิดไฟล์ในเครื่องหรือหน้าจากหุ่นยนต์ ให้เลือกไฟล์ .bin",
     "chooseFile": "ติดตั้งจากไฟล์",
-    "firmwareFile": "ไฟล์ Firmware PT Link (.bin)",
+    "firmwareFile": "ไฟล์ Firmware PTBOT Studio (.bin)",
     "updateFile": "ติดตั้งไฟล์ที่เลือก",
     "updateProgress": "ความคืบหน้าการติดตั้ง",
     "updateSafety": "หยุดหุ่นยนต์ก่อนติดตั้ง ระหว่างติดตั้งห้ามถอดสาย USB หรือปิดสวิตช์หุ่นยนต์ ไฟล์ Firmware มีโปรแกรมวิ่ง (Manual) อยู่ในตัว ตรวจให้แน่ใจว่าเป็นไฟล์ที่ต้องการ",
@@ -792,6 +803,8 @@ const TEXT = {
     "usbOnly": "เชื่อมต่อ USB แล้ว",
     "noRun": "ยังไม่มีผลการวิ่ง",
     "language": "ภาษา",
+    "theme.toLight": "สลับเป็นธีมสว่าง",
+    "theme.toDark": "สลับเป็นธีมมืด",
     "connection.contacting": "กำลังเชื่อมต่อ…",
     "connection.auto": "พบหุ่นยนต์ที่เคยเชื่อมต่อ กำลังเชื่อมต่ออัตโนมัติ…",
     "connection.attempt": "กำลังเชื่อมต่อ หุ่นยนต์อาจกำลังรีสตาร์ท\nรอได้ถึง 20 วินาที (ครั้งที่ {0} จาก 20)",
@@ -802,7 +815,7 @@ const TEXT = {
     "error.running": "หุ่นยนต์กำลังวิ่ง รอให้หยุดแล้วลองใหม่",
     "error.busy": "หุ่นยนต์ไม่ว่าง รอให้วิ่งหรืออัปเดตเสร็จแล้วลองใหม่",
     "error.wifiOnly": "แผงควบคุมใช้ได้เมื่อเชื่อมต่อผ่าน WiFi เท่านั้น",
-    "error.notFirmware": "ไฟล์นี้ไม่ใช่ Firmware PT Link เลือกไฟล์ .bin ของ PT Link",
+    "error.notFirmware": "ไฟล์นี้ไม่ใช่ Firmware PTBOT Studio เลือกไฟล์ .bin ของ PTBOT Studio",
     "error.wrongBoard": "ไฟล์นี้เป็นของบอร์ดอื่น เลือก Firmware ให้ตรงบอร์ดของหุ่นยนต์",
     "error.confirming": "หุ่นยนต์กำลังยืนยัน Firmware ใหม่ รอ 10 วินาทีแล้วลองใหม่",
     "error.networkLimit": "บันทึกเครือข่ายครบ 3 รายการแล้ว ลบรายการเดิมก่อนเพิ่มใหม่",
@@ -818,12 +831,12 @@ const TEXT = {
     "error.usbRequired": "ต้องใช้ USB สำหรับการติดตั้งนี้ เชื่อมต่อผ่าน USB แล้วลองใหม่",
     "error.updateData": "ข้อมูลติดตั้งไม่ถูกต้อง เริ่มติดตั้งใหม่",
     "error.logPosition": "ไม่สามารถอ่าน Log ได้ โหลดผลการวิ่งอีกครั้ง",
-    "error.logType": "ชนิด Log ไม่ถูกต้อง เลือก PT Link หรือ FLSR_DM01",
+    "error.logType": "ชนิด Log ไม่ถูกต้อง เลือก PTBOT Studio หรือ FLSR_DM01",
     "error.sweep": "วิธี Calibrate ไม่ถูกต้อง เลือกเลื่อนมือหรือหมุนตัว",
     "error.portBusy": "ไม่สามารถเปิด Port ได้\n1. ปิด Serial Monitor และโปรแกรมหรือแท็บที่ใช้ Port\n2. ถอดสาย USB แล้วเสียบใหม่\n3. กดเชื่อมต่อและเลือก Port ของหุ่นยนต์",
     "error.portCancelled": "ยังไม่ได้เลือก Port กดเชื่อมต่อเพื่อลองใหม่",
     "error.generic": "ทำรายการไม่สำเร็จ ตรวจสอบค่าที่กรอก สาย USB และไฟเลี้ยง แล้วลองใหม่\nข้อความจากระบบ: {0}",
-    "error.device": "อุปกรณ์นี้ไม่ใช่หุ่นยนต์ PT Link เลือก Port ของหุ่นยนต์",
+    "error.device": "อุปกรณ์นี้ไม่ใช่หุ่นยนต์ PTBOT Studio เลือก Port ของหุ่นยนต์",
     "error.reach": "ไม่สามารถติดต่อหุ่นยนต์ได้ ตรวจสอบการเชื่อมต่อแล้วลองใหม่",
     "error.usbBrowser": "เบราว์เซอร์นี้ไม่รองรับ USB ใช้ Chrome หรือ Edge บนคอมพิวเตอร์",
     "status.robot": "หุ่นยนต์",
@@ -856,7 +869,7 @@ const TEXT = {
     "run.loaded": "โหลดแล้ว {0} จุด",
     "run.newRun": "มีผลการวิ่งรอบใหม่ กด “โหลดผลการวิ่ง” เพื่อดูกราฟ",
     "run.noStorage": "พื้นที่เก็บ Log ยังไม่พร้อม เปิดตั้งค่า > พื้นที่เก็บ Log และรีสตาร์ท เพื่อเตรียมพื้นที่ใหม่ ขั้นตอนนี้ล้าง Log ทั้งหมด",
-    "run.noLegacy": "ไม่มี Log ของ FLSR_DM01 ในหุ่นยนต์ เลือกโหลดผลจาก PT Link หรือวิ่งด้วย FLSR_DM01 ก่อน",
+    "run.noLegacy": "ไม่มี Log ของ FLSR_DM01 ในหุ่นยนต์ เลือกโหลดผลจาก PTBOT Studio หรือวิ่งด้วย FLSR_DM01 ก่อน",
     "run.noSaved": "ยังไม่มีผลการวิ่ง ถอด USB วางหุ่นยนต์บนสนาม แล้วกด B",
     "run.leftTick": "+750 ซ้าย",
     "run.rightTick": "−750 ขวา",
@@ -893,7 +906,7 @@ const TEXT = {
     "pw.factory": "กลับไปใช้รหัสโรงงาน",
     "pw.saved": "บันทึกรหัสผ่านใหม่แล้ว",
     "pw.factoryDone": "กลับไปใช้รหัสโรงงานแล้ว",
-    "access.joined": "หุ่นยนต์เชื่อมต่อกับเครือข่าย {0} แล้ว เปิดหน้า PT Link ผ่าน WiFi ได้ทั้งคอม/โน้ตบุ๊กและมือถือที่เชื่อมต่อเครือข่ายเดียวกัน: คลิกลิงก์ด้านล่าง หรือสแกน QR code หน้าเว็บจะเปิดในแท็บใหม่และเข้าสู่ระบบให้อัตโนมัติ",
+    "access.joined": "หุ่นยนต์เชื่อมต่อกับเครือข่าย {0} แล้ว เปิดหน้า PTBOT Studio ผ่าน WiFi ได้ทั้งคอม/โน้ตบุ๊กและมือถือที่เชื่อมต่อเครือข่ายเดียวกัน: คลิกลิงก์ด้านล่าง หรือสแกน QR code หน้าเว็บจะเปิดในแท็บใหม่และเข้าสู่ระบบให้อัตโนมัติ",
     "access.noNetwork": "ยังไม่ได้บันทึกเครือข่าย เพิ่ม WiFi บ้านหรือฮอตสปอตด้านบน หุ่นยนต์จะเชื่อมต่อเองภายใน 30 วินาที",
     "access.searching": "หุ่นยนต์ยังไม่ได้เชื่อมต่อเครือข่าย ตรวจสอบว่าฮอตสปอตหรือ WiFi เปิดอยู่ (2.4 GHz) หุ่นยนต์จะลองใหม่เองทุก 30 วินาที หรือกด “ลองอีกครั้ง”",
     "access.off": "WiFi ของหุ่นยนต์ปิดอยู่ เปิดสวิตช์ WiFi ด้านบน",
@@ -928,7 +941,7 @@ const TEXT = {
   "en": {
     "disconnected": "Disconnected",
     "installApp": "Install app",
-    "workspace": "PT Link for racing teams",
+    "workspace": "PTBOT Studio for racing teams",
     "welcomeTitle": "Get ready for your next run",
     "welcomeCopy": "Review runs, check sensors and update firmware over USB.",
     "connectUsb": "Connect via USB",
@@ -1027,9 +1040,9 @@ const TEXT = {
     "updateHint": "Install the latest version for this board, or choose a file you compiled.",
     "updateLatest": "Install latest version",
     "verifiedDownload": "Board, file size and integrity are checked before installation.",
-    "latestUnavailable": "Latest-version updates need the PT Link website and release details for this board. On a local or robot-hosted page, choose a .bin file.",
+    "latestUnavailable": "Latest-version updates need the PTBOT Studio website and release details for this board. On a local or robot-hosted page, choose a .bin file.",
     "chooseFile": "Install from a file",
-    "firmwareFile": "PT Link firmware file (.bin)",
+    "firmwareFile": "PTBOT Studio firmware file (.bin)",
     "updateFile": "Install selected file",
     "updateProgress": "Installation progress",
     "updateSafety": "Stop the robot before installing. Do not unplug USB or turn off power during installation. Check that the file includes the run program you need.",
@@ -1054,6 +1067,8 @@ const TEXT = {
     "usbOnly": "Connected via USB",
     "noRun": "No run saved",
     "language": "Language",
+    "theme.toLight": "Switch to light theme",
+    "theme.toDark": "Switch to dark theme",
     "connection.contacting": "Connecting…",
     "connection.auto": "Found a robot used before. Connecting automatically…",
     "connection.attempt": "Connecting. The robot may be restarting.\nAllow up to 20 s (attempt {0} of 20).",
@@ -1064,7 +1079,7 @@ const TEXT = {
     "error.running": "The robot is running. Wait until it stops and try again.",
     "error.busy": "The robot is busy. Wait for the run or update to finish, then try again.",
     "error.wifiOnly": "The control panel works over WiFi only.",
-    "error.notFirmware": "This is not PT Link firmware. Choose a PT Link .bin file.",
+    "error.notFirmware": "This is not PTBOT Studio firmware. Choose a PTBOT Studio .bin file.",
     "error.wrongBoard": "This file is for a different board. Choose firmware for the robot’s board.",
     "error.confirming": "The robot is confirming new firmware. Wait 10 s and try again.",
     "error.networkLimit": "Three networks are already saved. Remove one before adding another.",
@@ -1080,12 +1095,12 @@ const TEXT = {
     "error.usbRequired": "This installation requires USB. Connect via USB and try again.",
     "error.updateData": "Invalid installation data. Restart the installation.",
     "error.logPosition": "Cannot read the run log. Load the latest run again.",
-    "error.logType": "Invalid log type. Choose PT Link or FLSR_DM01.",
+    "error.logType": "Invalid log type. Choose PTBOT Studio or FLSR_DM01.",
     "error.sweep": "Invalid calibration method. Choose manual or spin calibration.",
     "error.portBusy": "Port unavailable.\n1. Close Serial Monitor and any app or tab using the port.\n2. Unplug and reconnect USB.\n3. Connect again and select the robot’s port.",
     "error.portCancelled": "No port selected. Connect again to select a port.",
     "error.generic": "Request failed. Check the entered values, USB cable and power, then try again.\nSystem message: {0}",
-    "error.device": "This is not a PT Link robot. Select the robot’s port.",
+    "error.device": "This is not a PTBOT Studio robot. Select the robot’s port.",
     "error.reach": "Cannot reach the robot. Check the connection and try again.",
     "error.usbBrowser": "USB is not supported here. Use Chrome or Edge on a computer.",
     "status.robot": "Robot",
@@ -1118,7 +1133,7 @@ const TEXT = {
     "run.loaded": "Loaded {0} samples.",
     "run.newRun": "A new run is saved. Press “Load latest run” to see the charts.",
     "run.noStorage": "Log storage is not ready. Open Settings > Log storage and restart to prepare it. This erases all logs.",
-    "run.noLegacy": "No FLSR_DM01 log is saved. Load the PT Link run, or run the robot with FLSR_DM01 first.",
+    "run.noLegacy": "No FLSR_DM01 log is saved. Load the PTBOT Studio run, or run the robot with FLSR_DM01 first.",
     "run.noSaved": "No run is saved. Unplug USB, place the robot on the track and press B.",
     "run.leftTick": "+750 left",
     "run.rightTick": "−750 right",
@@ -1155,7 +1170,7 @@ const TEXT = {
     "pw.factory": "Use the factory password",
     "pw.saved": "New password saved.",
     "pw.factoryDone": "Factory password in use again.",
-    "access.joined": "The robot is connected to {0}. Open PT Link over WiFi from a computer/laptop or a phone on the same network: click a link below or scan the QR code. It opens in a new tab and signs in automatically.",
+    "access.joined": "The robot is connected to {0}. Open PTBOT Studio over WiFi from a computer/laptop or a phone on the same network: click a link below or scan the QR code. It opens in a new tab and signs in automatically.",
     "access.noNetwork": "No network saved. Add your home WiFi or hotspot above; the robot joins it within 30 s.",
     "access.searching": "The robot has not joined a network yet. Check that the hotspot or WiFi is on (2.4 GHz). It retries every 30 s, or press “Try again”.",
     "access.off": "The robot’s WiFi is off. Turn on the WiFi switch above.",
@@ -1537,11 +1552,17 @@ let liveWanted = true;
 try { liveWanted = localStorage.getItem('ptlink.live') !== 'off'; } catch (e) {}
 let liveRun = 0;  // only the newest loop may run: switching off and on quickly must not start a second one
 
+// As fast as the robot answers, at most every LIVE_MS. A failed read now and then (a lost WiFi packet) is
+// normal: only LIVE_MAX_FAILS in a row stop it, and auto refresh turns it back on once the robot answers.
+const LIVE_MS = 50, LIVE_MAX_FAILS = 5;
 async function liveLoop() {
   const me = ++liveRun;
+  let fails = 0;
   while (live && me === liveRun) {
-    try { await showSensors(); } catch (e) { msg('calMsg', th(e), false); live = false; }
-    await sleep(100);
+    const started = Date.now();
+    try { await showSensors(); fails = 0; }
+    catch (e) { if (++fails >= LIVE_MAX_FAILS) { msg('calMsg', th(e), false); live = false; } }
+    await sleep(fails ? 300 : Math.max(0, LIVE_MS - (Date.now() - started)));
   }
   if (me === liveRun) setSwitch($('liveBtn'), false);
 }
@@ -2076,7 +2097,7 @@ async function run(msgId, fn) {
   catch (e) { msg(msgId, th(e), false); }
 }
 
-// The PT Link tag in a firmware file: "PTLINK-FW|board=<id>|v=<version>|". null = not PT Link.
+// The PTBOT Studio tag in a firmware file: "PTLINK-FW|board=<id>|v=<version>|". null = not PTBOT Studio.
 function firmwareTag(bytes) {
   const text = new TextDecoder('latin1').decode(bytes);
   let i = -1;
@@ -2119,7 +2140,7 @@ async function installFirmware(file) {
   } finally { $('fwBtn').disabled = $('latestBtn').disabled = false; }
 }
 
-// ---------- latest firmware (only on the PT Link website: firmware/manifest.json sits next to the page) ----------
+// ---------- latest firmware (only on the PTBOT Studio website: firmware/manifest.json sits next to the page) ----------
 let latest = null;  // { version, file, size, sha256 } for the connected board
 
 async function checkLatest() {
@@ -2174,7 +2195,24 @@ for (const id of ['chartErr', 'chartMotor']) {
 }
 window.addEventListener('resize', drawCharts);
 if(document.fonts) document.fonts.ready.then(drawCharts);
-matchMedia('(prefers-color-scheme: dark)').addEventListener('change', drawCharts);
+// Theme: follows the device until the user picks one with the sun/moon button (remembered; applied in <head>).
+function currentTheme() {
+  return document.documentElement.dataset.theme || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+}
+function renderThemeButton() {
+  const key = currentTheme() === 'dark' ? 'theme.toLight' : 'theme.toDark', b = $('themeBtn');
+  b.classList.toggle('to-dark', key === 'theme.toDark');  // the icon shows the theme you switch to
+  b.dataset.i18nAria = b.dataset.i18nTitle = key;
+  b.setAttribute('aria-label', t(key)); b.title = t(key);
+}
+$('themeBtn').onclick = () => {
+  const next = currentTheme() === 'dark' ? 'light' : 'dark';
+  document.documentElement.dataset.theme = next;
+  try { localStorage.setItem('ptlink.theme', next); } catch (e) {}
+  renderThemeButton(); drawCharts();
+};
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { renderThemeButton(); drawCharts(); });
+renderThemeButton();
 
 $('refreshBtn').onclick = () => {
   $('refreshBtn').classList.add('spinning');
@@ -2268,7 +2306,7 @@ async function connectUsb(port) {
     try { hello = await link.cmd({ cmd: 'hello' }, 1000); } catch (e) {}
   }
   if (!hello) throw uiError('connection.noResponse');
-  if (hello.app !== 'PT Link') throw uiError('error.device');
+  if (!APP_IDS.includes(hello.app)) throw uiError('error.device');
   s.binChunk = hello.otaChunk || 0;  // firmware 0.6.0+: raw 16 KB update chunks
   $('connectCard').classList.add('hidden');
   setConn(true, 'USB');
@@ -2324,6 +2362,7 @@ setInterval(async () => {
         await refresh();
         if (newRun) msg('logMsg', copy('run.newRun'), true);
       }
+      resumeLive();  // real-time view stopped by failed reads: back on now that the robot answers
     }
   } catch (e) {
   } finally {
@@ -2331,14 +2370,14 @@ setInterval(async () => {
   }
 }, AUTO_REFRESH_MS);
 
-// Served by the robot itself (WiFi)? The PT Link website and local files have no /api/status.
+// Served by the robot itself (WiFi)? The PTBOT Studio website and local files have no /api/status.
 async function servedByRobot() {
   if (!location.protocol.startsWith('http') || location.hostname.endsWith('github.io')) return false;
   try {
     const ctl = new AbortController();
     setTimeout(() => ctl.abort(), 2500);
     const r = await fetch('/api/status', { signal: ctl.signal, cache: 'no-store' });
-    return r.ok && (await r.json()).app === 'PT Link';
+    return r.ok && APP_IDS.includes((await r.json()).app);
   } catch (e) { return false; }
 }
 
