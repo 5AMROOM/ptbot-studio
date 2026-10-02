@@ -491,6 +491,105 @@ button.reveal.touched[aria-pressed=false] .eye-lid{animation:eye-blink-b .34s ea
 @keyframes eye-blink-a{40%{transform:scaleY(.1)}}
 @keyframes eye-blink-b{40%{transform:scaleY(.1)}}
 @media(prefers-reduced-motion:reduce){.eye-pupil,.eye-slash,button.reveal svg{transition:none}}
+.access-grid{display:grid;grid-template-columns:auto minmax(0,1fr);gap:40px;align-items:center;margin-top:24px}
+.access-grid:has(.qr-row:empty){grid-template-columns:minmax(0,1fr)}
+.access-grid .qr-row{margin:0;padding:10px}
+.access-side{display:flex;flex-direction:column;gap:20px;min-width:0}
+.access-hint{position:relative;margin:0;padding:14px 16px 14px 40px;border:1px solid var(--line);border-radius:12px;background:var(--input);line-height:1.7;font-size:13px}
+.access-hint:before{content:"";position:absolute;left:16px;top:21px;width:10px;height:10px;border-radius:50%;background:var(--muted)}
+#accessCard[data-state=joined] .access-hint:before{background:var(--ok);animation:live-dot 2s ease-out infinite}
+#accessCard[data-state=searching] .access-hint:before{background:transparent;border:2px solid var(--warn);border-right-color:transparent;animation:spin 1s linear infinite}
+@keyframes live-dot{0%{box-shadow:0 0 0 0 var(--ok-soft),0 0 0 0 var(--ok)}70%{box-shadow:0 0 0 10px transparent,0 0 0 4px transparent}}
+@keyframes spin{to{transform:rotate(1turn)}}
+#accessInfo{grid-template-columns:minmax(0,1fr);gap:4px;font-size:14px}
+#accessInfo dt{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-top:12px}
+#accessInfo dt:first-child{margin-top:0}
+#accessInfo dd.address{display:flex;align-items:center;gap:8px}
+#accessInfo dd.address a{font:600 clamp(17px,2.2vw,22px)/1.4 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:-.02em;text-decoration:none;border-bottom:2px solid var(--line-strong);transition:border-color .2s}
+#accessInfo dd.address a:hover{border-color:var(--fg)}
+button.copy-btn{width:36px;min-height:36px;padding:0;border-radius:10px}
+button.copy-btn .tick{opacity:0}
+button.copy-btn.done rect,button.copy-btn.done path:not(.tick){animation:copy-out 1.4s ease}
+button.copy-btn.done .tick{animation:copy-tick 1.4s ease}
+@keyframes copy-out{15%,75%{opacity:0}}
+@keyframes copy-tick{15%,75%{opacity:1}}
+#accessInfo .pw-field.secret{max-width:320px}
+.qr-item{position:relative;padding:16px 16px 12px;border:0;border-radius:14px;box-shadow:0 18px 40px -18px rgba(0,0,0,.6)}
+.qr-item:before{content:"";position:absolute;inset:-10px;pointer-events:none;border-radius:4px;--c:var(--fg);
+  background:linear-gradient(var(--c),var(--c)) 0 0/22px 2px,linear-gradient(var(--c),var(--c)) 0 0/2px 22px,
+  linear-gradient(var(--c),var(--c)) 100% 0/22px 2px,linear-gradient(var(--c),var(--c)) 100% 0/2px 22px,
+  linear-gradient(var(--c),var(--c)) 0 100%/22px 2px,linear-gradient(var(--c),var(--c)) 0 100%/2px 22px,
+  linear-gradient(var(--c),var(--c)) 100% 100%/22px 2px,linear-gradient(var(--c),var(--c)) 100% 100%/2px 22px;
+  background-repeat:no-repeat;animation:finder 2.6s ease-in-out infinite}
+@keyframes finder{50%{inset:-16px;opacity:.45}}
+.qr-item figcaption{display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;letter-spacing:.02em}
+.access-own{margin-top:36px;padding-top:28px;border-top:1px solid var(--line)}
+.access-own .sub{margin-top:0}
+@media(max-width:760px){.access-grid{grid-template-columns:minmax(0,1fr);gap:28px;justify-items:center}.access-side{width:100%}}
+@media(prefers-reduced-motion:reduce){.qr-item:before,.access-hint:before{animation:none!important}}
+button{position:relative;overflow:hidden;transition:transform .14s ease,box-shadow .2s ease,background-color .2s ease,border-color .2s ease,color .2s ease}
+button:not(.hot):not(.reveal):not(:disabled):hover{transform:translateY(-1px);box-shadow:0 8px 18px -10px rgba(0,0,0,.55)}
+button:not(.hot):not(.reveal):not(:disabled):active{transform:translateY(1px) scale(.97);box-shadow:none;transition-duration:.05s}
+.ripple{position:absolute;border-radius:50%;background:currentColor;opacity:.22;transform:scale(0);pointer-events:none;animation:ripple .6s ease-out forwards}
+@keyframes ripple{to{transform:scale(1);opacity:0}}
+button.busy{pointer-events:none}
+button.busy:after{content:"";position:absolute;left:0;bottom:0;height:2px;width:40%;background:currentColor;opacity:.6;animation:busy 1s ease-in-out infinite}
+@keyframes busy{0%{left:-40%}100%{left:100%}}
+button.did-ok{animation:did-ok .7s ease}
+@keyframes did-ok{25%{box-shadow:0 0 0 5px var(--ok-soft);border-color:var(--ok)}}
+button.did-bad{animation:did-bad .4s ease}
+@keyframes did-bad{20%,60%{transform:translateX(-5px)}40%,80%{transform:translateX(5px)}}
+button.pad:not(:disabled):active{box-shadow:inset 0 3px 10px rgba(0,0,0,.35)}
+button.hot:not(:disabled):active{box-shadow:0 0 0 10px var(--pressed-fill);transition-duration:.05s}
+.control-side{display:flex;flex-direction:column;gap:14px}
+.control-side #controlMsg{position:relative;padding:16px 16px 16px 44px;border:1px solid var(--line);border-radius:14px;background:var(--input);font-size:14px;font-weight:600;color:var(--fg)}
+.control-side #controlMsg:before{content:"";position:absolute;left:18px;top:23px;width:10px;height:10px;border-radius:50%;background:var(--muted)}
+.control-side #controlMsg.ok:before{background:var(--ok)}
+.control-side #controlMsg.bad{color:var(--bad)}
+.control-side #controlMsg.bad:before{background:var(--bad)}
+.control-side[data-run=running] #controlMsg:before{background:var(--fg);animation:run-ping 1.2s ease-out infinite}
+.control-side[data-run=restarting] #controlMsg:before{background:transparent;border:2px solid var(--fg);border-right-color:transparent;animation:spin 1s linear infinite}
+.control-side[data-run=waiting] #controlMsg:before{background:var(--warn);animation:run-blink 1s steps(2) infinite}
+@keyframes run-ping{0%{box-shadow:0 0 0 0 var(--fg)}80%,100%{box-shadow:0 0 0 9px transparent}}
+@keyframes run-blink{50%{opacity:.2}}
+.run-timer{font:600 44px/1 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:-.03em;font-variant-numeric:tabular-nums;padding-left:4px}
+button.stop-btn{flex-direction:column;gap:2px;width:100%;min-height:78px;border-radius:16px;background:#d93036;border-color:#d93036;color:#fff;box-shadow:0 5px 0 #8f1d21}
+button.stop-btn:not(:disabled):hover{box-shadow:0 7px 0 #8f1d21}
+button.stop-btn:not(:disabled):active{transform:translateY(4px);box-shadow:0 1px 0 #8f1d21}
+.stop-key{font-size:24px;font-weight:700;letter-spacing:.16em}
+button.stop-btn small{font-size:11px;font-weight:600;opacity:.85}
+.control-side[data-run=running] button.stop-btn:not(:disabled){animation:stop-pulse 1.4s ease-in-out infinite}
+@keyframes stop-pulse{50%{box-shadow:0 5px 0 #8f1d21,0 0 0 8px rgba(217,48,54,.25)}}
+@media(prefers-reduced-motion:reduce){button{transition:none}button:not(.hot):not(.reveal){transform:none!important}.ripple{display:none}}
+.run-now{font:600 13px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--muted);padding-left:4px;margin-top:-6px}
+.run-now:empty{display:none}
+.run-feed{list-style:none;margin:0;padding:12px 14px;max-height:220px;overflow:auto;border:1px solid var(--line);border-radius:14px;background:var(--input);font:12px/1.9 ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--muted)}
+.run-feed li{display:flex;gap:14px;animation:feed-in .3s ease}
+.run-feed li:last-child{color:var(--fg);font-weight:600}
+.run-feed time{flex:none;font-weight:400;color:var(--muted)}
+@keyframes feed-in{from{opacity:0;transform:translateY(6px)}}
+.prog-state{display:flex;flex-direction:column;align-items:flex-end;gap:6px;font-size:12px;color:var(--muted);text-align:right}
+.code-box{display:grid;grid-template-columns:auto minmax(0,1fr);height:320px;border:1px solid var(--line);border-radius:14px;background:var(--input);overflow:hidden;transition:border-color .2s,box-shadow .2s}
+.code-box:focus-within{border-color:var(--line-strong);box-shadow:0 0 0 3px var(--soft)}
+.code-lines,.code-hl,.code-in{margin:0;padding:14px;font:13px/1.8 ui-monospace,SFMono-Regular,Consolas,monospace;tab-size:2;white-space:pre;border:0;letter-spacing:0}
+.code-lines{min-width:3.2em;text-align:right;color:var(--muted);opacity:.6;overflow:hidden;user-select:none;border-right:1px solid var(--line);background:transparent;border-radius:0;max-height:none}
+.code-lines .bad{color:var(--bad);opacity:1}
+.code-wrap{position:relative;min-width:0}
+.code-hl{position:absolute;inset:0;overflow:hidden;color:var(--fg);background:transparent;border-radius:0;max-height:none;pointer-events:none}
+.code-hl b{font-weight:inherit;color:var(--s1)}
+.code-hl u{text-decoration:none;color:var(--s3)}
+.code-hl i{font-style:normal;color:var(--muted)}
+.code-hl .bad{text-decoration:underline wavy var(--bad);text-underline-offset:4px}
+.code-in{position:absolute;inset:0;width:100%;height:100%;resize:none;outline:0;overflow:auto;color:transparent;background:transparent;caret-color:var(--fg);min-height:0;border-radius:0;box-shadow:none}
+.code-in::selection{background:var(--soft);color:transparent}
+.prog-check{list-style:none;margin:12px 0 0;padding:0;font-size:13px;line-height:1.8}
+.prog-check .ok{color:var(--ok)}
+.prog-check .bad{color:var(--bad)}
+.prog-check li:before{content:"●";margin-right:8px;font-size:9px;vertical-align:2px}
+.fan-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:16px;margin:24px 0 0;padding:16px 18px;border:1px solid var(--line);border-radius:14px;background:var(--input)}
+.fan-row label{margin:0;font-weight:600}
+.fan-row output{font:600 13px ui-monospace,SFMono-Regular,Consolas,monospace;min-width:9.5em;text-align:right}
+#fanPower{accent-color:var(--fg);width:100%}
 </style>
 </head>
 <body>
@@ -626,8 +725,9 @@ button.reveal.touched[aria-pressed=false] .eye-lid{animation:eye-blink-b .34s ea
 <button id="tabRuns" role="tab" aria-controls="panelRuns" aria-selected="true" data-panel="panelRuns" data-i18n="runs"></button>
 <button id="tabSensors" role="tab" aria-controls="panelSensors" aria-selected="false" tabindex="-1" data-panel="panelSensors" data-i18n="sensors"></button>
 <button id="tabControl" role="tab" aria-controls="panelControl" aria-selected="false" tabindex="-1" data-panel="panelControl" data-i18n="control"></button>
-<button id="tabUpdate" role="tab" aria-controls="panelUpdate" aria-selected="false" tabindex="-1" data-panel="panelUpdate" data-i18n="update"></button>
+<button id="tabProgram" class="hidden" role="tab" aria-controls="panelProgram" aria-selected="false" tabindex="-1" data-panel="panelProgram" data-i18n="prog"></button>
 <button id="tabWifi" class="hidden" role="tab" aria-controls="panelWifi" aria-selected="false" tabindex="-1" data-panel="panelWifi" data-i18n="wifi"></button>
+<button id="tabUpdate" role="tab" aria-controls="panelUpdate" aria-selected="false" tabindex="-1" data-panel="panelUpdate" data-i18n="update"></button>
 <button id="tabSerial" class="hidden" role="tab" aria-controls="panelSerial" aria-selected="false" tabindex="-1" data-panel="panelSerial">Serial Monitor</button>
 </nav>
     <section id="panelRuns" role="tabpanel" aria-labelledby="tabRuns" tabindex="0">
@@ -783,8 +883,13 @@ button.reveal.touched[aria-pressed=false] .eye-lid{animation:eye-blink-b .34s ea
 <button class="pad pad-run" id="padB" data-i18n-aria="control.bAria"><span class="pad-key">B</span></button>
 <button class="pad pad-reset" id="padReset" data-i18n-aria="control.resetAria"><span class="pad-key">RESET</span></button>
 </div>
-<div class="control-side">
+<div class="control-side" data-run="idle">
 <div class="msg" id="controlMsg" role="status" aria-live="polite"></div>
+<div class="run-timer hidden" id="runTimer" aria-hidden="true"></div>
+<div class="run-now hidden" id="runNow"></div>
+<button class="stop-btn hidden" id="stopBtn" data-i18n-aria="control.stopAria"><span class="stop-key">STOP</span><small data-i18n="control.stopHint"></small></button>
+<button class="ghost hidden" id="runViewBtn" data-i18n="control.viewRun"></button>
+<ol class="run-feed hidden" id="runFeed" role="log" data-i18n-aria="control.feedAria"></ol>
 <button class="link-button hidden" id="askAgainBtn" data-i18n="control.askAgain"></button>
 </div>
 </div>
@@ -833,9 +938,14 @@ button.reveal.touched[aria-pressed=false] .eye-lid{animation:eye-blink-b .34s ea
 </section>
       <section class="card hidden" id="accessCard">
 <h2 data-i18n="access.title"></h2>
-<p class="muted" id="accessHint"></p>
+<div class="access-grid">
 <div class="qr-row" id="qrRow"></div>
+<div class="access-side">
+<p class="access-hint" id="accessHint"></p>
 <dl id="accessInfo"></dl>
+</div>
+</div>
+<div class="access-own">
 <h3 class="sub" data-i18n="pw.title"></h3>
 <p class="muted" data-i18n="pw.hint"></p>
 <label for="newPw" data-i18n="pw.new"></label>
@@ -845,7 +955,37 @@ button.reveal.touched[aria-pressed=false] .eye-lid{animation:eye-blink-b .34s ea
 <button class="ghost hidden" id="pwFactoryBtn" data-i18n="pw.factory"></button>
 </div>
 <div class="msg" id="pwMsg" role="status" aria-live="polite"></div>
+</div>
 </section>
+    </section>
+    <section id="panelProgram" class="hidden" role="tabpanel" aria-labelledby="tabProgram" tabindex="0">
+<div class="card">
+<div class="panel-head">
+<div>
+<div class="eyebrow" data-i18n="prog.eyebrow"></div>
+<h2 data-i18n="prog.title"></h2>
+<p class="muted" data-i18n="prog.hint"></p>
+</div>
+<div class="prog-state"><span id="progSource"></span><span class="tag hidden" id="progDirty" data-i18n="prog.unsaved"></span></div>
+</div>
+<div class="code-box">
+<pre class="code-lines" id="progLines" aria-hidden="true"></pre>
+<div class="code-wrap"><pre class="code-hl" id="progHl" aria-hidden="true"></pre><textarea id="progCode" class="code-in" spellcheck="false" autocomplete="off" autocapitalize="off" wrap="off" data-i18n-aria="prog.codeAria"></textarea></div>
+</div>
+<ul class="prog-check" id="progCheck"></ul>
+<div class="section-actions">
+<button id="progSaveBtn" data-i18n="prog.save"></button>
+<button class="ghost" id="progLoadBtn" data-i18n="prog.load"></button>
+<button class="ghost danger" id="progDeleteBtn" data-i18n="prog.delete"></button>
+</div>
+<div class="msg" id="progMsg" role="status" aria-live="polite"></div>
+<div class="fan-row hidden" id="fanRow">
+<label for="fanPower" data-i18n="fan.label"></label>
+<input type="range" id="fanPower" min="0" max="100" step="5">
+<output id="fanOut" for="fanPower"></output>
+</div>
+<p class="fine" data-i18n="prog.help"></p>
+</div>
     </section>
     <section id="panelSerial" class="hidden" role="tabpanel" aria-labelledby="tabSerial" tabindex="0">
 <div class="card">
@@ -907,9 +1047,9 @@ const TEXT = {
   "th": {
     "disconnected": "ไม่ได้เชื่อมต่อ",
     "installApp": "ติดตั้งแอป",
-    "workspace": "PTBOT Studio สำหรับทีมแข่ง",
-    "welcomeTitle": "เตรียมหุ่นยนต์ให้พร้อม\nสำหรับรอบต่อไป",
-    "welcomeCopy": "ดูผลการวิ่ง ตรวจ Sensor และอัปเดต Firmware ผ่านสาย USB",
+    "workspace": "PTBOT Studio for Robotics",
+    "welcomeTitle": "เตรียมหุ่นยนต์ให้พร้อม\nสำหรับขั้นตอนต่อไป",
+    "welcomeCopy": "รายงานผล ตรวจ Sensor และอัปเดต Firmware ผ่านสาย USB",
     "connectUsb": "เชื่อมต่อ USB",
     "browserHint": "ใช้ Chrome หรือ Edge บนคอมพิวเตอร์",
     "stepCable": "เสียบสาย USB",
@@ -939,9 +1079,9 @@ const TEXT = {
     "benchActive": "เปิด bench test อยู่ พัดลมจะไม่หมุน",
     "benchSafety": "ยกล้อให้ลอยก่อนกด B มอเตอร์จะหมุนแต่พัดลมจะไม่ทำงาน วางกระดาษที่มีเส้นไว้ใต้ Sensor เพื่อเช็กทิศทางล้อและ Loop rate โหมดนี้ปิดเองเมื่อรีสตาร์ทหุ่นยนต์",
     "robotBusy": "หุ่นยนต์กำลังวิ่งหรือไม่ว่าง รอให้หยุดก่อนเปลี่ยนค่าหรืออัปเดต",
-    "runs": "ผลการวิ่ง",
+    "runs": "Overview",
     "sensors": "Sensor",
-    "update": "อัปเดต",
+    "update": "Firmware",
     "wifi": "WiFi",
     "wifi.hint": "เปิดแล้วหุ่นยนต์จะเชื่อมต่อเครือข่ายที่บันทึกไว้ด้านล่างเองทุกครั้งที่เปิดเครื่อง ปิดไว้เมื่อไม่ใช้ เช่น ระหว่างแข่ง",
     "wifi.none": "ไม่มีในเฟิร์มแวร์นี้",
@@ -951,7 +1091,7 @@ const TEXT = {
     "wifi.joined": "เปิด WiFi แล้ว เชื่อมต่อเครือข่าย {0} แล้ว",
     "wifi.retry": "ลองอีกครั้ง",
     "wifi.turnedOff": "ปิด WiFi แล้ว",
-    "control": "ควบคุม",
+    "control": "Panel",
     "control.title": "แผงควบคุม",
     "control.wifiOnly": "แผงควบคุมและ Calibrate ใช้ได้เมื่อเชื่อมต่อผ่าน WiFi เท่านั้น เพื่อความปลอดภัย (ต่อสาย USB อยู่ หุ่นยนต์อาจลากสาย) เปิดหน้านี้ผ่าน WiFi จากคอมหรือมือถือด้วยลิงก์หรือ QR code ในแท็บ WiFi",
     "control.askAgain": "ให้ถามก่อนกด B และ RESET อีกครั้ง",
@@ -965,9 +1105,60 @@ const TEXT = {
     "control.bConfirm": "กดปุ่ม B หรือไม่?\nหุ่นยนต์จะเริ่มวิ่งเหมือนกดปุ่ม B บนหุ่นยนต์ เว้นพื้นที่รอบหุ่นยนต์ให้ว่าง และระวังสาย USB ถ้าเสียบอยู่",
     "control.started": "ส่งปุ่ม B แล้ว หน้าเว็บจะกลับมาเชื่อมต่อเมื่อวิ่งจบ",
     "control.waitingA": "หุ่นยนต์หยุดรอปุ่ม A (waitA)",
-    "control.finished": "วิ่งจบแล้ว ดูกราฟได้ในแท็บผลการวิ่ง",
+    "control.finished": "วิ่งจบแล้ว",
+    "control.ready": "พร้อม กด B เพื่อเริ่มวิ่ง",
+    "control.viewRun": "ดูกราฟรอบนี้",
+    "prog": "โปรแกรม",
+    "prog.eyebrow": "เขียนโปรแกรมวิ่ง",
+    "prog.title": "โปรแกรมวิ่ง",
+    "prog.hint": "เขียนคำสั่งแล้วบันทึกลงหุ่นยนต์ได้ทั้งผ่าน USB และ WiFi กด B แล้วหุ่นยนต์วิ่งตามนี้ ไม่ต้องคอมไพล์",
+    "prog.codeAria": "โค้ดโปรแกรมวิ่ง",
+    "prog.save": "บันทึกลงหุ่นยนต์",
+    "prog.load": "โหลดจากหุ่นยนต์",
+    "prog.delete": "ลบ (ใช้ Manual.ino)",
+    "prog.help": "FW(speed, kp, kd, time); วิ่งตามเส้น (speed 0–100 เวลาเป็น ms) STOP(); หยุดตรงนั้น บรรทัดหลังจากนั้นไม่ทำ ใส่ // หน้าคอมเมนต์ได้ สูงสุด 50 คำสั่ง กด Ctrl+S เพื่อบันทึก",
+    "prog.ok": "ถูกต้อง {0} คำสั่ง",
+    "prog.empty": "ยังไม่มีคำสั่ง",
+    "prog.line": "บรรทัด {0}:",
+    "prog.errCommand": "ใช้ได้แค่ FW(speed, kp, kd, time); และ STOP();",
+    "prog.errArgs": "FW ต้องมีตัวเลข 4 ตัว: speed, kp, kd, time",
+    "prog.errSpeed": "speed ต้องอยู่ระหว่าง 0–100",
+    "prog.errGain": "kp และ kd ต้องไม่ติดลบ",
+    "prog.errTime": "time ต้องอยู่ระหว่าง 1–600000 ms",
+    "prog.errMax": "เกิน 50 คำสั่ง",
+    "prog.fix": "แก้บรรทัดที่ผิดก่อนบันทึก",
+    "prog.saved": "บันทึกแล้ว {0} คำสั่ง กด B เพื่อวิ่ง",
+    "prog.deleted": "ลบโปรแกรมแล้ว หุ่นยนต์กลับไปใช้ Manual.ino",
+    "prog.deleteConfirm": "ลบโปรแกรมจากหุ่นยนต์หรือไม่?\nหุ่นยนต์จะกลับไปวิ่งตาม Manual.ino",
+    "prog.loaded": "โหลดแล้ว",
+    "prog.loadConfirm": "แทนที่โค้ดที่ยังไม่ได้บันทึกหรือไม่?",
+    "prog.usesWeb": "หุ่นยนต์ใช้: โปรแกรมจากเว็บ ({0} คำสั่ง)",
+    "prog.usesManual": "หุ่นยนต์ใช้: Manual.ino",
+    "prog.unsaved": "ยังไม่ได้บันทึก",
+    "fan.label": "แรงพัดลม",
+    "fan.saved": "แรงพัดลม {0}% ใช้กับรอบถัดไป",
+    "control.feedAria": "Log การทำงาน",
+    "feed.b": "ส่งปุ่ม B",
+    "feed.a": "ส่งปุ่ม A",
+    "feed.arming": "เตรียมพัดลม",
+    "feed.start": "เริ่มวิ่ง ช่วงที่ 1  {0}",
+    "feed.segment": "ช่วงที่ {0}  {1}",
+    "feed.out": "หลุดเส้น",
+    "feed.back": "กลับเข้าเส้น",
+    "feed.waitA": "waitA() รอปุ่ม A",
+    "feed.saving": "บันทึก Log",
+    "feed.done": "จบรอบ ({0} loop)",
+    "feed.stop": "STOP: หยุด บันทึก Log แล้วรีสตาร์ท",
+    "feed.reset": "RESET: รีสตาร์ทหุ่นยนต์",
+    "feed.restarted": "หุ่นยนต์กลับมาแล้ว",
+    "control.stopAria": "STOP: หยุดรอบวิ่งทันที",
+    "control.stopHint": "หยุดทันที (Esc)",
+    "control.stopped": "หยุดแล้ว กำลังรีสตาร์ทหุ่นยนต์ (บันทึก Log รอบนี้ไว้แล้ว)",
+    "control.stoppedDone": "หยุดและรีสตาร์ทแล้ว ดูกราฟรอบนี้ได้",
+    "control.restarted": "รีสตาร์ทเสร็จแล้ว หุ่นยนต์พร้อมใช้งาน",
+    "control.restartSlow": "หุ่นยนต์ยังไม่กลับมา ตรวจสอบว่าเปิดอยู่และเชื่อมต่อเครือข่ายเดิม แล้วรีเฟรชหน้านี้",
     "control.aSent": "ส่งปุ่ม A แล้ว",
-    "control.resetDone": "หุ่นยนต์กำลังรีสตาร์ท รอ 10 วินาทีแล้วกดรีเฟรช",
+    "control.resetDone": "กำลังรีสตาร์ทหุ่นยนต์ รอสักครู่ หน้าเว็บจะเชื่อมต่อใหม่เอง",
     "runAnalysis": "วิเคราะห์การวิ่ง",
     "lastRunTitle": "ผลการวิ่งรอบล่าสุด",
     "runHint": "ตำแหน่งเส้นเทียบกับความเร็วมอเตอร์ตลอดการวิ่ง",
@@ -1035,7 +1226,7 @@ const TEXT = {
     "homeWifiName": "ชื่อ WiFi บ้านหรือฮอตสปอต",
     "networkPassword": "รหัสผ่านเครือข่าย",
     "addNetwork": "เพิ่มเครือข่าย",
-    "footerHint": "KEEP GOING",
+    "footerHint": "©2026 5AM ROOM",
     "calReady": "ค่า Calibrate ใช้ได้",
     "calInvalid": "ยังไม่ได้ Calibrate — ถอดสาย USB กดปุ่ม A ค้างไว้แล้วเปิดสวิตช์หุ่นยนต์",
     "usbOnly": "เชื่อมต่อ USB แล้ว",
@@ -1098,7 +1289,7 @@ const TEXT = {
     "run.loopRate": "Loop rate",
     "run.interval": "บันทึกทุก",
     "run.result": "ผลการวิ่ง",
-    "run.aborted": "หยุดก่อนครบเวลาเพราะหลุดเส้นนานเกิน",
+    "run.aborted": "หยุดก่อนครบเวลา (หลุดเส้นนานเกิน หรือกด STOP)",
     "run.completed": "วิ่งครบเวลา",
     "run.segment": "ช่วงที่ {0}",
     "run.segmentValues": "{0}kp {1}, kd {2}\nระยะเวลา {3} ms, เริ่มที่ {4} ms",
@@ -1186,7 +1377,7 @@ const TEXT = {
   "en": {
     "disconnected": "Disconnected",
     "installApp": "Install app",
-    "workspace": "PTBOT Studio for racing teams",
+    "workspace": "PTBOT Studio for Robotics",
     "welcomeTitle": "Get ready for your next run",
     "welcomeCopy": "Review runs, check sensors and update firmware over USB.",
     "connectUsb": "Connect via USB",
@@ -1218,9 +1409,9 @@ const TEXT = {
     "benchActive": "Bench test is on. The fan will not run.",
     "benchSafety": "Lift the wheels before pressing B. The motors will run, but the fan will not. Place a paper line under the sensors to check wheel direction and loop rate. This mode turns off when the robot restarts.",
     "robotBusy": "The robot is running or busy. Wait until it stops before changing settings or updating.",
-    "runs": "Runs",
+    "runs": "Overview",
     "sensors": "Sensors",
-    "update": "Updates",
+    "update": "Firmware",
     "wifi": "WiFi",
     "wifi.hint": "When on, the robot joins a network saved below every time it starts. Turn it off when not needed, for example during a competition.",
     "wifi.none": "Not in this firmware",
@@ -1230,7 +1421,7 @@ const TEXT = {
     "wifi.joined": "WiFi is on and connected to {0}.",
     "wifi.retry": "Try again",
     "wifi.turnedOff": "WiFi is off.",
-    "control": "Control",
+    "control": "Panel",
     "control.title": "Control panel",
     "control.wifiOnly": "The control panel and calibration work over WiFi only, for safety (with USB plugged in the robot could drag the cable). Open this page over WiFi from a computer or phone with the link or QR code in the WiFi tab.",
     "control.askAgain": "Ask before B and RESET again",
@@ -1244,9 +1435,60 @@ const TEXT = {
     "control.bConfirm": "Press B?\nThe robot starts as if B on the robot was pressed. Keep the area clear, and mind the USB cable if it is plugged in.",
     "control.started": "B sent. The page reconnects when the run ends.",
     "control.waitingA": "The robot is waiting for A (waitA).",
-    "control.finished": "Run finished. See the charts in the Runs tab.",
+    "control.finished": "Run finished.",
+    "control.ready": "Ready. Press B to start a run.",
+    "control.viewRun": "View this run",
+    "prog": "Program",
+    "prog.eyebrow": "Run program",
+    "prog.title": "Run program",
+    "prog.hint": "Write the commands and save them on the robot over USB or WiFi. Press B and the robot runs them. No compiling needed.",
+    "prog.codeAria": "Run program code",
+    "prog.save": "Save to robot",
+    "prog.load": "Load from robot",
+    "prog.delete": "Delete (use Manual.ino)",
+    "prog.help": "FW(speed, kp, kd, time); follows the line (speed 0–100, time in ms). STOP(); stops there: the lines after it do not run. Start comments with //. Up to 50 commands. Ctrl+S saves.",
+    "prog.ok": "{0} commands, all valid",
+    "prog.empty": "No commands yet",
+    "prog.line": "Line {0}:",
+    "prog.errCommand": "Only FW(speed, kp, kd, time); and STOP(); are allowed",
+    "prog.errArgs": "FW needs 4 numbers: speed, kp, kd, time",
+    "prog.errSpeed": "speed must be 0–100",
+    "prog.errGain": "kp and kd must not be negative",
+    "prog.errTime": "time must be 1–600000 ms",
+    "prog.errMax": "More than 50 commands",
+    "prog.fix": "Fix the marked lines before saving",
+    "prog.saved": "Saved {0} commands. Press B to run.",
+    "prog.deleted": "Program deleted. The robot runs Manual.ino again.",
+    "prog.deleteConfirm": "Delete the program from the robot?\nThe robot will run Manual.ino again.",
+    "prog.loaded": "Loaded.",
+    "prog.loadConfirm": "Replace the unsaved code?",
+    "prog.usesWeb": "Robot runs: web program ({0} commands)",
+    "prog.usesManual": "Robot runs: Manual.ino",
+    "prog.unsaved": "Not saved",
+    "fan.label": "Fan power",
+    "fan.saved": "Fan power {0}% for the next runs",
+    "control.feedAria": "Activity log",
+    "feed.b": "B sent",
+    "feed.a": "A sent",
+    "feed.arming": "Arming the fan",
+    "feed.start": "Run started, segment 1  {0}",
+    "feed.segment": "Segment {0}  {1}",
+    "feed.out": "Line lost",
+    "feed.back": "Back on the line",
+    "feed.waitA": "waitA(): waiting for A",
+    "feed.saving": "Saving the log",
+    "feed.done": "Run finished ({0} loops)",
+    "feed.stop": "STOP: stop, save the log, restart",
+    "feed.reset": "RESET: restarting the robot",
+    "feed.restarted": "The robot is back",
+    "control.stopAria": "STOP: end the run now",
+    "control.stopHint": "Stops now (Esc)",
+    "control.stopped": "Stopped. Restarting the robot (this run's log is saved).",
+    "control.stoppedDone": "Stopped and restarted. You can view this run.",
+    "control.restarted": "Restart complete. The robot is ready.",
+    "control.restartSlow": "The robot has not come back. Check that it is on and on the same network, then refresh this page.",
     "control.aSent": "A sent.",
-    "control.resetDone": "The robot is restarting. Wait 10 s, then refresh.",
+    "control.resetDone": "Restarting the robot. The page reconnects by itself.",
     "runAnalysis": "Run review",
     "lastRunTitle": "Latest run",
     "runHint": "Line position against motor speed throughout the run.",
@@ -1314,7 +1556,7 @@ const TEXT = {
     "homeWifiName": "Home WiFi or hotspot name",
     "networkPassword": "Network password",
     "addNetwork": "Add network",
-    "footerHint": "KEEP GOING",
+    "footerHint": "©2026 5AM ROOM",
     "calReady": "Calibration valid",
     "calInvalid": "Calibration needed. Unplug USB and hold A while powering on.",
     "usbOnly": "Connected via USB",
@@ -1377,7 +1619,7 @@ const TEXT = {
     "run.loopRate": "Loop rate",
     "run.interval": "Logged every",
     "run.result": "Run result",
-    "run.aborted": "Stopped early after prolonged line loss",
+    "run.aborted": "Stopped early (line lost too long, or STOP pressed)",
     "run.completed": "Completed",
     "run.segment": "Segment {0}",
     "run.segmentValues": "{0}kp {1}, kd {2}\nDuration {3} ms, starts at {4} ms",
@@ -1519,6 +1761,7 @@ function showPanel(id, focus=false) {
   }
   $('tip').classList.add('hidden');
   if (id === 'panelRuns') requestAnimationFrame(drawCharts);
+  if (id === 'panelProgram') progOpen();
   if (id === 'panelSensors') resumeLive(); else live = false;  // poll the sensors only while they are on screen
 }
 function renderRobotSummary() {
@@ -1759,6 +2002,9 @@ async function refresh() {
   // Firmware without WiFi: the WiFi settings, saved networks and race/practice mode do nothing - hide them.
   $('tabWifi').classList.toggle('hidden', !wifi);
   if (!wifi && !$('panelWifi').classList.contains('hidden')) showPanel('panelRuns');
+  $('tabProgram').classList.toggle('hidden', robot.program === undefined);  // firmware 0.9.6+
+  if (robot.program === undefined && !$('panelProgram').classList.contains('hidden')) showPanel('panelRuns');
+  progStatus();
   const serial = link instanceof SerialLink;  // robot messages and typed commands come over the cable only
   $('tabSerial').classList.toggle('hidden', !serial);
   if (!serial && !$('panelSerial').classList.contains('hidden')) showPanel('panelRuns');
@@ -2147,6 +2393,83 @@ async function ok(promise) {
   return r;
 }
 
+// ---------- Program tab: FW(...); / STOP(); written here, saved on the robot (B runs it instead of Manual.ino) ----------
+let progSaved = null;  // the source saved on the robot (null = not loaded yet)
+function progCheck(src) {  // the same rules as the firmware (program.cpp)
+  const errors = []; let steps = 0;
+  src.split('\n').forEach((raw, i) => {
+    const l = raw.replace(/\/\/.*$/, '').trim().replace(/;$/, '').replace(/\s+/g, '');
+    if (!l) return;
+    const m = /^FW\((.*)\)$/.exec(l), v = m ? m[1].split(',') : [];
+    const key = l === 'STOP()' ? '' : !m ? 'prog.errCommand' : v.length !== 4 || v.some(x => x === '' || isNaN(x)) ? 'prog.errArgs'
+      : v[0] < 0 || v[0] > 100 ? 'prog.errSpeed' : v[1] < 0 || v[2] < 0 ? 'prog.errGain' : v[3] < 1 || v[3] > 600000 ? 'prog.errTime' : '';
+    if (key) errors.push([i + 1, key]); else if (++steps === 51) errors.push([i + 1, 'prog.errMax']);
+  });
+  return { steps, errors };
+}
+function progRender() {
+  const src = $('progCode').value, r = progCheck(src), bad = new Set(r.errors.map(e => e[0]));
+  const esc = t => t.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  $('progHl').innerHTML = src.split('\n').map((l, i) => {
+    const at = l.indexOf('//'), code = at < 0 ? l : l.slice(0, at);
+    const html = esc(code).replace(/\b(FW|STOP)\b/g, '<b>$1</b>').replace(/(\d+\.?\d*)/g, '<u>$1</u>') + (at < 0 ? '' : '<i>' + esc(l.slice(at)) + '</i>');
+    return bad.has(i + 1) ? '<span class="bad">' + html + '</span>' : html;
+  }).join('\n') + '\n';
+  $('progLines').innerHTML = src.split('\n').map((_, i) => bad.has(i + 1) ? '<span class="bad">' + (i + 1) + '</span>' : i + 1).join('\n');
+  const box = $('progCheck'); box.textContent = '';
+  const item = (cls, ...texts) => { const li = document.createElement('li'); li.className = cls; for (const t of texts) { const sp = document.createElement('span'); writeText(sp, t); li.append(sp, ' '); } box.append(li); };
+  if (r.errors.length) r.errors.slice(0, 4).forEach(e => item('bad', copy('prog.line', e[0]), copy(e[1])));
+  else item(r.steps ? 'ok' : '', r.steps ? copy('prog.ok', r.steps) : copy('prog.empty'));
+  $('progSaveBtn').disabled = r.errors.length > 0;
+  $('progDirty').classList.toggle('hidden', progSaved === null || src === progSaved);
+  progScroll();
+  return r;
+}
+function progScroll() { const c = $('progCode'); $('progHl').scrollTop = $('progLines').scrollTop = c.scrollTop; $('progHl').scrollLeft = c.scrollLeft; }
+function progStatus() {
+  if (robot && robot.program !== undefined) writeText($('progSource'), robot.program ? copy('prog.usesWeb', robot.program) : copy('prog.usesManual'));
+  $('fanRow').classList.toggle('hidden', !robot || robot.fanUs === undefined);  // fan power for the runs (0.9.6+)
+  if (robot && robot.fanUs !== undefined && document.activeElement !== $('fanPower')) { $('fanPower').value = Math.round((robot.fanUs - 1000) / 10); fanShow(); }
+}
+async function progLoad() {
+  const r = await ok(link.cmd({ cmd: 'program' }));
+  progSaved = r.source;
+  $('progCode').value = r.source || 'FW(40, 0.08, 3, 2000);\nSTOP();\n';
+  progRender();
+}
+function progOpen() { if (progSaved === null || $('progCode').value === progSaved) run('progMsg', async () => { await progLoad(); return copy('prog.loaded'); }); else progRender(); }
+$('progCode').oninput = progRender;
+$('progCode').onscroll = progScroll;
+$('progCode').onkeydown = ev => {
+  if (ev.key === 'Tab' && !ev.shiftKey) { ev.preventDefault(); document.execCommand('insertText', false, '  '); }
+  if ((ev.ctrlKey || ev.metaKey) && ev.key.toLowerCase() === 's') { ev.preventDefault(); $('progSaveBtn').click(); }
+};
+$('progSaveBtn').onclick = () => run('progMsg', async () => {
+  const src = $('progCode').value, r = progCheck(src);
+  if (r.errors.length) throw uiError('prog.fix');
+  await ok(link.cmd({ cmd: 'programSave', source: src }, 8000));
+  progSaved = src; progRender(); await refresh();
+  return copy('prog.saved', r.steps);
+});
+$('progLoadBtn').onclick = () => {
+  if (progSaved !== null && $('progCode').value !== progSaved && !confirm(t('prog.loadConfirm'))) return;
+  run('progMsg', async () => { await progLoad(); return copy('prog.loaded'); });
+};
+$('progDeleteBtn').onclick = () => {
+  if (!confirm(t('prog.deleteConfirm'))) return;
+  run('progMsg', async () => { await ok(link.cmd({ cmd: 'programSave', source: '' })); progSaved = ''; progRender(); await refresh(); return copy('prog.deleted'); });
+};
+
+// Fan power (Program tab): 0-100 % = 1000-2000 us ESC pulse, saved on the robot for the next runs.
+function fanShow() { const p = +$('fanPower').value; $('fanOut').textContent = p + '% (' + (1000 + p * 10) + ' µs)'; $('fanPower').style.setProperty('--p', p + '%'); }
+$('fanPower').oninput = fanShow;
+$('fanPower').onchange = () => run('progMsg', async () => {
+  const p = +$('fanPower').value;
+  await ok(link.cmd({ cmd: 'fan', us: 1000 + p * 10 }));
+  robot.fanUs = 1000 + p * 10;
+  return copy('fan.saved', p);
+});
+
 // ---------- Password for the page served by the robot ----------
 // It comes from the QR code (#k=… in the address, removed at once) or from the last visit, so it is typed
 // at most once per phone. Saved for that robot address only (browser storage is per address).
@@ -2311,7 +2634,11 @@ function rowLink(dl, name, text, href) {
   const dt = document.createElement('dt'); writeText(dt, name);
   const dd = document.createElement('dd'), a = document.createElement('a');
   a.href = href; a.target = '_blank'; a.rel = 'noopener'; a.textContent = text;
-  dd.append(a); dl.append(dt, dd);
+  const c = document.createElement('button'); c.type = 'button'; c.className = 'ghost copy-btn';
+  c.dataset.i18nAria = 'serial.copy'; c.setAttribute('aria-label', t('serial.copy'));
+  c.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/><path class="tick" d="M10 14l2.5 2.5L18 11"/></svg>';
+  c.onclick = () => navigator.clipboard.writeText(text).then(() => { c.classList.remove('done'); void c.offsetWidth; c.classList.add('done'); }, () => {});
+  dd.className = 'address'; dd.append(a, c); dl.append(dt, dd);
 }
 
 // A read-only password field like the others, hidden until its eye button is pressed. shown() / toggle()
@@ -2357,6 +2684,7 @@ async function loadAccess() {
   };
   // The WiFi switch (mode) decides: off = no QR code, even before the robot has switched WiFi off.
   const switchedOn = s.mode !== 'race';
+  card.dataset.state = switchedOn && s.network && s.networkIp ? 'joined' : switchedOn && s.wifiOn ? 'searching' : 'off';
   if (switchedOn && s.network && s.networkIp) {
     writeText($('accessHint'), copy('access.joined', s.network));
     addQr(pageQrText(s.networkIp, a.password), copy('access.qrPage'));
@@ -2413,6 +2741,8 @@ function renderControl() {
   document.querySelector('.control-pad').classList.toggle('hidden', board);
   $('controlNote').classList.toggle('hidden', !usb);
   $('boardPad').classList.toggle('locked', usb);
+  $('stopBtn').classList.toggle('hidden', !robot || !robot.stopPort); $('stopBtn').disabled = usb;  // firmware 0.9.3+
+  if (!$('controlMsg').textContent) msg('controlMsg', copy('control.ready'));
   for (const id of ['hotA', 'hotB', 'hotReset', 'padA', 'padB', 'padReset', 'calManualBtn', 'calSpinBtn']) $(id).disabled = usb;
   let skipped = false;
   try { skipped = ['B', 'RESET'].some(k => localStorage.getItem('ptlink.noask.' + k) === '1'); } catch (e) {}
@@ -2444,21 +2774,106 @@ $('askAgainBtn').onclick = () => {
   renderControl();
 };
 
+// Run console: the dot (idle / running / waiting / done), the run timer, STOP and "view this run".
+let runStarted = 0, runTimerId = 0, runStopped = false, runWatch = 0;
+function setRun(state) {
+  document.querySelector('.control-side').dataset.run = state;
+  clearInterval(runTimerId);
+  $('runTimer').classList.toggle('hidden', state !== 'running' && state !== 'waiting');
+  $('runViewBtn').classList.toggle('hidden', state !== 'done');
+  const tick = () => { $('runTimer').textContent = clock(Date.now() - runStarted); };
+  $('runNow').classList.toggle('hidden', state !== 'running' && state !== 'waiting');
+  if (state === 'running' || state === 'waiting') { tick(); runTimerId = setInterval(tick, 100); }
+}
+
+function clock(ms) {
+  const t = Math.max(0, ms) / 1000;
+  return String(Math.floor(t / 60)).padStart(2, '0') + ':' + (t % 60).toFixed(1).padStart(4, '0');
+}
+
+// Activity log: one line per event, time since B (newest last, kept to 60 lines; follows the language).
+function feed(text) {
+  const box = $('runFeed'), li = document.createElement('li'), time = document.createElement('time'), span = document.createElement('span');
+  time.textContent = runStarted ? clock(Date.now() - runStarted) : '';
+  writeText(span, text); li.append(time, span); box.append(li);
+  while (box.children.length > 60) box.firstChild.remove();
+  box.classList.remove('hidden'); box.scrollTop = box.scrollHeight;
+}
+
+// Mid-run the robot answers only on its STOP port: ask it what it is doing 4x a second and log the changes.
+let followId = 0;
+async function followRun() {
+  const me = ++followId, fw = r => 'FW(' + r.base + ', ' + r.kp + ', ' + r.kd + ', ' + r.time + ' ms)';
+  let last = {};
+  for (let i = 0; i < 2400 && me === followId; i++) {
+    try {
+      const r = await (await fetch('http://' + location.hostname + ':' + robot.stopPort + '/live', { signal: AbortSignal.timeout(800) })).json();
+      if (r.phase !== last.phase) {
+        if (r.phase === 'arming') feed(copy('feed.arming'));
+        if (r.phase === 'waitA') feed(copy('feed.waitA'));
+        if (r.phase === 'saving') feed(copy('feed.saving'));
+        if (r.phase === 'idle' && last.phase) { feed(copy('feed.done', r.loops)); return; }
+      }
+      if (r.seg && r.seg !== last.seg) feed(r.seg === 1 ? copy('feed.start', fw(r)) : copy('feed.segment', r.seg, fw(r)));
+      if (r.phase === 'running' && last.phase === 'running' && r.out !== last.out) feed(copy(r.out ? 'feed.out' : 'feed.back'));
+      if (r.seg) $('runNow').textContent = r.phase === 'waitA' ? 'waitA()' : '#' + r.seg + '  ' + fw(r);
+      last = r;
+    } catch (e) {}
+    await sleep(250);
+  }
+}
+
+// After RESET or STOP the robot restarts and rejoins the network (~5-15 s): reconnect by itself.
+async function afterRestart(doneKey, viewRun) {
+  runWatch++; setRun('restarting');
+  await sleep(3000);
+  for (let i = 0; i < 40; i++) {
+    try {
+      const r = await fetch('/api/status', { signal: AbortSignal.timeout(1500) });
+      if (r.ok) { await refresh().catch(() => {}); msg('controlMsg', copy(doneKey), true); feed(copy('feed.restarted')); setRun(viewRun ? 'done' : 'idle'); return; }
+    } catch (e) {}
+    await sleep(1000);
+  }
+  msg('controlMsg', copy('control.restartSlow'), false); setRun('idle');
+}
+
 // The robot answers again when the run ends, or while Manual() waits for A.
 async function watchRun() {
+  const me = ++runWatch;
   await sleep(4000);
-  for (let i = 0; i < 120; i++) {
+  for (let i = 0; i < 120 && me === runWatch; i++) {
     try {
       const s = await link.cmd({ cmd: 'status' }, 3000);
-      if (s.ok && !s.running) { msg('controlMsg', copy('control.finished'), true); await refresh(); return; }
-      if (s.ok && s.waitingA) msg('controlMsg', copy('control.waitingA'), true);
+      if (s.ok && !s.running) { msg('controlMsg', copy(runStopped ? 'control.stopped' : 'control.finished'), true); setRun('done'); await refresh(); return; }
+      if (s.ok && s.waitingA) { msg('controlMsg', copy('control.waitingA'), true); setRun('waiting'); }
+      else if (s.ok) setRun('running');
     } catch (e) {}
     await sleep(1500);
   }
 }
 
+// STOP: its own little server on the robot (port in status.stopPort) answers even mid-run.
+async function stopRun() {
+  const b = $('stopBtn');
+  if (b.disabled || b.classList.contains('hidden')) return;
+  b.classList.remove('did-ok'); void b.offsetWidth; b.classList.add('did-ok');
+  try {
+    const r = await fetch('http://' + location.hostname + ':' + robot.stopPort + '/', { method: 'POST', body: $('pw').value });
+    if (r.status === 403) throw uiError('error.password');
+    runStopped = true; followId++;
+    msg('controlMsg', copy('control.stopped'), true); feed(copy('feed.stop'));
+    afterRestart('control.stoppedDone', true);
+  } catch (e) { msg('controlMsg', th(e), false); }
+}
+$('stopBtn').onclick = stopRun;
+document.addEventListener('keydown', ev => {
+  if (ev.key === 'Escape' && !$('panelControl').classList.contains('hidden') && !document.querySelector('dialog[open]')) stopRun();
+});
+$('runViewBtn').onclick = () => { showPanel('panelRuns', true); $('logPtBtn').click(); };
+
 $('padA').onclick = () => run('controlMsg', async () => {
   await ok(link.cmd({ cmd: 'press', button: 'A' }));
+  feed(copy('feed.a'));
   return copy('control.aSent');
 });
 $('padB').onclick = async () => {
@@ -2466,12 +2881,17 @@ $('padB').onclick = async () => {
   live = false;
   try { await ok(link.cmd({ cmd: 'press', button: 'B' })); } catch (e) { msg('controlMsg', th(e), false); return; }
   msg('controlMsg', copy('control.started'), true);
+  runStarted = Date.now(); runStopped = false; setRun('running');
+  $('runFeed').textContent = ''; $('runNow').textContent = ''; feed(copy('feed.b'));
+  if (robot.program !== undefined) feed(robot.program ? copy('prog.usesWeb', robot.program) : copy('prog.usesManual'));
+  if (robot.stopPort) followRun();
   watchRun();
 };
 $('padReset').onclick = async () => {
   if (!await askFirst('RESET', 'restart.confirm')) return;
   link.cmd({ cmd: 'reboot' }).catch(() => {});
-  msg('controlMsg', copy('control.resetDone'), true);
+  msg('controlMsg', copy('control.resetDone'), true); followId++; feed(copy('feed.reset'));
+  afterRestart('control.restarted');
 };
 // Buttons on the board picture: a short press flash, then the same action as the plain buttons.
 for (const [hot, pad] of [['hotA', 'padA'], ['hotB', 'padB'], ['hotReset', 'padReset']]) {
@@ -2483,9 +2903,35 @@ for (const [hot, pad] of [['hotA', 'padA'], ['hotB', 'padB'], ['hotReset', 'padR
 }
 
 async function run(msgId, fn) {
-  try { msg(msgId, copy('action.working')); const r = await fn(); msg(msgId, r, r && r.neutral ? undefined : true); }
-  catch (e) { msg(msgId, th(e), false); }
+  const b = pressedButton();
+  if (b) b.classList.add('busy');
+  try { msg(msgId, copy('action.working')); const r = await fn(); msg(msgId, r, r && r.neutral ? undefined : true); react(b, 'did-ok'); }
+  catch (e) { msg(msgId, th(e), false); react(b, 'did-bad'); }
+  finally { if (b) b.classList.remove('busy'); }
 }
+
+// Buttons react like buttons: a ripple from where they were pressed; run() adds busy / done / failed.
+let lastPress = { button: null, time: 0 };
+function pressedButton() {
+  const a = document.activeElement;
+  if (Date.now() - lastPress.time < 1000) return lastPress.button;
+  return a && a.tagName === 'BUTTON' ? a : null;
+}
+function react(b, cls) {
+  if (!b) return;
+  b.classList.remove('did-ok', 'did-bad'); void b.offsetWidth; b.classList.add(cls);
+  setTimeout(() => b.classList.remove(cls), 700);
+}
+document.addEventListener('pointerdown', ev => {
+  const b = ev.target.closest('button');
+  if (!b || b.disabled) return;
+  lastPress = { button: b, time: Date.now() };
+  const r = b.getBoundingClientRect(), size = Math.max(r.width, r.height) * 2, dot = document.createElement('span');
+  dot.className = 'ripple';
+  dot.style.cssText = 'width:' + size + 'px;height:' + size + 'px;left:' + (ev.clientX - r.left - size / 2) + 'px;top:' + (ev.clientY - r.top - size / 2) + 'px';
+  b.append(dot);
+  setTimeout(() => dot.remove(), 600);
+});
 
 // The PTBOT Studio tag in a firmware file: "PTLINK-FW|board=<id>|v=<version>|". null = not PTBOT Studio.
 function firmwareTag(bytes) {
@@ -2765,7 +3211,7 @@ $('newVersion').onclick = () => {
 // a restart...). Paused while the tab is hidden, during a firmware update and while a check is pending
 // (a running robot does not answer until the run ends).
 const AUTO_REFRESH_MS = 5000;
-const STATUS_KEYS = ['fw', 'partition', 'otaPending', 'mode', 'bench', 'wifiOn', 'network', 'networkIp', 'networks', 'running'];
+const STATUS_KEYS = ['fw', 'partition', 'otaPending', 'mode', 'bench', 'wifiOn', 'network', 'networkIp', 'networks', 'running', 'program', 'fanUs'];
 let autoChecking = false;
 setInterval(async () => {
   if (autoChecking || document.hidden || !link || !robot || $('app').classList.contains('hidden') || $('fwBtn').disabled) return;
