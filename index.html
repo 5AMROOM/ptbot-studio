@@ -5,19 +5,20 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>PTBOT Studio</title>
 <script>try{const t=localStorage.getItem('ptlink.theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}</script>
-<meta name="theme-color" content="#e4572e">
+<meta name="theme-color" content="#101214">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" href="icon-192.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23111316'/%3E%3Cpath fill='%23f1f2f4' transform='translate(4 4) scale(.75)' fill-rule='evenodd' d='M5 10h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V12a2 2 0 0 1 2-2Zm21 0h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2V12a2 2 0 0 1 2-2ZM12 5h8l3 4v18H9V9Zm3 5v4h-3v8h3v5h3v-7h-3v-4h3v-6Z'/%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png" sizes="180x180">
 <style>
 @font-face{font-family:"Anuphan";font-style:normal;font-weight:400;font-display:swap;src:url('fonts/anuphan-400.woff2') format('woff2')}
 @font-face{font-family:"Anuphan";font-style:normal;font-weight:600;font-display:swap;src:url('fonts/anuphan-600.woff2') format('woff2')}
 
-:root{color-scheme:dark;--bg:#101214;--card:#191c20;--input:#111417;--fg:#f1f2f4;--muted:#a4abb5;--line:#343a43;--accent:#ff7043;--accent-fg:#17120f;--ok:#72d4a2;--bad:#ff9393;--warn:#e6c47d;--soft:#21252b;--s1:#72aeff;--s2:#df94df;--s3:#71cdb2;--out:#e6c47d;--grid:#2c323a;--axis:#6e7785;--radius:16px}
+:root{color-scheme:dark;--bg:#101214;--card:#191c20;--input:#111417;--fg:#f1f2f4;--muted:#a4abb5;--line:#343a43;--accent:#f1f2f4;--accent-fg:#101214;--ok:#72d4a2;--bad:#ff9393;--warn:#e6c47d;--soft:#21252b;--s1:#72aeff;--s2:#df94df;--s3:#71cdb2;--out:#e6c47d;--grid:#2c323a;--axis:#6e7785;--radius:18px;--accent-ink:#f1f2f4;--line-strong:#565d67;--hero-tint:#1e2126;--card-shadow:0 3px 18px rgba(0,0,0,.09);--tab-shadow:0 1px 4px rgba(0,0,0,.25);--warn-bg:#27251f;--warn-line:#625639;--button-halo:#fff;--pressed-fill:rgba(255,255,255,.3);--backdrop:rgba(0,0,0,.6);--ok-soft:rgba(114,212,162,.12);--attention-glow:rgba(241,242,244,.18);--attention-ring:rgba(241,242,244,.45);--qr-bg:#fff;--qr-fg:#000;--disabled-bg:#21252b;--disabled-fg:#a4abb5;}
 
-@media(prefers-color-scheme:light){:root:not([data-theme=dark]){color-scheme:light;--bg:#f3f4f6;--card:#fff;--input:#f8f9fb;--fg:#20252c;--muted:#586473;--line:#d6dbe2;--accent:#e4572e;--accent-fg:#17120f;--ok:#16774d;--bad:#b22d36;--warn:#89620d;--soft:#edf0f4;--s1:#2364b4;--s2:#954597;--s3:#187458;--out:#bd8a2f;--grid:#e1e5ea;--axis:#84909d}
+@media(prefers-color-scheme:light){:root:not([data-theme=dark]){color-scheme:light;--bg:#f3f4f6;--card:#fff;--input:#f8f9fb;--fg:#20252c;--muted:#586473;--line:#d6dbe2;--accent:#20252c;--accent-fg:#fff;--ok:#146b44;--bad:#a52d38;--warn:#785609;--soft:#edf0f4;--s1:#2364b4;--s2:#954597;--s3:#187458;--out:#bd8a2f;--grid:#e1e5ea;--axis:#84909d;--radius:18px;--accent-ink:#20252c;--line-strong:#9aa2ad;--hero-tint:#f1f2f4;--card-shadow:0 3px 18px rgba(0,0,0,.04);--tab-shadow:0 1px 5px rgba(0,0,0,.09);--warn-bg:#fff8e9;--warn-line:#dbcba3;--button-halo:#fff;--pressed-fill:rgba(255,255,255,.3);--backdrop:rgba(0,0,0,.45);--ok-soft:rgba(20,107,68,.08);--attention-glow:rgba(32,37,44,.12);--attention-ring:rgba(32,37,44,.35);--qr-bg:#fff;--qr-fg:#000;--disabled-bg:#edf0f4;--disabled-fg:#586473;}
 }
-:root[data-theme=light]{color-scheme:light;--bg:#f3f4f6;--card:#fff;--input:#f8f9fb;--fg:#20252c;--muted:#586473;--line:#d6dbe2;--accent:#e4572e;--accent-fg:#17120f;--ok:#16774d;--bad:#b22d36;--warn:#89620d;--soft:#edf0f4;--s1:#2364b4;--s2:#954597;--s3:#187458;--out:#bd8a2f;--grid:#e1e5ea;--axis:#84909d}
-:root[data-theme=dark]{color-scheme:dark;--bg:#101214;--card:#191c20;--input:#111417;--fg:#f1f2f4;--muted:#a4abb5;--line:#343a43;--accent:#ff7043;--accent-fg:#17120f;--ok:#72d4a2;--bad:#ff9393;--warn:#e6c47d;--soft:#21252b;--s1:#72aeff;--s2:#df94df;--s3:#71cdb2;--out:#e6c47d;--grid:#2c323a;--axis:#6e7785;--radius:16px}
+:root[data-theme=light]{color-scheme:light;--bg:#f3f4f6;--card:#fff;--input:#f8f9fb;--fg:#20252c;--muted:#586473;--line:#d6dbe2;--accent:#20252c;--accent-fg:#fff;--ok:#146b44;--bad:#a52d38;--warn:#785609;--soft:#edf0f4;--s1:#2364b4;--s2:#954597;--s3:#187458;--out:#bd8a2f;--grid:#e1e5ea;--axis:#84909d;--radius:18px;--accent-ink:#20252c;--line-strong:#9aa2ad;--hero-tint:#f1f2f4;--card-shadow:0 3px 18px rgba(0,0,0,.04);--tab-shadow:0 1px 5px rgba(0,0,0,.09);--warn-bg:#fff8e9;--warn-line:#dbcba3;--button-halo:#fff;--pressed-fill:rgba(255,255,255,.3);--backdrop:rgba(0,0,0,.45);--ok-soft:rgba(20,107,68,.08);--attention-glow:rgba(32,37,44,.12);--attention-ring:rgba(32,37,44,.35);--qr-bg:#fff;--qr-fg:#000;--disabled-bg:#edf0f4;--disabled-fg:#586473;}
+:root[data-theme=dark]{color-scheme:dark;--bg:#101214;--card:#191c20;--input:#111417;--fg:#f1f2f4;--muted:#a4abb5;--line:#343a43;--accent:#f1f2f4;--accent-fg:#101214;--ok:#72d4a2;--bad:#ff9393;--warn:#e6c47d;--soft:#21252b;--s1:#72aeff;--s2:#df94df;--s3:#71cdb2;--out:#e6c47d;--grid:#2c323a;--axis:#6e7785;--radius:18px;--accent-ink:#f1f2f4;--line-strong:#565d67;--hero-tint:#1e2126;--card-shadow:0 3px 18px rgba(0,0,0,.09);--tab-shadow:0 1px 4px rgba(0,0,0,.25);--warn-bg:#27251f;--warn-line:#625639;--button-halo:#fff;--pressed-fill:rgba(255,255,255,.3);--backdrop:rgba(0,0,0,.6);--ok-soft:rgba(114,212,162,.12);--attention-glow:rgba(241,242,244,.18);--attention-ring:rgba(241,242,244,.45);--qr-bg:#fff;--qr-fg:#000;--disabled-bg:#21252b;--disabled-fg:#a4abb5;}
 
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.7 "Anuphan",system-ui,-apple-system,"Segoe UI","Leelawadee UI","Sukhumvit Set","Noto Sans Thai",sans-serif;font-variant-numeric:tabular-nums}
@@ -45,12 +46,12 @@ button.pad-reset .pad-key{font-size:18px;color:var(--bad)}
 .board-wrap img{width:100%;height:auto;display:block}
 button.hot{position:absolute;width:17%;aspect-ratio:1;min-height:0;padding:0;transform:translate(-50%,-50%);border-radius:50%;background:transparent;border:3px solid transparent}
 button.hot:hover,button.hot:focus-visible{border-color:var(--accent);outline:none}
-button.hot.pressed{background:rgba(255,112,67,.4);border-color:var(--accent)}
+button.hot.pressed{background:var(--pressed-fill);border-color:var(--accent)}
 button.hot:disabled{opacity:1;cursor:not-allowed}
 button.hot:disabled:hover{border-color:transparent}
 .board-wrap.locked img{opacity:.45;filter:grayscale(1)}
 dialog.ask{border:1px solid var(--line);border-radius:16px;background:var(--card);color:var(--fg);padding:24px;width:min(420px,calc(100vw - 32px))}
-dialog.ask::backdrop{background:rgba(0,0,0,.55)}
+dialog.ask::backdrop{background:var(--backdrop)}
 #askText{white-space:pre-line;margin:0 0 18px;line-height:1.7}
 .ask-skip{display:flex;gap:10px;align-items:center;font-size:13px;margin-bottom:20px;cursor:pointer}
 .ask-skip input{min-height:0;width:18px;height:18px;padding:0;margin:0;accent-color:var(--accent)}
@@ -62,11 +63,11 @@ button.reveal[aria-pressed=true]{color:var(--accent)}
 button.reveal svg{width:20px;height:20px}
 #accessInfo a{color:var(--fg);text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
 button.icon-btn{width:40px;padding:0}
-.tag{display:inline-flex;align-items:center;font-size:11px;font-weight:600;line-height:1;padding:4px 8px;border-radius:999px;color:var(--ok);background:rgba(114,212,162,.14);vertical-align:middle}
+.tag{display:inline-flex;align-items:center;font-size:11px;font-weight:600;line-height:1;padding:4px 8px;border-radius:999px;color:var(--ok);background:var(--ok-soft);vertical-align:middle}
 .latest-row{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
 #fwStatus progress{width:100%;margin-top:16px}
-@keyframes attention{50%{box-shadow:0 0 0 8px rgba(255,112,67,.25)}}
-button.attention{box-shadow:0 0 0 3px rgba(255,112,67,.45);animation:attention .8s ease-in-out 3}
+@keyframes attention{50%{box-shadow:0 0 0 8px var(--attention-glow)}}
+button.attention{box-shadow:0 0 0 3px var(--attention-ring);animation:attention .8s ease-in-out 3}
 .msg-row{display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px;margin-top:12px}
 .msg-row .msg{margin-top:0}
 button.inline-action{min-height:32px;padding:4px 10px;font-size:13px;gap:6px;border-color:transparent;color:var(--accent)}
@@ -84,9 +85,9 @@ button.switch{background:transparent;color:var(--fg);border-color:var(--line);ga
 .switch-track{position:relative;flex:none;width:40px;height:22px;border-radius:11px;background:var(--line);transition:background .15s}
 .switch-thumb{position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:var(--fg);transition:transform .15s}
 .switch-state{min-width:2.2em;text-align:left;font-size:12px;letter-spacing:.04em;color:var(--muted)}
-button.switch[aria-checked=true] .switch-track{background:var(--ok)}
+button.switch[aria-checked=true] .switch-track{background:var(--fg)}
 button.switch[aria-checked=true] .switch-thumb{transform:translateX(18px);background:var(--bg)}
-button.switch[aria-checked=true] .switch-state{color:var(--ok)}
+button.switch[aria-checked=true] .switch-state{color:var(--fg)}
 button svg{width:18px;height:18px;flex:none}
 svg{fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 input,select{display:block;width:100%}
@@ -145,7 +146,7 @@ summary::-webkit-details-marker{display:none}
 details>p{margin-top:16px}
 .msg{font-size:13px;line-height:1.65;margin-top:12px;white-space:pre-line;overflow-wrap:anywhere;min-height:0}
 .msg:empty{display:none}
-.msg.ok{color:var(--ok)}
+.msg.ok{color:var(--fg)}
 .msg.bad{color:var(--bad)}
 .msg.pending{color:var(--warn)}
 .notice{border:1px solid var(--line);background:var(--soft);border-radius:12px;padding:16px 20px;margin-bottom:20px;font-size:13px}
@@ -169,7 +170,7 @@ details>p{margin-top:16px}
 .stat strong{display:block;font-size:16px;font-weight:600;margin-top:4px;overflow-wrap:anywhere}
 .badge{display:inline-flex;font-size:11px;padding:3px 8px;border:1px solid var(--line);border-radius:6px;color:var(--ok);margin-top:8px}
 button.badge-action{min-height:0;padding:5px 10px;font-size:12px;font-weight:600;background:transparent;border-color:var(--ok);color:var(--ok);gap:6px}
-button.badge-action:hover{background:rgba(114,212,162,.12)}
+button.badge-action:hover{background:var(--ok-soft)}
 .tabs{display:flex;gap:8px;border-bottom:1px solid var(--line);margin:28px 0 24px}
 .tabs button{background:none;color:var(--muted);border:0;border-radius:0;min-height:52px;padding:12px 20px;font-size:14px;border-bottom:2px solid transparent}
 .tabs button[aria-selected=true]{color:var(--fg);border-bottom-color:var(--accent)}
@@ -198,12 +199,12 @@ dd{white-space:pre-line;margin:0;overflow-wrap:anywhere}
 .bars{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px;height:160px;align-items:end;margin-top:32px}
 .bar{position:relative;height:100%;background:var(--input);border:1px solid var(--line);border-radius:6px;overflow:hidden}
 .bar i{position:absolute;left:0;right:0;bottom:0;background:var(--muted);opacity:.45;transition:height 70ms linear}
-.bar.on i{background:var(--s1);opacity:1}
+.bar.on i{background:var(--fg);opacity:1}
 .idx{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px;text-align:center;font-size:10px;color:var(--muted);margin-top:8px}
 .sensor-sides{display:flex;justify-content:space-between;margin-top:8px}
 .track{position:relative;height:24px;background:var(--input);border:1px solid var(--line);border-radius:8px;margin-top:24px}
 .track:before{content:"";position:absolute;left:50%;top:3px;bottom:3px;border-left:1px dashed var(--muted)}
-.marker{position:absolute;top:5px;width:12px;height:12px;border-radius:50%;background:var(--s1);transform:translateX(-50%);left:50%;transition:left 70ms linear}
+.marker{position:absolute;top:5px;width:12px;height:12px;border-radius:50%;background:var(--s1);transform:translateX(-50%);left:50%;transition:left 70ms linear;background:var(--fg)}
 .marker.out{background:var(--bad)}
 #posText{margin:12px 0 0;white-space:pre-line}
 .advanced{margin-top:24px;border-top:1px solid var(--line);padding-top:12px}
@@ -231,7 +232,7 @@ pre{background:var(--input);border:1px solid var(--line);border-radius:10px;padd
 .sr-only{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 @keyframes pulse{50%{opacity:.35}
 }
-@media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}.switch-track,.switch-thumb,.bar i,.marker{transition:none}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;scroll-behavior:auto!important}.switch-track,.switch-thumb,.bar i,.marker{transition:none}
 }
 @media(max-width:760px){.shell{padding-left:20px;padding-right:20px}
 .welcome{padding:28px;grid-template-columns:1fr;gap:32px;min-height:0}
@@ -289,6 +290,207 @@ header{min-height:80px;gap:12px;flex-wrap:wrap;padding-top:16px;padding-bottom:1
 }
 
 
+
+.topbar{background:var(--bg)}
+header{min-height:96px;gap:32px}
+.brand{gap:14px;min-width:0}
+.brand-mark{width:44px;height:44px;flex:none;border:0;border-radius:0;color:var(--fg)}
+.brand-mark svg{display:block;width:100%;height:100%;fill:currentColor;stroke:none}
+.brand-name{display:block;font-size:22px;letter-spacing:-.35px;line-height:1.3}
+.brand small{font-size:10px;letter-spacing:.9px;margin-top:3px;color:var(--muted)}
+.head-right{gap:12px;flex-wrap:nowrap}
+.pill{padding:6px 10px;border:1px solid var(--line);border-radius:999px;line-height:1.6;font-size:12px;white-space:nowrap;background:var(--input)}
+.pill.on{border-color:var(--line-strong)}
+.pill:before{width:7px;height:7px}
+.language{padding:3px;border-radius:12px;background:var(--input)}
+.language button{min-height:36px;padding:4px 10px;font-size:12px;border-radius:8px}
+.language button[aria-pressed=true]{background:var(--card);box-shadow:var(--tab-shadow)}
+button.theme-btn{width:44px;min-height:44px;border-radius:12px;background:var(--input)}
+.install{min-height:44px;border-radius:12px}
+.card{padding:32px;margin-bottom:24px;box-shadow:var(--card-shadow)}
+.welcome{position:relative;padding:48px;gap:48px;min-height:420px;background:linear-gradient(120deg,var(--card) 48%,var(--hero-tint))}
+.welcome:before{content:"";position:absolute;left:0;top:48px;height:56px;width:3px;background:var(--fg);border-radius:0 2px 2px 0}
+.welcome .eyebrow{color:var(--muted)}
+.welcome h1{font-size:clamp(30px,3.2vw,40px);line-height:1.45;max-width:480px;margin-bottom:16px}
+.welcome-copy>p{max-width:440px}
+.welcome .primary{min-height:52px;padding:12px 24px;margin:8px 0 12px}
+.steps{gap:12px}
+.steps li{border:1px solid var(--line);border-radius:12px;background:var(--input);padding:16px 16px 16px 54px}
+.steps li:before{left:16px;top:17px;border:0;padding:0;color:var(--fg);font-weight:600;font-size:13px}
+.steps small{line-height:1.7;margin-top:3px}
+.welcome-note{padding:0 2px}
+.eyebrow{margin-bottom:6px;line-height:1.7}
+.panel-head{gap:24px;margin-bottom:24px}
+.panel-head h2{font-size:24px}
+.panel-head p{max-width:660px}
+.notice{padding:18px 20px;border-radius:12px;line-height:1.7}
+.notice.warn{background:var(--warn-bg);border-color:var(--warn-line);border-left:3px solid var(--warn)}
+.onboarding{background:var(--input);border-left:3px solid var(--line-strong)}
+.onboarding ol{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 28px;line-height:1.8}
+.onboarding button{min-height:36px;border-radius:8px}
+.robot-heading{gap:16px;min-width:0}
+.robot-icon{background:var(--input);border-radius:14px;color:var(--muted)}
+.robot-heading h2{font-size:26px;margin:2px 0 4px;line-height:1.4}
+.robot-actions button{min-height:44px;border-radius:10px}
+.stats{padding-top:24px;margin-top:24px;gap:24px}
+.stat strong{font-size:17px;line-height:1.6;font-weight:600}
+.stat small{font-size:12px;line-height:1.7}
+.badge{border-radius:8px;padding:5px 10px;background:var(--ok-soft)}
+button.badge-action{padding:7px 10px;line-height:1.5;background:var(--ok-soft)}
+.status-details{margin-top:24px;padding-top:12px}
+.tabs{padding:5px;gap:6px;border:1px solid var(--line);border-radius:14px;background:var(--input);margin:32px 0 24px;min-width:0}
+.tabs button{border:0;border-radius:9px;min-height:44px;padding:10px 18px;white-space:nowrap;font-weight:600}
+.tabs button[aria-selected=true]{background:var(--card);box-shadow:var(--tab-shadow);color:var(--fg)}
+.tabs button:focus-visible{outline-offset:0}
+button.ghost:hover,button.theme-btn:hover{background:var(--soft);border-color:var(--line-strong)}
+button:disabled{opacity:1;color:var(--disabled-fg);background:var(--disabled-bg);border-color:var(--line)}
+button.hot:disabled{background:transparent;border-color:transparent;box-shadow:none}
+button.reveal{border-radius:8px}
+button.reveal[aria-pressed=true],button.inline-action{color:var(--accent-ink)}
+button.reveal:hover{background:var(--soft);color:var(--fg)}
+input:hover,select:hover{border-color:var(--line-strong)}
+.empty{min-height:220px;padding:36px 24px;border-style:solid;border-color:var(--line);background:var(--input);border-radius:14px}
+.empty svg{width:52px;height:52px;margin-bottom:16px;color:var(--muted);stroke-width:1.6}
+.empty strong{font-size:16px;color:var(--fg)}
+.empty p{max-width:460px;line-height:1.8}
+#logInfo{padding:24px;gap:12px 28px;line-height:1.7}
+.chart{margin-top:32px}
+.chart h3{font-size:13px;font-weight:600}
+.legend{gap:10px 24px;line-height:1.7;font-size:12px;margin:20px 0}
+.legend span:before{width:16px}
+.section-actions{gap:10px;margin-top:24px}
+.fine{line-height:1.8}
+.bars{margin-top:28px}
+.bar{border-radius:7px 7px 3px 3px}
+.idx{font-size:11px;margin-top:10px}
+.track{height:26px;border-radius:8px}
+.marker{top:6px}
+.control-layout{gap:32px;margin:32px 0 20px}
+.board-wrap{margin:12px;box-shadow:0 0 0 10px var(--input),0 0 0 11px var(--line)}
+button.hot:not(:disabled){border:2px solid var(--button-halo)}
+button.hot:hover,button.hot:focus-visible{border:3px solid var(--button-halo);box-shadow:0 0 0 4px var(--pressed-fill);outline:none}
+button.hot.pressed{background:var(--pressed-fill);border:3px solid var(--button-halo);box-shadow:0 0 0 4px var(--pressed-fill)}
+.control-pad{gap:12px}
+button.pad{min-height:112px;border-radius:14px}
+.pad-key{font-size:30px}
+button.pad-reset .pad-key{font-size:16px}
+button.switch{border-radius:12px;padding:10px 14px 10px 16px;min-height:48px}
+.switch-state{letter-spacing:.04em;font-size:12px}
+.switch-track{background:var(--line-strong)}
+.tag{padding:6px 10px;background:var(--ok-soft);font-size:12px;line-height:1.4}
+#latestBox{padding:20px 24px;border:1px solid var(--line);border-radius:14px;background:var(--input)}
+#latestInfo{margin:0 0 16px}
+#latestBox .fine{margin:12px 0 0}
+.file-update{padding-top:20px}
+.qr{background:var(--qr-bg);stroke:none}
+.qr-item{padding:12px;background:var(--qr-bg);border:1px solid var(--line);border-radius:12px;color:var(--qr-fg)}
+.qr-item figcaption{line-height:1.6}
+.net{padding:16px 0}
+.advanced{padding-top:16px;margin-top:28px}
+summary{min-height:48px}
+.footer{font-size:12px;line-height:1.7;padding-top:24px;margin-top:24px}
+dialog.ask{box-shadow:var(--card-shadow);border-radius:var(--radius)}
+@media(max-width:760px){
+header{gap:20px}
+.welcome{padding:32px;grid-template-columns:1fr;gap:32px;min-height:0}
+.welcome:before{top:32px;height:48px}
+.card{padding:26px}
+.panel-head h2{font-size:22px}
+.stats{gap:16px}
+.robot-heading h2{font-size:24px}
+.tabs{overflow-x:auto;scrollbar-width:none}
+.tabs button{flex:0 0 auto;padding:10px 14px}
+.onboarding ol{grid-template-columns:1fr;gap:4px}
+.control-layout{gap:24px}
+}
+@media(max-width:460px){
+header.shell{display:grid;grid-template-columns:minmax(0,1fr) 40px auto;min-height:0;column-gap:10px;row-gap:12px;padding-top:20px;padding-bottom:16px}
+.brand{grid-column:1;grid-row:1;gap:10px}
+.brand-mark{width:36px;height:36px}
+.brand-name{font-size:18px;letter-spacing:-.3px}
+.brand small{font-size:9px;letter-spacing:.6px;margin-top:2px}
+.head-right{display:contents}
+.pill{grid-column:1;grid-row:2;justify-self:start;font-size:11px;max-width:100%;padding:5px 9px}
+button.theme-btn{grid-column:2;grid-row:1;width:40px;min-height:40px;border-radius:10px}
+.language{grid-column:3;grid-row:1;border-radius:10px;padding:2px}
+.language button{min-height:34px;padding:3px 8px;font-size:11px}
+.install{grid-column:2/4;grid-row:2;justify-self:end;min-height:34px;font-size:11px;padding:5px 9px;border-radius:9px}
+main{padding-top:24px!important;padding-bottom:28px!important}
+.card{padding:22px 20px;border-radius:16px;margin-bottom:20px}
+.welcome{padding:28px 24px;gap:28px}
+.welcome h1{font-size:30px;line-height:1.5}
+.welcome:before{top:28px;height:48px}
+.welcome .primary{width:100%}
+.steps li{padding:14px 12px 14px 46px}
+.steps li:before{left:14px;top:16px}
+.steps small{font-size:12px}
+.notice{padding:16px;line-height:1.8}
+.onboarding{display:block}
+.onboarding button{margin-top:12px}
+.robot-heading h2{font-size:22px}
+.robot-actions{margin-left:0;width:100%;justify-content:flex-end}
+.robot-actions button.icon-btn{flex:0 0 44px}
+.stats{grid-template-columns:1fr;gap:14px;padding-top:20px;margin-top:20px}
+.stat{gap:16px}
+.stat strong{font-size:14px;margin-top:0;max-width:65%;text-align:right}
+.tabs{margin-top:24px;padding:4px;gap:4px;border-radius:12px}
+.tabs button{min-height:42px;font-size:13px;padding:9px 14px;border-radius:8px}
+.panel-head{gap:16px;margin-bottom:20px}
+.panel-head h2{font-size:22px}
+.empty{min-height:210px;padding:28px 16px}
+#logInfo{padding:16px;gap:10px 14px;font-size:12px}
+.legend{font-size:11px;gap:8px 16px}
+.section-actions{gap:8px;margin-top:20px}
+.board-wrap{margin:12px}
+#latestBox{padding:16px}
+.latest-row{gap:12px}
+.footer{font-size:11px;gap:8px;line-height:1.8}
+.qr-row{gap:16px}
+.qr-item{max-width:100%}
+}
+.chart-tools{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.range-pick{display:flex;gap:2px;border:1px solid var(--line);border-radius:12px;padding:3px;background:var(--input)}
+.range-pick button{min-height:36px;padding:4px 12px;border:0;border-radius:8px;background:transparent;color:var(--muted);font-size:12px}
+.range-pick button[aria-pressed=true]{background:var(--card);color:var(--fg);box-shadow:var(--tab-shadow)}
+button[aria-pressed=true]#chartYBtn{border-color:var(--fg);color:var(--fg)}
+#chartPan{width:100%;margin:0 0 16px;accent-color:var(--fg)}
+.motor-pair{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:28px}
+.legend .dash:before{background:repeating-linear-gradient(90deg,var(--c) 0 5px,transparent 5px 8px)}
+@media(max-width:760px){.motor-pair{grid-template-columns:1fr}}
+.control-layout{grid-template-columns:minmax(0,600px) minmax(0,1fr)}
+.board-wrap{margin:0;border-radius:0;overflow:visible;box-shadow:none}
+.board-wrap.locked{grid-column:1/-1;justify-self:center;width:min(100%,600px)}
+.board-wrap.locked img{opacity:.55;filter:none}
+button.hot{width:7%}
+@media(max-width:900px){.control-layout{grid-template-columns:1fr}}
+.serial-bar{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-bottom:16px}
+.serial-bar .grow,.serial-quick .grow{flex:1}
+#log{min-height:320px;max-height:60vh;margin:0}
+.serial-send{display:flex;gap:12px;margin-top:16px}
+.serial-send input{flex:1;min-width:0;font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+.serial-quick{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:12px}
+.serial-quick button[data-serial]{min-height:32px;padding:4px 10px;font:12px ui-monospace,SFMono-Regular,Consolas,monospace}
+#logFormatBtn{margin-top:12px}
+.pw-field.secret{max-width:280px}
+#accessInfo{align-items:center}
+.pw-field.secret input{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+.net{flex-wrap:wrap}
+.net-name{flex:1 1 160px}
+.net .pw-field.secret{flex:0 1 240px}
+.net-actions{display:flex;gap:8px;flex:none}
+.eye-lid{transform-box:fill-box;transform-origin:center}
+.eye-pupil{transform-box:fill-box;transform-origin:center;transform:scale(.55);transition:transform .32s cubic-bezier(.34,1.56,.64,1)}
+.eye-slash{stroke-dasharray:23;stroke-dashoffset:0;transition:stroke-dashoffset .3s ease}
+button.reveal svg{transition:transform .2s ease}
+button.reveal:hover svg{transform:scale(1.1)}
+button.reveal:active svg{transform:scale(.9)}
+button.reveal[aria-pressed=true] .eye-pupil{transform:scale(1)}
+button.reveal[aria-pressed=true] .eye-slash{stroke-dashoffset:23}
+button.reveal.touched[aria-pressed=true] .eye-lid{animation:eye-blink-a .34s ease}
+button.reveal.touched[aria-pressed=false] .eye-lid{animation:eye-blink-b .34s ease}
+@keyframes eye-blink-a{40%{transform:scaleY(.1)}}
+@keyframes eye-blink-b{40%{transform:scaleY(.1)}}
+@media(prefers-reduced-motion:reduce){.eye-pupil,.eye-slash,button.reveal svg{transition:none}}
 </style>
 </head>
 <body>
@@ -296,7 +498,7 @@ header{min-height:80px;gap:12px;flex-wrap:wrap;padding-top:16px;padding-bottom:1
 <div class="topbar">
 <header class="shell">
   <a href="#" class="brand" aria-label="PTBOT Studio by PT ROBOTICS">
-<span class="brand-mark">PT</span>
+<span class="brand-mark"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path fill="currentColor" fill-rule="evenodd" d="M5 10h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V12a2 2 0 0 1 2-2Zm21 0h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2V12a2 2 0 0 1 2-2ZM12 5h8l3 4v18H9V9Zm3 5v4h-3v8h3v5h3v-7h-3v-4h3v-6Z"/></svg></span>
 <span>
 <span class="brand-name">PTBOT Studio</span>
 <small>by PT ROBOTICS</small>
@@ -359,7 +561,7 @@ header{min-height:80px;gap:12px;flex-wrap:wrap;padding-top:16px;padding-bottom:1
 </div>
 <div>
 <label for="pw" data-i18n="factoryPassword"></label>
-<div class="pw-field"><input id="pw" type="password" autocomplete="current-password"><button type="button" class="reveal" data-for="pw" aria-pressed="false" data-i18n-aria="pw.show"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+<div class="pw-field"><input id="pw" type="password" autocomplete="current-password"><button type="button" class="reveal" data-for="pw" aria-pressed="false" data-i18n-aria="pw.show"><svg viewBox="0 0 24 24" aria-hidden="true"><g class="eye-lid"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle class="eye-pupil" cx="12" cy="12" r="3"/></g><path class="eye-slash" d="M4 4l16 16"/></svg></button></div>
 </div>
 </section>
   <section id="app" class="hidden">
@@ -426,7 +628,7 @@ header{min-height:80px;gap:12px;flex-wrap:wrap;padding-top:16px;padding-bottom:1
 <button id="tabControl" role="tab" aria-controls="panelControl" aria-selected="false" tabindex="-1" data-panel="panelControl" data-i18n="control"></button>
 <button id="tabUpdate" role="tab" aria-controls="panelUpdate" aria-selected="false" tabindex="-1" data-panel="panelUpdate" data-i18n="update"></button>
 <button id="tabWifi" class="hidden" role="tab" aria-controls="panelWifi" aria-selected="false" tabindex="-1" data-panel="panelWifi" data-i18n="wifi"></button>
-<button id="tabSettings" role="tab" aria-controls="panelSettings" aria-selected="false" tabindex="-1" data-panel="panelSettings" data-i18n="settings"></button>
+<button id="tabSerial" class="hidden" role="tab" aria-controls="panelSerial" aria-selected="false" tabindex="-1" data-panel="panelSerial">Serial Monitor</button>
 </nav>
     <section id="panelRuns" role="tabpanel" aria-labelledby="tabRuns" tabindex="0">
       <div class="card" id="logCardRun">
@@ -440,10 +642,9 @@ header{min-height:80px;gap:12px;flex-wrap:wrap;padding-top:16px;padding-bottom:1
 </div>
 <div class="msg" id="logMsg" role="status" aria-live="polite">
 </div>
+<button class="ghost hidden danger" id="logFormatBtn" data-i18n="formatLog"></button>
 <div id="runEmpty" class="empty">
-<svg viewBox="0 0 24 24" aria-hidden="true">
-<path d="M4 4v16h16M7 15l4-5 4 3 5-7"/>
-</svg>
+<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M10 8v46h46M18 42l10-16 12 7 14-17"/><path d="M18 12h4m6 0h4m6 0h4m6 0h4M14 54v4m18-4v4m18-4v4"/><circle cx="28" cy="26" r="3"/></svg>
 <strong data-i18n="runEmpty"></strong>
 <p class="muted" data-i18n="runEmptyHint"></p>
 </div>
@@ -451,16 +652,35 @@ header{min-height:80px;gap:12px;flex-wrap:wrap;padding-top:16px;padding-bottom:1
 <dl id="logInfo">
 </dl>
 <div class="chart" id="chartBox">
+<div class="chart-tools">
+<div class="range-pick" role="group" data-i18n-aria="chartRangeAria">
+<button data-win="0" aria-pressed="true" data-i18n="run.whole"></button>
+<button data-win="2000" aria-pressed="false">2 s</button>
+<button data-win="1000" aria-pressed="false">1 s</button>
+<button data-win="250" aria-pressed="false">0.25 s</button>
+</div>
+<button class="ghost" id="chartYBtn" aria-pressed="false" data-i18n="run.zoomY"></button>
+</div>
+<input type="range" id="chartPan" class="hidden" min="0" max="0" value="0" data-i18n-aria="chartPanAria">
 <h3 data-i18n="errorChart"></h3>
 <canvas id="chartErr" tabindex="0" role="img" data-i18n-aria="errorChartAria">
 </canvas>
-<h3 style="margin-top:28px" data-i18n="motorChart"></h3>
+<div class="motor-pair">
+<div>
+<h3 data-i18n="motorChart"></h3>
 <canvas id="chartMotor" tabindex="0" role="img" data-i18n-aria="motorChartAria">
 </canvas>
+</div>
+<div>
+<h3 data-i18n="motorChartR"></h3>
+<canvas id="chartMotorR" tabindex="0" role="img" data-i18n-aria="motorChartRAria">
+</canvas>
+</div>
+</div>
 <div class="legend">
 <span style="--c:var(--s1)" data-i18n="leftWheel"></span>
 <span style="--c:var(--s2)" data-i18n="rightWheel"></span>
-<span style="--c:var(--s3)" data-i18n="curveBase"></span>
+<span class="dash" style="--c:var(--s3)" data-i18n="curveBase"></span>
 <span class="band" style="--c:var(--out)" data-i18n="lineOutBand"></span>
 </div>
 <div class="tip hidden" id="tip">
@@ -553,10 +773,10 @@ header{min-height:80px;gap:12px;flex-wrap:wrap;padding-top:16px;padding-bottom:1
 <p class="notice warn hidden" id="controlNote" data-i18n="control.wifiOnly"></p>
 <div class="control-layout">
 <div class="board-wrap hidden" id="boardPad">
-<img id="boardImg" src="board-strom-mini.webp" width="395" height="365" alt="">
-<button class="hot" id="hotA" style="left:69.3%;top:56.3%" data-i18n-aria="control.aAria"></button>
-<button class="hot" id="hotB" style="left:69.1%;top:84.8%" data-i18n-aria="control.bAria"></button>
-<button class="hot" id="hotReset" style="left:89.4%;top:53.4%" data-i18n-aria="control.resetAria"></button>
+<img id="boardImg" src="board-strom-mini.webp" width="820" height="469" alt="">
+<button class="hot" id="hotA" style="left:88.8%;top:61.6%" data-i18n-aria="control.aAria"></button>
+<button class="hot" id="hotB" style="left:88.8%;top:78.6%" data-i18n-aria="control.bAria"></button>
+<button class="hot" id="hotReset" style="left:96.1%;top:59.3%" data-i18n-aria="control.resetAria"></button>
 </div>
 <div class="control-pad">
 <button class="pad" id="padA" data-i18n-aria="control.aAria"><span class="pad-key">A</span></button>
@@ -596,6 +816,7 @@ header{min-height:80px;gap:12px;flex-wrap:wrap;padding-top:16px;padding-bottom:1
 <p class="muted" data-i18n="homeWifiHint"></p>
 <div id="nets">
 </div>
+<p class="fine" data-i18n="net.order"></p>
 <div class="row fields">
 <div>
 <label for="netSsid" data-i18n="homeWifiName"></label>
@@ -603,7 +824,7 @@ header{min-height:80px;gap:12px;flex-wrap:wrap;padding-top:16px;padding-bottom:1
 </div>
 <div>
 <label for="netPass" data-i18n="networkPassword"></label>
-<div class="pw-field"><input id="netPass" type="password" maxlength="63" autocomplete="off"><button type="button" class="reveal" data-for="netPass" aria-pressed="false" data-i18n-aria="pw.show"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+<div class="pw-field"><input id="netPass" type="password" maxlength="63" autocomplete="off"><button type="button" class="reveal" data-for="netPass" aria-pressed="false" data-i18n-aria="pw.show"><svg viewBox="0 0 24 24" aria-hidden="true"><g class="eye-lid"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle class="eye-pupil" cx="12" cy="12" r="3"/></g><path class="eye-slash" d="M4 4l16 16"/></svg></button></div>
 </div>
 </div>
 <button class="ghost" id="netAddBtn" style="margin-top:16px" data-i18n="addNetwork"></button>
@@ -618,7 +839,7 @@ header{min-height:80px;gap:12px;flex-wrap:wrap;padding-top:16px;padding-bottom:1
 <h3 class="sub" data-i18n="pw.title"></h3>
 <p class="muted" data-i18n="pw.hint"></p>
 <label for="newPw" data-i18n="pw.new"></label>
-<div class="pw-field"><input id="newPw" type="password" maxlength="63" autocomplete="new-password"><button type="button" class="reveal" data-for="newPw" aria-pressed="false" data-i18n-aria="pw.show"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+<div class="pw-field"><input id="newPw" type="password" maxlength="63" autocomplete="new-password"><button type="button" class="reveal" data-for="newPw" aria-pressed="false" data-i18n-aria="pw.show"><svg viewBox="0 0 24 24" aria-hidden="true"><g class="eye-lid"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle class="eye-pupil" cx="12" cy="12" r="3"/></g><path class="eye-slash" d="M4 4l16 16"/></svg></button></div>
 <div class="section-actions">
 <button class="ghost" id="pwSaveBtn" data-i18n="pw.save"></button>
 <button class="ghost hidden" id="pwFactoryBtn" data-i18n="pw.factory"></button>
@@ -626,29 +847,38 @@ header{min-height:80px;gap:12px;flex-wrap:wrap;padding-top:16px;padding-bottom:1
 <div class="msg" id="pwMsg" role="status" aria-live="polite"></div>
 </section>
     </section>
-    <section id="panelSettings" class="hidden" role="tabpanel" aria-labelledby="tabSettings" tabindex="0">
+    <section id="panelSerial" class="hidden" role="tabpanel" aria-labelledby="tabSerial" tabindex="0">
 <div class="card">
-<h2 data-i18n="settings"></h2>
-<p class="muted" data-i18n="settingsHint"></p>
-<details class="advanced">
-<summary data-i18n="benchTitle"></summary>
-<p class="muted" data-i18n="benchSafety"></p>
-<button class="switch" id="benchBtn" role="switch" aria-checked="false"><span data-i18n="benchSwitch"></span><span class="switch-track" aria-hidden="true"><span class="switch-thumb"></span></span><span class="switch-state" aria-hidden="true">OFF</span></button>
-</details>
-<details class="advanced">
-<summary data-i18n="storageMaintenance"></summary>
-<p class="muted" data-i18n="storageWarning"></p>
-<button class="ghost hidden danger" id="logFormatBtn" data-i18n="formatLog"></button>
-<p id="storageHelp" class="fine" data-i18n="storageHelp"></p>
-<button class="ghost" id="rebootBtn" data-i18n="reboot"></button>
-</details>
+<div class="panel-head">
+<div>
+<h2>Serial Monitor</h2>
+<p class="muted" data-i18n="serial.hint"></p>
 </div>
-      <details class="card hidden" id="logCard">
-<summary data-i18n="robotMessages"></summary>
-<p class="fine" data-i18n="robotMessagesHint"></p>
-<pre id="log" tabindex="0">
-</pre>
-</details>
+</div>
+<div class="serial-bar">
+<button class="switch" id="serialScroll" role="switch" aria-checked="true"><span data-i18n="serial.autoscroll"></span><span class="switch-track" aria-hidden="true"><span class="switch-thumb"></span></span><span class="switch-state" aria-hidden="true">ON</span></button>
+<button class="switch" id="serialTime" role="switch" aria-checked="false"><span data-i18n="serial.time"></span><span class="switch-track" aria-hidden="true"><span class="switch-thumb"></span></span><span class="switch-state" aria-hidden="true">OFF</span></button>
+<span class="grow"></span>
+<button class="ghost" id="serialCopy" data-i18n="serial.copy"></button>
+<button class="ghost" id="serialSave" data-i18n="serial.save"></button>
+<button class="ghost" id="serialClear" data-i18n="serial.clear"></button>
+</div>
+<pre id="log" tabindex="0"></pre>
+<form class="serial-send" id="serialForm">
+<input id="serialInput" autocomplete="off" spellcheck="false" placeholder="status, sensors, wifi on ..." data-i18n-aria="serial.inputAria">
+<button id="serialSendBtn" data-i18n="serial.send"></button>
+</form>
+<div class="serial-quick">
+<span class="fine" data-i18n="serial.quick"></span>
+<button type="button" class="ghost" data-serial="status">status</button>
+<button type="button" class="ghost" data-serial="sensors">sensors</button>
+<button type="button" class="ghost" data-serial="position">position</button>
+<button type="button" class="ghost" data-serial="cal">cal</button>
+<span class="grow"></span>
+<button type="button" class="ghost danger" id="serialReboot" data-i18n="reboot"></button>
+</div>
+<div class="msg" id="serialMsg" role="status" aria-live="polite"></div>
+</div>
     </section>
   </section>
   <footer class="footer">
@@ -712,7 +942,6 @@ const TEXT = {
     "runs": "ผลการวิ่ง",
     "sensors": "Sensor",
     "update": "อัปเดต",
-    "settings": "ตั้งค่า",
     "wifi": "WiFi",
     "wifi.hint": "เปิดแล้วหุ่นยนต์จะเชื่อมต่อเครือข่ายที่บันทึกไว้ด้านล่างเองทุกครั้งที่เปิดเครื่อง ปิดไว้เมื่อไม่ใช้ เช่น ระหว่างแข่ง",
     "wifi.none": "ไม่มีในเฟิร์มแวร์นี้",
@@ -747,8 +976,14 @@ const TEXT = {
     "runEmptyHint": "กดโหลดผลการวิ่งเพื่ออ่านรอบล่าสุดจากหุ่นยนต์ หากยังไม่ได้วิ่ง ให้ถอด USB วางหุ่นยนต์บนสนาม แล้วกด B",
     "errorChart": "ตำแหน่งเส้น (ค่าบวก = เส้นอยู่ทางซ้าย)",
     "errorChartAria": "กราฟตำแหน่งเส้นตามเวลา ดูตัวเลขได้ในตารางข้อมูล",
-    "motorChart": "ความเร็วมอเตอร์ (%)",
-    "motorChartAria": "กราฟคำสั่งมอเตอร์ตามเวลา ดูตัวเลขได้ในตารางข้อมูล",
+    "motorChart": "คำสั่งมอเตอร์ซ้าย (%)",
+    "motorChartAria": "กราฟคำสั่งมอเตอร์ซ้ายตามเวลา ดูตัวเลขได้ในตารางข้อมูล",
+    "motorChartR": "คำสั่งมอเตอร์ขวา (%)",
+    "motorChartRAria": "กราฟคำสั่งมอเตอร์ขวาตามเวลา ดูตัวเลขได้ในตารางข้อมูล",
+    "chartRangeAria": "ช่วงเวลาที่แสดงในกราฟ",
+    "chartPanAria": "เลื่อนช่วงเวลาของกราฟ",
+    "run.whole": "ทั้งรอบ",
+    "run.zoomY": "ขยายแกน Y",
     "leftWheel": "ล้อซ้าย",
     "rightWheel": "ล้อขวา",
     "curveBase": "Base (หลังลดความเร็วในโค้ง)",
@@ -761,10 +996,10 @@ const TEXT = {
     "loadLegacy": "โหลดผลจาก FLSR_DM01",
     "sensorCheck": "ตรวจ Sensor ก่อนวิ่ง",
     "sensorHint": "หลัง Calibrate แล้ว แท่งยิ่งสูง แปลว่า Sensor ตัวนั้นอยู่บนเส้น",
-    "live": "ค่า Sensor แบบ Real-time",
+    "live": "แสดงผลค่าเซนเซอร์",
     "sensorLeft": "S0 ด้านซ้าย (มองจากหลังหุ่นยนต์)",
     "sensorRight": "ด้านขวา",
-    "viewCalibration": "ดูค่า Calibrate",
+    "viewCalibration": "แสดงผลค่า Calibrate",
     "calibrateSteps": "วิธีที่แนะนำ: ถอดสาย USB วางหุ่นยนต์คร่อมเส้น กดปุ่ม A ค้างไว้แล้วเปิดสวิตช์หุ่นยนต์ หุ่นยนต์จะหมุนตัวประมาณ 5 วินาที หรือใช้ปุ่มด้านล่างผ่าน WiFi",
     "calibrateAdvanced": "Calibrate",
     "calibrateWarning": "มอเตอร์จะหมุนหุ่นยนต์ เว้นพื้นที่รอบหุ่นยนต์ให้ว่าง",
@@ -782,22 +1017,25 @@ const TEXT = {
     "updateFile": "ติดตั้งไฟล์ที่เลือก",
     "updateProgress": "ความคืบหน้าการติดตั้ง",
     "updateSafety": "หยุดหุ่นยนต์ก่อนติดตั้ง ระหว่างติดตั้งห้ามถอดสาย USB หรือปิดสวิตช์หุ่นยนต์ ไฟล์ Firmware มีโปรแกรมวิ่ง (Manual) อยู่ในตัว ตรวจให้แน่ใจว่าเป็นไฟล์ที่ต้องการ",
-    "settingsHint": "กดที่หัวข้อเพื่อเปิดดู",
     "benchTitle": "Bench test",
-    "benchSwitch": "โหมด Bench test",
-    "storageMaintenance": "พื้นที่เก็บ Log และรีสตาร์ท",
-    "storageWarning": "เตรียมพื้นที่ใหม่จะล้าง Log ทั้งหมด รวมของ FLSR_DM01 ดาวน์โหลด Log ที่ต้องการเก็บก่อน",
     "formatLog": "ล้าง Log และเตรียมพื้นที่",
-    "storageHelp": "ปุ่มนี้จะแสดงเมื่อโหลด Log แล้วพบว่าพื้นที่ยังไม่พร้อม",
     "reboot": "รีสตาร์ทหุ่นยนต์",
+    "serial.hint": "ข้อความจากหุ่นยนต์ผ่านสาย USB และพิมพ์คำสั่งส่งไปได้ รหัสผ่านถูกซ่อน",
+    "serial.autoscroll": "เลื่อนตามอัตโนมัติ",
+    "serial.time": "แสดงเวลา",
+    "serial.copy": "คัดลอก",
+    "serial.save": "บันทึกเป็นไฟล์",
+    "serial.clear": "ล้าง",
+    "serial.send": "ส่ง",
+    "serial.inputAria": "คำสั่งที่จะส่งไปหุ่นยนต์",
+    "serial.quick": "คำสั่งด่วน",
+    "serial.copied": "คัดลอกแล้ว",
     "homeWifiTitle": "เครือข่ายที่ให้หุ่นยนต์เชื่อมต่อ",
     "homeWifiHint": "WiFi บ้าน ฮอตสปอตมือถือ หรือฮอตสปอตของโน้ตบุ๊ก (Mobile hotspot) ที่หุ่นยนต์จะเชื่อมต่อ (สูงสุด 3 เครือข่าย) คอมหรือมือถือยังใช้อินเทอร์เน็ตได้ตามปกติ",
     "homeWifiName": "ชื่อ WiFi บ้านหรือฮอตสปอต",
     "networkPassword": "รหัสผ่านเครือข่าย",
     "addNetwork": "เพิ่มเครือข่าย",
-    "robotMessages": "ข้อความจากหุ่นยนต์",
-    "robotMessagesHint": "ข้อความต้นฉบับสำหรับตรวจปัญหา รหัสผ่านถูกซ่อน",
-    "footerHint": "พร้อมสำหรับรอบต่อไป",
+    "footerHint": "KEEP GOING",
     "calReady": "ค่า Calibrate ใช้ได้",
     "calInvalid": "ยังไม่ได้ Calibrate — ถอดสาย USB กดปุ่ม A ค้างไว้แล้วเปิดสวิตช์หุ่นยนต์",
     "usbOnly": "เชื่อมต่อ USB แล้ว",
@@ -868,7 +1106,7 @@ const TEXT = {
     "run.loading": "กำลังโหลดข้อมูล {0} จาก {1} จุด",
     "run.loaded": "โหลดแล้ว {0} จุด",
     "run.newRun": "มีผลการวิ่งรอบใหม่ กด “โหลดผลการวิ่ง” เพื่อดูกราฟ",
-    "run.noStorage": "พื้นที่เก็บ Log ยังไม่พร้อม เปิดตั้งค่า > พื้นที่เก็บ Log และรีสตาร์ท เพื่อเตรียมพื้นที่ใหม่ ขั้นตอนนี้ล้าง Log ทั้งหมด",
+    "run.noStorage": "พื้นที่เก็บ Log ยังไม่พร้อม กดปุ่ม “ล้าง Log และเตรียมพื้นที่” ด้านล่าง (Log ทั้งหมดจะถูกลบ)",
     "run.noLegacy": "ไม่มี Log ของ FLSR_DM01 ในหุ่นยนต์ เลือกโหลดผลจาก PTBOT Studio หรือวิ่งด้วย FLSR_DM01 ก่อน",
     "run.noSaved": "ยังไม่มีผลการวิ่ง ถอด USB วางหุ่นยนต์บนสนาม แล้วกด B",
     "run.leftTick": "+750 ซ้าย",
@@ -894,6 +1132,13 @@ const TEXT = {
     "cal.low": "  ← ต่ำไป",
     "net.empty": "ยังไม่มีเครือข่ายที่บันทึก",
     "net.remove": "ลบเครือข่าย",
+    "net.use": "เชื่อมต่อ",
+    "net.connected": "เชื่อมต่ออยู่",
+    "net.open": "ไม่มีรหัสผ่าน",
+    "net.order": "ถ้าเปิดหลายเครือข่ายพร้อมกัน หุ่นยนต์เชื่อมเครือข่ายที่กด “เชื่อมต่อ” ไว้ล่าสุดก่อน ถ้าไม่เจอจะเลือกเครือข่ายที่สัญญาณแรงที่สุด",
+    "net.useConfirm": "ให้หุ่นยนต์ย้ายไปเชื่อมต่อ {0} หรือไม่?\nหน้านี้จะขาดการเชื่อมต่อ เปิดใหม่จากเครื่องที่อยู่ในเครือข่าย {0}",
+    "net.useWifi": "หุ่นยนต์กำลังย้ายไป {0} เปิดหน้านี้ใหม่จากเครื่องที่อยู่ในเครือข่ายนั้น",
+    "net.useFailed": "ยังเชื่อมต่อ {0} ไม่ได้ ตรวจสอบว่าเครือข่ายเปิดอยู่และรหัสผ่านถูกต้อง หุ่นยนต์จะลองใหม่เองทุก 30 วินาที",
     "net.removed": "ลบเครือข่ายแล้ว",
     "net.added": "เพิ่มเครือข่ายแล้ว หุ่นยนต์จะลองเชื่อมต่อภายใน 30 วินาที (เมื่อเปิด WiFi อยู่)",
     "access.title": "เชื่อมต่อผ่าน WiFi",
@@ -976,7 +1221,6 @@ const TEXT = {
     "runs": "Runs",
     "sensors": "Sensors",
     "update": "Updates",
-    "settings": "Settings",
     "wifi": "WiFi",
     "wifi.hint": "When on, the robot joins a network saved below every time it starts. Turn it off when not needed, for example during a competition.",
     "wifi.none": "Not in this firmware",
@@ -1011,8 +1255,14 @@ const TEXT = {
     "runEmptyHint": "Load the latest run from the robot. If no run is saved, unplug USB, place the robot on the track and press B.",
     "errorChart": "Line position (positive = line on the left)",
     "errorChartAria": "Line position over time. Values are available in the data table.",
-    "motorChart": "Motor speed (%)",
-    "motorChartAria": "Motor commands over time. Values are available in the data table.",
+    "motorChart": "Left motor command (%)",
+    "motorChartAria": "Left motor command over time. Values are available in the data table.",
+    "motorChartR": "Right motor command (%)",
+    "motorChartRAria": "Right motor command over time. Values are available in the data table.",
+    "chartRangeAria": "Time range shown in the charts",
+    "chartPanAria": "Move the chart time range",
+    "run.whole": "Whole run",
+    "run.zoomY": "Zoom Y axis",
     "leftWheel": "Left wheel",
     "rightWheel": "Right wheel",
     "curveBase": "Base after corner slowdown",
@@ -1046,22 +1296,25 @@ const TEXT = {
     "updateFile": "Install selected file",
     "updateProgress": "Installation progress",
     "updateSafety": "Stop the robot before installing. Do not unplug USB or turn off power during installation. Check that the file includes the run program you need.",
-    "settingsHint": "Expand a section to view its settings.",
     "benchTitle": "Bench test",
-    "benchSwitch": "Bench test mode",
-    "storageMaintenance": "Log storage and restart",
-    "storageWarning": "Preparing storage erases all logs, including FLSR_DM01 logs. Download any logs you need first.",
     "formatLog": "Erase logs and prepare storage",
-    "storageHelp": "This button appears when loading a log shows that storage is not ready.",
     "reboot": "Restart robot",
+    "serial.hint": "Messages from the robot over USB. You can also type commands. Passwords are hidden.",
+    "serial.autoscroll": "Auto-scroll",
+    "serial.time": "Timestamps",
+    "serial.copy": "Copy",
+    "serial.save": "Save to file",
+    "serial.clear": "Clear",
+    "serial.send": "Send",
+    "serial.inputAria": "Command to send to the robot",
+    "serial.quick": "Quick commands",
+    "serial.copied": "Copied.",
     "homeWifiTitle": "Network the robot joins",
     "homeWifiHint": "Home WiFi, a phone hotspot or a laptop’s Mobile hotspot for the robot to join (up to 3). Your PC or phone keeps its internet.",
     "homeWifiName": "Home WiFi or hotspot name",
     "networkPassword": "Network password",
     "addNetwork": "Add network",
-    "robotMessages": "Robot messages",
-    "robotMessagesHint": "Original diagnostic messages. Passwords are hidden.",
-    "footerHint": "Ready for the next run",
+    "footerHint": "KEEP GOING",
     "calReady": "Calibration valid",
     "calInvalid": "Calibration needed. Unplug USB and hold A while powering on.",
     "usbOnly": "Connected via USB",
@@ -1132,7 +1385,7 @@ const TEXT = {
     "run.loading": "Loading samples: {0} of {1}",
     "run.loaded": "Loaded {0} samples.",
     "run.newRun": "A new run is saved. Press “Load latest run” to see the charts.",
-    "run.noStorage": "Log storage is not ready. Open Settings > Log storage and restart to prepare it. This erases all logs.",
+    "run.noStorage": "Log storage is not ready. Press “Erase logs and prepare storage” below. This erases all logs.",
     "run.noLegacy": "No FLSR_DM01 log is saved. Load the PTBOT Studio run, or run the robot with FLSR_DM01 first.",
     "run.noSaved": "No run is saved. Unplug USB, place the robot on the track and press B.",
     "run.leftTick": "+750 left",
@@ -1158,6 +1411,13 @@ const TEXT = {
     "cal.low": "  ← too low",
     "net.empty": "No saved networks.",
     "net.remove": "Remove network",
+    "net.use": "Connect",
+    "net.connected": "Connected",
+    "net.open": "No password",
+    "net.order": "With several networks on at once, the robot joins the one you last pressed “Connect” on. If it is not found, it picks the strongest signal.",
+    "net.useConfirm": "Move the robot to {0}?\nThis page will lose its connection. Open it again from a device on {0}.",
+    "net.useWifi": "The robot is moving to {0}. Open this page again from a device on that network.",
+    "net.useFailed": "Could not join {0} yet. Check that the network is on and the password is correct. The robot retries every 30 s.",
     "net.removed": "Network removed.",
     "net.added": "Network added. The robot tries it within 30 s (while WiFi is on).",
     "access.title": "Connect over WiFi",
@@ -1393,12 +1653,14 @@ class SerialLink {
     if (line.startsWith('{')) {
       try {
         const j = JSON.parse(line);
+        if (j.stream) { if (this.onStream) this.onStream(j); return; }  // pushed readings (stream command)
         const p = this.pending.get(j.id);
         if (p) { this.pending.delete(j.id); clearTimeout(p.timer); p.resolve(j); return; }
       } catch (e) {}
     }
     log(line);
   }
+  send(text) { return this.writer.write(new TextEncoder().encode(text + '\n')); }  // a typed command (Serial Monitor)
   // payload: raw bytes sent right after the request line (otaChunk)
   cmd(obj, timeout = 4000, payload = null) {
     const id = this.nextId++;
@@ -1449,14 +1711,21 @@ function isGarbage(line) {
 }
 
 // Passwords stay off the screen (someone may be watching over your shoulder).
-const maskSecrets = line => line.replace(/(password )(?!\()\S+/gi, '$1********').replace(/(sticker\): )\S+/i, '$1********');
+const maskSecrets = line => line.replace(/(password(?: \([^)]*\))?:? )(?!\()\S+/gi, '$1********').replace(/(sticker\): )\S+/i, '$1********');
 
+const serialLines = [];  // Serial Monitor: the last 500 lines, {time, text}
 function log(line) {
   if (!line.trim() || isGarbage(line)) return;
-  line = maskSecrets(line);
-  $('logCard').classList.remove('hidden');
-  const el = $('log'); el.textContent = (el.textContent + line + '\n').split('\n').slice(-200).join('\n');
-  el.scrollTop = el.scrollHeight;
+  serialLines.push({ time: new Date(), text: maskSecrets(line) });
+  if (serialLines.length > 500) serialLines.shift();
+  renderSerial();
+}
+
+function renderSerial() {
+  const el = $('log'), stamp = $('serialTime').getAttribute('aria-checked') === 'true';
+  const time = d => d.toTimeString().slice(0, 8) + '.' + String(d.getMilliseconds()).padStart(3, '0') + '  ';
+  el.textContent = serialLines.map(l => (stamp ? time(l.time) : '') + l.text).join('\n');
+  if ($('serialScroll').getAttribute('aria-checked') === 'true') el.scrollTop = el.scrollHeight;
 }
 
 function row(dl, name, value) {
@@ -1481,8 +1750,6 @@ async function refresh() {
   if(s.otaPending) row(dl, copy('status.pending'), 'OTA');
   if (!wifi) row(dl, copy('status.connection'), 'USB');
   if(s.bench) row(dl, copy('benchTitle'), copy('status.bench'));
-  setSwitch($('benchBtn'), !!s.bench);
-  $('benchBtn').dataset.on = s.bench ? '1' : '';
   if (wifi) {
     row(dl, copy('status.wifi'), copy(s.wifiOn?'status.on':'status.off'));
   }
@@ -1492,6 +1759,9 @@ async function refresh() {
   // Firmware without WiFi: the WiFi settings, saved networks and race/practice mode do nothing - hide them.
   $('tabWifi').classList.toggle('hidden', !wifi);
   if (!wifi && !$('panelWifi').classList.contains('hidden')) showPanel('panelRuns');
+  const serial = link instanceof SerialLink;  // robot messages and typed commands come over the cable only
+  $('tabSerial').classList.toggle('hidden', !serial);
+  if (!serial && !$('panelSerial').classList.contains('hidden')) showPanel('panelRuns');
   row(dl, copy('status.battery'), s.battery == null ? copy('status.noBattery') : s.battery + ' V');
   if (s.lastRun) {
     const hz = s.lastRun.ms ? Math.round(s.lastRun.loops * 1000 / s.lastRun.ms) : 0;
@@ -1509,8 +1779,9 @@ async function refresh() {
 // ---------- sensors ----------
 let live = false;
 
-async function showSensors() {
-  const r = await ok(link.cmd({ cmd: 'sensors' }));
+async function showSensors() { renderSensors(await ok(link.cmd({ cmd: 'sensors' }))); }
+
+function renderSensors(r) {
   sensorSnapshot = r; renderCalState();
   const n = r.raw.length, bars = $('bars');
   if (bars.children.length !== n) {
@@ -1557,6 +1828,7 @@ let liveRun = 0;  // only the newest loop may run: switching off and on quickly 
 const LIVE_MS = 50, LIVE_MAX_FAILS = 5;
 async function liveLoop() {
   const me = ++liveRun;
+  if (link instanceof SerialLink && await liveStream(me)) return;
   let fails = 0;
   while (live && me === liveRun) {
     const started = Date.now();
@@ -1565,6 +1837,26 @@ async function liveLoop() {
     await sleep(fails ? 300 : Math.max(0, LIVE_MS - (Date.now() - started)));
   }
   if (me === liveRun) setSwitch($('liveBtn'), false);
+}
+
+// USB: the robot pushes readings (~25/s) while the page renews the stream every second; Windows USB serial
+// delivers request/reply in uneven batches, which made polled real-time look jerky. Returns false when the
+// firmware has no stream (before 0.9.1): the caller polls instead.
+async function liveStream(me) {
+  const usb = link;
+  try { await ok(usb.cmd({ cmd: 'stream', on: true })); } catch (e) { return false; }
+  usb.onStream = r => { if (r.ok && live && me === liveRun) renderSensors(r); };
+  let fails = 0;
+  for (let tick = 1; live && me === liveRun && link === usb; tick++) {
+    await sleep(100);  // notice "stop" quickly; renew the stream every second
+    if (tick % 10 || !(live && me === liveRun)) continue;
+    try { await ok(usb.cmd({ cmd: 'stream', on: true })); fails = 0; }
+    catch (e) { if (++fails >= LIVE_MAX_FAILS) { msg('calMsg', th(e), false); live = false; } }
+  }
+  usb.onStream = null;
+  usb.cmd({ cmd: 'stream', on: false }).catch(() => {});
+  if (me === liveRun) setSwitch($('liveBtn'), false);
+  return true;
 }
 
 function resumeLive() {
@@ -1606,6 +1898,7 @@ async function showCalibration() {
 // ---------- run log ----------
 let runLog = null;  // { file, info, samples: [{t,error,base,left,right,out,abort,seg}] }
 let hoverIndex = -1;
+let chartWin = 0, chartStart = 0, chartZoomY = false;  // time range (0 = whole run, else ms), its start, Y zoom
 
 function decodeSamples(b64) {
   const bin = atob(b64), dv = new DataView(new ArrayBuffer(bin.length));
@@ -1631,7 +1924,7 @@ async function loadRunLog(file) {
     samples.push(...decodeSamples(r.b64));
   }
   runLog = { file, info, samples };
-  hoverIndex = -1;
+  hoverIndex = -1; chartStart = 0;
   showRunLog();
   return copy('run.loaded',samples.length);
 }
@@ -1657,7 +1950,35 @@ function showRunLog() {
 
 function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
 
-// One chart: shared time axis, fixed y range, recessive grid, 2px lines, shaded line-out periods.
+function chartEnd() { const s = runLog.samples; return Math.max(1, s.length ? s[s.length - 1].t : runLog.info.durationMs); }
+
+// The time range in view: [t0, t1] ms.
+function chartView() {
+  const end = chartEnd();
+  if (!chartWin || chartWin >= end) return [0, end];
+  chartStart = Math.max(0, Math.min(end - chartWin, chartStart));
+  return [chartStart, chartStart + chartWin];
+}
+
+// Samples in view plus one on each side, so lines run to the edges.
+function viewSamples(t0, t1) {
+  const s = runLog.samples;
+  let a = 0; while (a < s.length && s[a].t < t0) a++;
+  let b = a; while (b < s.length && s[b].t <= t1) b++;
+  return s.slice(Math.max(0, a - 1), Math.min(s.length, b + 1));
+}
+
+// Round numbers for a y axis covering lo..hi: [min, max, ticks].
+function niceAxis(lo, hi, label) {
+  if (hi - lo < 4) { const m = (hi + lo) / 2; lo = m - 2; hi = m + 2; }
+  const raw = (hi - lo) / 4, p = Math.pow(10, Math.floor(Math.log10(raw)));
+  const step = [1, 2, 5, 10].map(k => k * p).find(v => v >= raw);
+  const min = Math.floor(lo / step) * step, max = Math.ceil(hi / step) * step, ticks = [];
+  for (let v = min; v <= max + step / 2; v += step) ticks.push([v, label(v)]);
+  return [min, max, ticks];
+}
+
+// One chart: shared time range, recessive grid, 2px lines (dots once samples are far apart), shaded line-out periods.
 function drawChart(canvas, yMin, yMax, yTicks, series) {
   const { info, samples } = runLog;
   const dpr = window.devicePixelRatio || 1;
@@ -1667,34 +1988,40 @@ function drawChart(canvas, yMin, yMax, yTicks, series) {
   g.setTransform(dpr, 0, 0, dpr, 0, 0);
   g.clearRect(0, 0, w, h);
   const L = 66, R = 8, T = 6, B = 18;  // plot margins (left fits "+750 ซ้าย")
-  const tMax = Math.max(1, samples.length ? samples[samples.length - 1].t : info.durationMs);
-  const x = t => L + (t / tMax) * (w - L - R);
+  const [t0, t1] = chartView(), view = viewSamples(t0, t1);
+  const x = t => L + ((t - t0) / (t1 - t0)) * (w - L - R);
   const y = v => T + (yMax - v) / (yMax - yMin) * (h - T - B);
-  canvas._geom = { x, L, R, tMax, w };
+  canvas._geom = { x, L, R, t0, t1, w };
+  g.save(); g.beginPath(); g.rect(L, 0, w - L - R, h); g.clip();
 
   g.font = '12px Anuphan, system-ui, sans-serif';
   // line-out bands (status color, translucent, behind everything)
   g.fillStyle = css('--out'); g.globalAlpha = 0.25;
-  for (let i = 0; i < samples.length; i++) {
-    if (!samples[i].out) continue;
-    let j = i; while (j + 1 < samples.length && samples[j + 1].out) j++;
-    const x0 = x(samples[i].t), x1 = x(samples[j].t + info.intervalMs);
+  for (let i = 0; i < view.length; i++) {
+    if (!view[i].out) continue;
+    let j = i; while (j + 1 < view.length && view[j + 1].out) j++;
+    const x0 = x(view[i].t), x1 = x(view[j].t + info.intervalMs);
     g.fillRect(x0, T, Math.max(1, x1 - x0), h - T - B);
     i = j;
   }
   g.globalAlpha = 1;
+  g.restore();
   // grid + y labels
   g.strokeStyle = css('--grid'); g.lineWidth = 1; g.fillStyle = css('--muted'); g.textAlign = 'right'; g.textBaseline = 'middle';
   for (const [v, label] of yTicks) {
     g.beginPath(); g.moveTo(L, y(v) + .5); g.lineTo(w - R, y(v) + .5); g.stroke();
     g.fillText(label, L - 6, y(v));
   }
-  g.strokeStyle = css('--axis');  // zero baseline
-  g.beginPath(); g.moveTo(L, y(0) + .5); g.lineTo(w - R, y(0) + .5); g.stroke();
-  // time labels
+  if (yMin <= 0 && yMax >= 0) {  // zero baseline
+    g.strokeStyle = css('--axis');
+    g.beginPath(); g.moveTo(L, y(0) + .5); g.lineTo(w - R, y(0) + .5); g.stroke();
+  }
+  // time labels: a round step that leaves ~70 px per label
   g.textAlign = 'center'; g.textBaseline = 'top';
-  const step = tMax > 8000 ? 2000 : tMax > 3000 ? 1000 : 500;
-  for (let t = 0; t <= tMax; t += step) g.fillText((t / 1000) + ' s', x(t), h - B + 4);
+  const step = [50, 100, 200, 250, 500, 1000, 2000, 5000, 10000, 20000].find(v => (t1 - t0) / v <= (w - L - R) / 70) || 50000;
+  const digits = step < 100 || step === 250 ? 2 : step < 1000 ? 1 : 0;
+  for (let t = Math.ceil(t0 / step) * step; t <= t1; t += step) g.fillText((t / 1000).toFixed(digits) + ' s', x(t), h - B + 4);
+  g.save(); g.beginPath(); g.rect(L - 3, 0, w - L - R + 6, h); g.clip();
   // segment boundaries
   g.setLineDash([3, 3]); g.strokeStyle = css('--muted');
   info.segments.forEach((s, i) => {
@@ -1703,11 +2030,13 @@ function drawChart(canvas, yMin, yMax, yTicks, series) {
   });
   g.setLineDash([]);
   // series
+  const dots = view.length > 1 && x(view[1].t) - x(view[0].t) >= 6;
   for (const s of series) {
-    g.strokeStyle = s.color; g.lineWidth = 2; g.lineJoin = 'round';
+    g.strokeStyle = s.color; g.fillStyle = s.color; g.lineWidth = 2; g.lineJoin = 'round'; g.setLineDash(s.dash ? [6, 4] : []);
     g.beginPath();
-    samples.forEach((p, i) => { const px = x(p.t), py = y(Math.max(yMin, Math.min(yMax, p[s.key]))); i ? g.lineTo(px, py) : g.moveTo(px, py); });
-    g.stroke();
+    view.forEach((p, i) => { const px = x(p.t), py = y(Math.max(yMin, Math.min(yMax, p[s.key]))); i ? g.lineTo(px, py) : g.moveTo(px, py); });
+    g.stroke(); g.setLineDash([]);
+    if (dots && !s.dash) for (const p of view) { g.beginPath(); g.arc(x(p.t), y(Math.max(yMin, Math.min(yMax, p[s.key]))), 2.5, 0, Math.PI * 2); g.fill(); }
   }
   // abort marker
   if (info.aborted && samples.length) {
@@ -1724,20 +2053,31 @@ function drawChart(canvas, yMin, yMax, yTicks, series) {
       g.beginPath(); g.arc(px, y(Math.max(yMin, Math.min(yMax, samples[hoverIndex][s.key]))), 4, 0, Math.PI * 2); g.fill(); g.stroke();
     }
   }
+  g.restore();
 }
 
 function drawCharts() {
   if (!runLog || $('logView').classList.contains('hidden') || $('panelRuns').classList.contains('hidden')) return;
-  drawChart($('chartErr'), -800, 800, [[750, t('run.leftTick')], [0, '0'], [-750, t('run.rightTick')]], [{ key: 'error', color: css('--s1') }]);
-  drawChart($('chartMotor'), -100, 100, [[100, '100'], [50, '50'], [0, '0'], [-50, '−50'], [-100, '−100']],
-    [{ key: 'base', color: css('--s3') }, { key: 'left', color: css('--s1') }, { key: 'right', color: css('--s2') }]);
+  const end = chartEnd(), [t0, t1] = chartView(), pan = $('chartPan');
+  pan.classList.toggle('hidden', !chartWin || chartWin >= end);
+  pan.max = Math.max(0, end - chartWin); pan.step = runLog.info.intervalMs || 1; pan.value = chartStart;
+  const view = viewSamples(t0, t1), num = v => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v), pct = v => (v < 0 ? '−' : '') + Math.abs(v);
+  const base = { key: 'base', color: css('--s3'), dash: true };
+  // Y zoom: the position chart is symmetric around 0 (left/right stays readable); motors share one range.
+  const m = chartZoomY ? Math.max(4, ...view.map(p => Math.abs(p.error))) : 0;
+  const err = chartZoomY ? niceAxis(-m, m, num) : [-800, 800, [[750, t('run.leftTick')], [0, '0'], [-750, t('run.rightTick')]]];
+  const mv = view.flatMap(p => [p.left, p.right, p.base]);
+  const mot = chartZoomY && mv.length ? niceAxis(Math.min(...mv), Math.max(...mv), pct) : [-100, 100, [100, 50, 0, -50, -100].map(v => [v, pct(v)])];
+  drawChart($('chartErr'), ...err, [{ key: 'error', color: css('--s1') }]);
+  drawChart($('chartMotor'), ...mot, [base, { key: 'left', color: css('--s1') }]);
+  drawChart($('chartMotorR'), ...mot, [base, { key: 'right', color: css('--s2') }]);
 }
 
 function hover(ev) {
   if (!runLog || !runLog.samples.length || !ev.currentTarget._geom) return;
   const canvas = ev.currentTarget, geom = canvas._geom, rect = canvas.getBoundingClientRect();
   const clientX = ev.touches ? ev.touches[0].clientX : ev.clientX;
-  const t = (clientX - rect.left - geom.L) / (geom.w - geom.L - geom.R) * geom.tMax;
+  const t = geom.t0 + (clientX - rect.left - geom.L) / (geom.w - geom.L - geom.R) * (geom.t1 - geom.t0);
   const s = runLog.samples;
   let lo = 0, hi = s.length - 1;  // nearest sample by time
   while (lo < hi) { const mid = (lo + hi) >> 1; if (s[mid].t < t) lo = mid + 1; else hi = mid; }
@@ -1765,17 +2105,40 @@ function runLogCsv() {
   return lines.join('\n') + '\n';
 }
 
+const shownNets = new Set();  // saved networks whose password is shown
 async function loadNets() {
   const r = await link.cmd({ cmd: 'networks' });
   const box = $('nets'); writeText(box, '');
   if (!r.networks.length) { writeText(box, copy('net.empty')); return; }
-  for (const ssid of r.networks) {
+  r.networks.forEach((ssid, i) => {
     const d = document.createElement('div'); d.className = 'net';
-    const s = document.createElement('span'); s.textContent = ssid;
+    const name = document.createElement('span'); name.className = 'net-name'; name.textContent = ssid;
+    const here = robot && robot.network === ssid;
+    if (here) { const tag = document.createElement('span'); tag.className = 'tag'; writeText(tag, copy('net.connected')); name.append(' ', tag); }
+    d.append(name);
+    // Passwords: firmware 0.9.2+, over USB or with the page password; "" = open network
+    if (r.passwords) {
+      const p = r.passwords[i];
+      if (p) d.append(secretField(p, t('networkPassword'), () => shownNets.has(ssid), () => { if (!shownNets.delete(ssid)) shownNets.add(ssid); }));
+      else { const open = document.createElement('span'); open.className = 'fine'; writeText(open, copy('net.open')); d.append(open); }
+    }
+    const actions = document.createElement('div'); actions.className = 'net-actions';
+    if (r.preferred !== undefined && !here && robot && robot.wifiOn) {
+      const use = document.createElement('button'); use.className = 'ghost'; writeText(use, copy('net.use'));
+      use.onclick = async () => {
+        if (link instanceof HttpLink && !confirm(renderText(copy('net.useConfirm', ssid)))) return;  // this page will lose the robot
+        await run('netMsg', async () => {
+          await ok(link.cmd({ cmd: 'netUse', ssid }));
+          if (!(link instanceof SerialLink)) return copy('net.useWifi', ssid);
+          return waitForJoin(ssid, 'netMsg');
+        });
+      };
+      actions.append(use);
+    }
     const b = document.createElement('button'); b.className = 'ghost'; writeText(b, copy('net.remove'));
     b.onclick = () => run('netMsg', async () => { await ok(link.cmd({ cmd: 'netForget', ssid })); await loadNets(); return copy('net.removed'); });
-    d.append(s, b); box.append(d);
-  }
+    actions.append(b); d.append(actions); box.append(d);
+  });
 }
 
 async function ok(promise) {
@@ -1951,6 +2314,33 @@ function rowLink(dl, name, text, href) {
   dd.append(a); dl.append(dt, dd);
 }
 
+// A read-only password field like the others, hidden until its eye button is pressed. shown() / toggle()
+// keep the state outside, so it survives the card being rebuilt by the auto refresh.
+function secretField(value, label, shown, toggle) {
+  const field = document.createElement('div'), text = document.createElement('input'), b = document.createElement('button');
+  field.className = 'pw-field secret'; text.readOnly = true; text.value = value; text.setAttribute('aria-label', label);
+  b.type = 'button'; b.className = 'reveal';
+  b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><g class="eye-lid"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle class="eye-pupil" cx="12" cy="12" r="3"/></g><path class="eye-slash" d="M4 4l16 16"/></svg>';
+  const show = () => {
+    const on = shown();
+    text.type = on ? 'text' : 'password';
+    b.setAttribute('aria-pressed', String(on));
+    b.dataset.i18nAria = on ? 'pw.hide' : 'pw.show';
+    b.setAttribute('aria-label', t(b.dataset.i18nAria));
+  };
+  b.onclick = () => { toggle(); b.classList.add('touched'); show(); };
+  show(); field.append(text, b);
+  return field;
+}
+
+let showPagePassword = false;
+function rowSecret(dl, name, value) {
+  const dt = document.createElement('dt'); writeText(dt, name);
+  const dd = document.createElement('dd');
+  dd.append(secretField(value, t('access.password'), () => showPagePassword, () => { showPagePassword = !showPagePassword; }));
+  dl.append(dt, dd);
+}
+
 async function loadAccess() {
   const card = $('accessCard'), s = robot;
   const wifi = s && (s.wifi !== undefined ? s.wifi : !s.raceBuild);
@@ -1973,13 +2363,13 @@ async function loadAccess() {
     // The name stays the same when the IP changes; the QR code uses the IP (Android often cannot open .local).
     const host = s.hostname || s.networkIp;
     rowLink(info, copy('access.address'), `http://${host}`, pageQrText(host, a.password));
-    row(info, copy('access.password'), a.password);
+    rowSecret(info, copy('access.password'), a.password);
   } else if (switchedOn && s.wifiOn) {
     writeText($('accessHint'), copy(s.networks === 0 ? 'access.noNetwork' : 'access.searching'));
-    row(info, copy('access.password'), a.password);
+    rowSecret(info, copy('access.password'), a.password);
   } else {
     writeText($('accessHint'), copy('access.off'));
-    row(info, copy('access.password'), a.password);
+    rowSecret(info, copy('access.password'), a.password);
   }
   $('pwFactoryBtn').classList.toggle('hidden', !a.custom);
   card.classList.remove('hidden');
@@ -2005,7 +2395,7 @@ for (const b of document.querySelectorAll('button.reveal')) {
   b.onclick = () => {
     const input = $(b.dataset.for), show = input.type === 'password';
     input.type = show ? 'text' : 'password';
-    b.setAttribute('aria-pressed', String(show));
+    b.setAttribute('aria-pressed', String(show)); b.classList.add('touched');
     b.dataset.i18nAria = show ? 'pw.hide' : 'pw.show';
     b.setAttribute('aria-label', t(b.dataset.i18nAria));
   };
@@ -2093,7 +2483,7 @@ for (const [hot, pad] of [['hotA', 'padA'], ['hotB', 'padB'], ['hotReset', 'padR
 }
 
 async function run(msgId, fn) {
-  try { msg(msgId, copy('action.working')); msg(msgId, await fn(), true); }
+  try { msg(msgId, copy('action.working')); const r = await fn(); msg(msgId, r, r && r.neutral ? undefined : true); }
   catch (e) { msg(msgId, th(e), false); }
 }
 
@@ -2189,10 +2579,19 @@ $('csvBtn').onclick = () => {
   setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 };
 $('tableBtn').onclick = () => { writeText($('logTable'), runLogCsv()); $('logTable').classList.toggle('hidden'); };
-for (const id of ['chartErr', 'chartMotor']) {
+for (const id of ['chartErr', 'chartMotor', 'chartMotorR']) {
   $(id).addEventListener('pointermove', hover);
   $(id).addEventListener('pointerleave', unhover);
 }
+document.querySelectorAll('.range-pick button').forEach(b => b.onclick = () => {
+  if (!runLog) return;
+  const [t0, t1] = chartView(), mid = hoverIndex >= 0 ? runLog.samples[hoverIndex].t : (t0 + t1) / 2;
+  chartWin = +b.dataset.win; chartStart = mid - chartWin / 2;  // zoom around the selected sample, else the middle
+  document.querySelectorAll('.range-pick button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  unhover();
+});
+$('chartPan').oninput = () => { chartStart = +$('chartPan').value; unhover(); };
+$('chartYBtn').onclick = () => { chartZoomY = !chartZoomY; $('chartYBtn').setAttribute('aria-pressed', String(chartZoomY)); drawCharts(); };
 window.addEventListener('resize', drawCharts);
 if(document.fonts) document.fonts.ready.then(drawCharts);
 // Theme: follows the device until the user picks one with the sun/moon button (remembered; applied in <head>).
@@ -2219,10 +2618,6 @@ $('refreshBtn').onclick = () => {
   refresh().catch(e => setConn(false, th(e))).finally(() => $('refreshBtn').classList.remove('spinning'));
 };
 $('identifyBtn').onclick = () => link.cmd({ cmd: 'identify' });
-$('benchBtn').onclick = async () => {
-  try { await ok(link.cmd({ cmd: 'bench', on: !$('benchBtn').dataset.on })); await refresh(); }
-  catch (e) { alert(renderText(th(e))); }
-};
 
 // WiFi switch: on/off at once (the firmware stores it as mode practice/race). Off over WiFi cuts this page.
 $('wifiSwitch').onclick = async () => {
@@ -2239,15 +2634,17 @@ $('wifiSwitch').onclick = async () => {
 };
 
 // Wait until the robot has joined a network (scan + join take ~3-15 s), then show it.
-async function waitForJoin() {
-  msg('wifiMsg', copy('wifi.joining'));
+// ssid: wait for that network (Connect on a saved network), else any.
+async function waitForJoin(ssid = '', msgId = 'wifiMsg') {
+  msg(msgId, copy('wifi.joining'));
   for (let i = 0; i < 20; i++) {
     const s = await link.cmd({ cmd: 'status' }).catch(() => null);
-    if (s && s.ok && s.network) { await refresh(); return copy('wifi.joined', s.network); }
+    if (s && s.ok && s.network && (!ssid || s.network === ssid)) { await refresh(); return copy('wifi.joined', s.network); }
     await sleep(2000);
   }
   await refresh();
-  return copy(robot && robot.networks === 0 ? 'access.noNetwork' : 'access.searching');
+  if (ssid) return { ...copy('net.useFailed', ssid), neutral: true };
+  return { ...copy(robot && robot.networks === 0 ? 'access.noNetwork' : 'access.searching'), neutral: true };  // not joined yet: not a success
 }
 
 // Not joined: look for the saved networks now instead of waiting for the robot's next 30 s try.
@@ -2286,7 +2683,27 @@ $('latestBtn').onclick = () => run('fwMsg', async () => {
   return installFirmware(new File([buffer], latest.file.split('/').pop()));
 });
 
-$('rebootBtn').onclick = () => { if (confirm(t('restart.confirm'))) link.cmd({ cmd: 'reboot' }); };
+// Serial Monitor (USB): typed commands go to the robot as plain lines (the firmware's typed commands, e.g. bench on).
+function serialNote(text, ok) { if (text) msg('serialMsg', text, ok); else { messageMemory.delete('serialMsg'); $('serialMsg').textContent = ''; } }
+for (const id of ['serialScroll', 'serialTime']) $(id).onclick = () => { setSwitch($(id), $(id).getAttribute('aria-checked') !== 'true'); renderSerial(); };
+$('serialClear').onclick = () => { serialLines.length = 0; renderSerial(); serialNote(''); };
+$('serialCopy').onclick = () => navigator.clipboard.writeText($('log').textContent).then(() => serialNote(copy('serial.copied'), true), e => serialNote(th(e), false));
+$('serialSave').onclick = () => {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([$('log').textContent + '\n'], { type: 'text/plain' }));
+  a.download = 'serial-monitor-' + new Date().toISOString().slice(0, 19).replace(/[-:T]/g, '') + '.txt';
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+};
+async function serialSend(text) {
+  text = text.trim();
+  if (!text || !(link instanceof SerialLink)) return;
+  log('> ' + text);
+  try { await link.send(text); serialNote(''); } catch (e) { serialNote(th(e), false); }
+}
+$('serialForm').onsubmit = ev => { ev.preventDefault(); serialSend($('serialInput').value); $('serialInput').value = ''; };
+document.querySelectorAll('[data-serial]').forEach(b => b.onclick = () => serialSend(b.dataset.serial));
+$('serialReboot').onclick = () => link.cmd({ cmd: 'reboot' }).catch(() => {});  // no confirmation (owner's choice): the boot messages show right here
 
 $('usbBtn').onclick = async () => {
   try { await connectUsb(await navigator.serial.requestPort()); } catch (e) { msg('connectHelp', th(e), false); }
@@ -2422,11 +2839,13 @@ document.querySelectorAll('[role=tab]').forEach(tab => {
 try { $('onboarding').classList.toggle('hidden',localStorage.getItem('ptlink.onboarded')==='1'); } catch(e) {}
 $('dismissOnboarding').onclick=()=>{ $('onboarding').classList.add('hidden'); try{localStorage.setItem('ptlink.onboarded','1');}catch(e){} };
 window.addEventListener('online',offlineState); window.addEventListener('offline',offlineState);
-for(const id of ['chartErr','chartMotor']) $(id).addEventListener('keydown', ev=>{
+for(const id of ['chartErr','chartMotor','chartMotorR']) $(id).addEventListener('keydown', ev=>{
   if(!runLog || !runLog.samples.length || !['ArrowLeft','ArrowRight','Home','End'].includes(ev.key)) return;
   ev.preventDefault();
   const end=runLog.samples.length-1;
-  const index=ev.key==='Home'?0:ev.key==='End'?end:Math.max(0,Math.min(end,(hoverIndex<0?0:hoverIndex)+(ev.key==='ArrowRight'?1:-1)));
+  const index=ev.key==='Home'?0:ev.key==='End'?end:Math.max(0,Math.min(end,(hoverIndex<0?Math.max(0,runLog.samples.findIndex(p=>p.t>=chartView()[0])-1):hoverIndex)+(ev.key==='ArrowRight'?1:-1)));
+  const ti=runLog.samples[index].t, [t0,t1]=chartView();
+  if(chartWin && (ti<t0 || ti>t1)) { chartStart=ti<t0?ti:ti-chartWin; drawCharts(); }  // keep the selected sample in view
   const canvas=$(id),geom=canvas._geom;
   if(geom) hover({currentTarget:canvas,clientX:canvas.getBoundingClientRect().left+geom.x(runLog.samples[index].t)});
 });

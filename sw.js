@@ -1,8 +1,8 @@
 // PTBOT Studio service worker (GitHub Pages only): the page works offline after the first visit and
 // updates itself whenever it is opened online. tools/build_site.ps1 fills in CACHE and SHELL.
-const CACHE = 'ptbot-studio-0.9.0-3d57f83a';
-const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png',
-  './fonts/anuphan-400.woff2', './fonts/anuphan-600.woff2', './board-strom-mini.webp', './firmware/manifest.json', './firmware/ptbot-studio-strom-mini-0.9.0.bin'];
+const CACHE = 'ptbot-studio-0.9.2-381c298c';
+const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png',
+  './fonts/anuphan-400.woff2', './fonts/anuphan-600.woff2', './board-strom-mini.webp', './firmware/manifest.json', './firmware/ptbot-studio-strom-mini-0.9.2.bin'];
 
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(SHELL)).then(() => self.skipWaiting()));
