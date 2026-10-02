@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="th">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -8,171 +8,1262 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <style>
-:root{--bg:#f4f5f7;--card:#fff;--fg:#1b1d21;--muted:#6b7280;--line:#e2e5ea;--accent:#e4572e;--ok:#1a8f4c;--bad:#c62828;--input:#fff;
-  --s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--out:#ec835a;--grid:#e1e0d9;--axis:#c3c2b7}
-@media (prefers-color-scheme:dark){:root{--bg:#111316;--card:#1b1e23;--fg:#e8eaed;--muted:#9aa0a8;--line:#2c3037;--accent:#ff7043;--ok:#4cc77f;--bad:#ff6b6b;--input:#14161a;
-  --s1:#3987e5;--s2:#d95926;--s3:#199e70;--out:#ec835a;--grid:#2c2c2a;--axis:#383835}}
+@font-face{font-family:"Anuphan";font-style:normal;font-weight:400;font-display:swap;src:url('fonts/anuphan-400.woff2') format('woff2')}
+@font-face{font-family:"Anuphan";font-style:normal;font-weight:600;font-display:swap;src:url('fonts/anuphan-600.woff2') format('woff2')}
+
+:root{color-scheme:dark;--bg:#101214;--card:#191c20;--input:#111417;--fg:#f1f2f4;--muted:#a4abb5;--line:#343a43;--accent:#ff7043;--accent-fg:#17120f;--ok:#72d4a2;--bad:#ff9393;--warn:#e6c47d;--soft:#21252b;--s1:#72aeff;--s2:#df94df;--s3:#71cdb2;--out:#e6c47d;--grid:#2c323a;--axis:#6e7785;--radius:16px}
+
+@media(prefers-color-scheme:light){:root{color-scheme:light;--bg:#f3f4f6;--card:#fff;--input:#f8f9fb;--fg:#20252c;--muted:#586473;--line:#d6dbe2;--accent:#e4572e;--accent-fg:#17120f;--ok:#16774d;--bad:#b22d36;--warn:#89620d;--soft:#edf0f4;--s1:#2364b4;--s2:#954597;--s3:#187458;--out:#bd8a2f;--grid:#e1e5ea;--axis:#84909d}
+}
+
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
-main{max-width:720px;margin:0 auto;padding:16px}
-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
-h1{font-size:22px;margin:0}h1 b{color:var(--accent)}
-h2{font-size:16px;margin:0 0 10px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px}
-.hidden{display:none!important}
-.muted{color:var(--muted);font-size:13px}
-.pill{font-size:13px;padding:3px 10px;border-radius:99px;border:1px solid var(--line);white-space:nowrap}
-.pill.on{color:var(--ok);border-color:var(--ok)}
-.head-right{display:flex;align-items:center;gap:8px}
-button.install{width:auto;margin:0;padding:4px 12px;font-size:13px;border-radius:99px}
-dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:0}
-dt{color:var(--muted)}dd{margin:0;word-break:break-all}
-label{display:block;font-size:13px;color:var(--muted);margin:8px 0 2px}
-input,select,button{font:inherit;width:100%;padding:9px 10px;border-radius:8px;border:1px solid var(--line);background:var(--input);color:var(--fg)}
-button{cursor:pointer;background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600;margin-top:10px}
-button.ghost{background:transparent;color:var(--fg);border-color:var(--line);font-weight:500}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.7 "Anuphan",system-ui,-apple-system,"Segoe UI","Leelawadee UI","Sukhumvit Set","Noto Sans Thai",sans-serif;font-variant-numeric:tabular-nums}
+button,input,select{font:inherit}
+b,strong{font-weight:600}
+button,summary,a{ -webkit-tap-highlight-color:transparent}
+button{cursor:pointer}
 button:disabled{opacity:.5;cursor:default}
-.row{display:flex;gap:8px}.row>*{flex:1}
-.net{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 0;border-bottom:1px solid var(--line)}
-.net button{width:auto;margin:0;padding:4px 12px}
-progress{width:100%;height:10px;margin-top:10px}
-.msg{min-height:1.5em;margin-top:8px;font-size:14px}.msg.ok{color:var(--ok)}.msg.bad{color:var(--bad)}
-.bars{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:3px;height:90px;align-items:end}
-.bar{position:relative;height:100%;background:var(--input);border:1px solid var(--line);border-radius:4px;overflow:hidden}
-.bar i{position:absolute;left:0;right:0;bottom:0;background:var(--muted);opacity:.55}
-.bar.on i{background:var(--accent);opacity:1}
-.idx{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:3px;font-size:10px;color:var(--muted);text-align:center;margin-top:2px}
-.track{position:relative;height:16px;margin-top:10px;background:var(--input);border:1px solid var(--line);border-radius:8px}
-.track:before{content:"";position:absolute;left:50%;top:2px;bottom:2px;border-left:1px dashed var(--muted)}
-.marker{position:absolute;top:2px;width:10px;height:10px;border-radius:50%;background:var(--accent);transform:translateX(-50%);left:50%}
+:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+button,input,select{min-height:44px;border:1px solid var(--line);border-radius:10px;padding:10px 16px;background:var(--input);color:var(--fg);max-width:100%}
+button{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--accent);border-color:var(--accent);color:var(--accent-fg);font-weight:600}
+button.ghost{background:transparent;color:var(--fg);border-color:var(--line)}
+button.danger{color:var(--bad)}
+.control-pad{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:24px 0 12px}
+button.pad{flex-direction:column;min-height:120px;gap:6px;background:var(--soft);border-color:var(--line);color:var(--fg)}
+.pad-key{font-size:28px;font-weight:600;letter-spacing:.02em}
+button.pad-run{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
+button.pad-reset .pad-key{font-size:18px;color:var(--bad)}
+@media(max-width:480px){.control-pad{grid-template-columns:1fr 1fr}.pad-run{grid-column:1/-1;order:-1}}
+/* Board picture with its real buttons (Strom mini); the plain buttons are the fallback */
+.control-layout{display:grid;grid-template-columns:minmax(0,360px) minmax(0,1fr);gap:28px;align-items:center;margin:24px 0 8px}
+.control-layout .control-pad{margin:0}
+.control-side .msg{margin-top:0}
+.board-wrap{position:relative;border-radius:10px 10px 32px 10px;overflow:hidden;line-height:0}
+.board-wrap img{width:100%;height:auto;display:block}
+button.hot{position:absolute;width:17%;aspect-ratio:1;min-height:0;padding:0;transform:translate(-50%,-50%);border-radius:50%;background:transparent;border:3px solid transparent}
+button.hot:hover,button.hot:focus-visible{border-color:var(--accent);outline:none}
+button.hot.pressed{background:rgba(255,112,67,.4);border-color:var(--accent)}
+button.hot:disabled{opacity:1;cursor:not-allowed}
+button.hot:disabled:hover{border-color:transparent}
+.board-wrap.locked img{opacity:.45;filter:grayscale(1)}
+dialog.ask{border:1px solid var(--line);border-radius:16px;background:var(--card);color:var(--fg);padding:24px;width:min(420px,calc(100vw - 32px))}
+dialog.ask::backdrop{background:rgba(0,0,0,.55)}
+#askText{white-space:pre-line;margin:0 0 18px;line-height:1.7}
+.ask-skip{display:flex;gap:10px;align-items:center;font-size:13px;margin-bottom:20px;cursor:pointer}
+.ask-skip input{min-height:0;width:18px;height:18px;padding:0;margin:0;accent-color:var(--accent)}
+@media(max-width:640px){.control-layout{grid-template-columns:1fr;gap:20px}}
+.pw-field{position:relative}
+.pw-field input{width:100%;padding-right:52px}
+button.reveal{position:absolute;right:4px;top:50%;transform:translateY(-50%);min-height:36px;width:40px;padding:0;background:transparent;border:0;color:var(--muted)}
+button.reveal[aria-pressed=true]{color:var(--accent)}
+button.reveal svg{width:20px;height:20px}
+#accessInfo a{color:var(--fg);text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
+button.icon-btn{width:40px;padding:0}
+.tag{display:inline-flex;align-items:center;font-size:11px;font-weight:600;line-height:1;padding:4px 8px;border-radius:999px;color:var(--ok);background:rgba(114,212,162,.14);vertical-align:middle}
+.latest-row{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+#fwStatus progress{width:100%;margin-top:16px}
+@keyframes attention{50%{box-shadow:0 0 0 8px rgba(255,112,67,.25)}}
+button.attention{box-shadow:0 0 0 3px rgba(255,112,67,.45);animation:attention .8s ease-in-out 3}
+.msg-row{display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px;margin-top:12px}
+.msg-row .msg{margin-top:0}
+button.inline-action{min-height:32px;padding:4px 10px;font-size:13px;gap:6px;border-color:transparent;color:var(--accent)}
+button.inline-action:hover{border-color:var(--line)}
+button.inline-action svg{width:16px;height:16px}
+button.inline-action.spinning svg{animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+button.icon-btn.spinning svg{animation:spin .8s linear infinite}
+.qr-row{display:flex;flex-wrap:wrap;gap:24px;margin:20px 0}
+.qr-row:empty{display:none}
+.qr-item{margin:0;display:flex;flex-direction:column;gap:10px}
+.qr-item figcaption{font-size:13px;font-weight:600}
+.qr{width:200px;height:200px;border-radius:8px;stroke:none}  /* the icon style strokes every svg */
+button.switch{background:transparent;color:var(--fg);border-color:var(--line);gap:12px;padding:8px 12px 8px 16px}
+.switch-track{position:relative;flex:none;width:40px;height:22px;border-radius:11px;background:var(--line);transition:background .15s}
+.switch-thumb{position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:var(--fg);transition:transform .15s}
+.switch-state{min-width:2.2em;text-align:left;font-size:12px;letter-spacing:.04em;color:var(--muted)}
+button.switch[aria-checked=true] .switch-track{background:var(--ok)}
+button.switch[aria-checked=true] .switch-thumb{transform:translateX(18px);background:var(--bg)}
+button.switch[aria-checked=true] .switch-state{color:var(--ok)}
+button svg{width:18px;height:18px;flex:none}
+svg{fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+input,select{display:block;width:100%}
+input[type=file]{padding:12px;font-size:13px}
+input::file-selector-button{background:var(--soft);border:0;border-radius:6px;color:var(--fg);padding:8px;font:inherit;margin-right:12px}
+label{display:block;font-size:13px;color:var(--muted);margin:16px 0 8px}
+p{margin:8px 0 16px}
+h1,h2,h3{line-height:1.45;margin:0}
+h1{font-size:clamp(28px,4vw,40px);letter-spacing:-.8px;font-weight:600}
+h2{font-size:22px;font-weight:600;letter-spacing:-.3px}
+h3{font-size:16px;font-weight:600}
+.muted{color:var(--muted);font-size:13px}
+.eyebrow{font-size:12px;letter-spacing:.6px;color:var(--muted);font-weight:600}
+/* Thai: letter-spacing pulls vowels and tone marks away from their consonants */
+:lang(th) h1,:lang(th) h2,:lang(th) .eyebrow{letter-spacing:0}
+.hidden{display:none!important}
+.shell{max-width:1120px;margin:0 auto;padding:0 32px}
+.topbar{border-bottom:1px solid var(--line)}
+header{min-height:88px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--fg)}
+.brand-mark{display:grid;place-items:center;width:40px;height:40px;border:1px solid var(--line);border-radius:12px;font-size:15px;font-weight:600;letter-spacing:-1px}
+.brand-name{font-size:21px;font-weight:600;line-height:1.2;letter-spacing:-.5px}
+.brand small{display:block;font-size:9px;letter-spacing:2px;color:var(--muted);margin-top:4px}
+.head-right{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:8px;font-size:12px;line-height:1.4}
+.pill:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--muted);flex:none}
+.pill.on:before{background:var(--ok)}
+.pill.pending:before{background:var(--warn);animation:pulse 1.5s infinite}
+.language{display:flex;gap:2px;border:1px solid var(--line);border-radius:9px;padding:3px}
+.language button{min-height:32px;padding:3px 9px;border:0;background:transparent;color:var(--muted);font-size:11px}
+.language button[aria-pressed=true]{background:var(--soft);color:var(--fg)}
+.install{min-height:34px;font-size:12px;padding:4px 12px}
+main{padding-top:32px!important;padding-bottom:40px!important}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px;margin-bottom:20px;min-width:0}
+.welcome{padding:48px;display:grid;grid-template-columns:1.2fr 1fr;gap:56px;align-items:center;min-height:400px}
+.welcome-copy>p{max-width:420px}
+.welcome h1{margin:12px 0 20px;white-space:pre-line}
+.welcome .primary{min-height:52px;padding:12px 24px;margin:8px 0}
+.steps{counter-reset:step;list-style:none;padding:0;margin:0;display:grid;gap:24px}
+.steps li{position:relative;padding-left:48px;counter-increment:step;font-size:14px}
+.steps li:before{content:counter(step,decimal-leading-zero);position:absolute;left:0;top:0;color:var(--muted);font-size:12px;border:1px solid var(--line);border-radius:8px;padding:4px 7px}
+.steps b{display:block;font-weight:600}
+.steps small{display:block;color:var(--muted);font-size:12px}
+.welcome-note{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;padding:0 8px}
+.welcome-note details{max-width:500px}
+.welcome-note summary{font-size:13px;color:var(--muted)}
+summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:44px;font-weight:600}
+summary:after{content:"+";font-size:20px;color:var(--muted)}
+details[open]>summary:after{content:"−"}
+summary::-webkit-details-marker{display:none}
+details>p{margin-top:16px}
+.msg{font-size:13px;line-height:1.65;margin-top:12px;white-space:pre-line;overflow-wrap:anywhere;min-height:0}
+.msg:empty{display:none}
+.msg.ok{color:var(--ok)}
+.msg.bad{color:var(--bad)}
+.msg.pending{color:var(--warn)}
+.notice{border:1px solid var(--line);background:var(--soft);border-radius:12px;padding:16px 20px;margin-bottom:20px;font-size:13px}
+#offlineNote{white-space:pre-line}
+.notice.warn{border-color:var(--warn);color:var(--warn)}
+.notice-title{font-weight:600}
+.notice p{margin:4px 0 0}
+.onboarding{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.onboarding button{min-height:32px;padding:4px 10px;font-size:12px;flex:none}
+.onboarding ol{display:flex;gap:24px;flex-wrap:wrap;padding-left:20px;margin:8px 0 0;font-size:12px}
+.robot-card{display:flex;gap:32px;align-items:center;justify-content:space-between}
+.robot-heading{display:flex;gap:16px;align-items:center}
+.robot-icon{display:grid;place-items:center;width:52px;height:52px;border:1px solid var(--line);border-radius:14px;color:var(--muted);flex:none}
+.robot-icon svg{width:28px;height:28px}
+.robot-heading h2{font-size:24px;margin:4px 0}
+.robot-heading p{margin:0}
+.robot-actions{display:flex;gap:8px;flex:none}
+.robot-actions button{min-height:40px;font-size:12px;padding:8px 12px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--line);margin-top:24px;padding-top:20px;gap:20px}
+.stat small{display:block;color:var(--muted);font-size:12px}
+.stat strong{display:block;font-size:16px;font-weight:600;margin-top:4px;overflow-wrap:anywhere}
+.badge{display:inline-flex;font-size:11px;padding:3px 8px;border:1px solid var(--line);border-radius:6px;color:var(--ok);margin-top:8px}
+button.badge-action{min-height:0;padding:5px 10px;font-size:12px;font-weight:600;background:transparent;border-color:var(--ok);color:var(--ok);gap:6px}
+button.badge-action:hover{background:rgba(114,212,162,.12)}
+.tabs{display:flex;gap:8px;border-bottom:1px solid var(--line);margin:28px 0 24px}
+.tabs button{background:none;color:var(--muted);border:0;border-radius:0;min-height:52px;padding:12px 20px;font-size:14px;border-bottom:2px solid transparent}
+.tabs button[aria-selected=true]{color:var(--fg);border-bottom-color:var(--accent)}
+.panel-head{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;margin-bottom:24px}
+.panel-head p{margin:6px 0 0}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.row>*{min-width:0}
+.row.fields>*{flex:1 1 200px}
+.section-actions{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0 0}
+.empty{border:1px dashed var(--line);border-radius:12px;min-height:180px;display:grid;place-content:center;text-align:center;padding:32px;margin-top:24px}
+.empty svg{width:28px;height:28px;margin:0 auto 12px;color:var(--muted)}
+.empty strong{font-weight:600}
+.empty p{max-width:460px;margin:8px auto 0}
+.fine{font-size:12px;color:var(--muted)}
+dl{display:grid;grid-template-columns:minmax(110px,auto) minmax(0,1fr);gap:8px 24px;margin:0;font-size:13px}
+dt{color:var(--muted)}
+dd{white-space:pre-line;margin:0;overflow-wrap:anywhere}
+#logInfo{display:grid;grid-template-columns:auto 1fr;margin:24px 0;padding:20px;background:var(--input);border:1px solid var(--line);border-radius:12px}
+.chart{position:relative;margin-top:28px}
+.chart h3{font-size:12px;color:var(--muted);margin:0 0 12px}
+.chart canvas{display:block;width:100%;height:210px;touch-action:none}
+.legend{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:11px;color:var(--muted);margin:16px 0}
+.legend span:before{content:"";display:inline-block;width:14px;height:3px;background:var(--c);margin-right:6px;vertical-align:middle;border-radius:2px}
+.legend .band:before{height:10px;opacity:.4}
+.tip{position:absolute;pointer-events:none;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:12px;line-height:1.65;white-space:nowrap;z-index:2}
+.bars{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px;height:160px;align-items:end;margin-top:32px}
+.bar{position:relative;height:100%;background:var(--input);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.bar i{position:absolute;left:0;right:0;bottom:0;background:var(--muted);opacity:.45}
+.bar.on i{background:var(--s1);opacity:1}
+.idx{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px;text-align:center;font-size:10px;color:var(--muted);margin-top:8px}
+.sensor-sides{display:flex;justify-content:space-between;margin-top:8px}
+.track{position:relative;height:24px;background:var(--input);border:1px solid var(--line);border-radius:8px;margin-top:24px}
+.track:before{content:"";position:absolute;left:50%;top:3px;bottom:3px;border-left:1px dashed var(--muted)}
+.marker{position:absolute;top:5px;width:12px;height:12px;border-radius:50%;background:var(--s1);transform:translateX(-50%);left:50%}
 .marker.out{background:var(--bad)}
-h3.sub{font-size:14px;margin:14px 0 0}
-.chart{position:relative;margin-top:10px}
-.chart h3{font-size:13px;font-weight:600;margin:0 0 4px;color:var(--muted)}
-.chart canvas{display:block;width:100%;height:170px;touch-action:none}
-.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13px;color:var(--muted);margin:6px 0 0}
-.legend span:before{content:"";display:inline-block;width:14px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle;background:var(--c)}
-.legend .band:before{height:10px;opacity:.35}
-.tip{position:absolute;pointer-events:none;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 8px;font-size:12px;line-height:1.45;box-shadow:0 2px 8px rgba(0,0,0,.15);white-space:nowrap;z-index:2}
-.tip b{font-weight:600}
-pre{background:var(--input);border:1px solid var(--line);border-radius:8px;padding:8px;max-height:220px;overflow:auto;font-size:12px;margin:0;white-space:pre-wrap;word-break:break-all}
+#posText{margin:12px 0 0;white-space:pre-line}
+.advanced{margin-top:24px;border-top:1px solid var(--line);padding-top:12px}
+.advanced .row{margin-top:16px}
+.sub{margin-top:24px}
+.net{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.net span{overflow-wrap:anywhere;min-width:0}
+.net button{font-size:12px;padding:6px 12px;flex:none}
+.auth{display:flex;gap:24px;align-items:center}
+.auth>div{flex:1}
+.auth label{margin:0 0 8px}
+.auth p{margin:0}
+.file-update{margin-top:24px;border-top:1px solid var(--line);padding-top:16px}
+.file-update label{margin-top:12px}
+.file-update button{margin-top:16px}
+progress{width:100%;height:8px;margin-top:24px;border:0;border-radius:8px;overflow:hidden;accent-color:var(--accent)}
+progress::-webkit-progress-bar{background:var(--soft)}
+progress::-webkit-progress-value{background:var(--accent)}
+pre{background:var(--input);border:1px solid var(--line);border-radius:10px;padding:16px;max-height:320px;overflow:auto;font:12px/1.8 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere;min-width:0;margin:16px 0 0}
+.footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:20px;margin-top:16px;color:var(--muted);font-size:11px}
+.status-details{margin-top:24px;border-top:1px solid var(--line);padding-top:8px}
+.status-details dl{margin-top:16px}
+.link-button{background:none;color:var(--muted);border:0;padding:0;min-height:32px;font-size:12px}
+.busy{border-color:var(--warn)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@keyframes pulse{50%{opacity:.35}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}.switch-track,.switch-thumb{transition:none}
+}
+@media(max-width:760px){.shell{padding-left:20px;padding-right:20px}
+.welcome{padding:28px;grid-template-columns:1fr;gap:32px;min-height:0}
+.robot-card{gap:16px;flex-wrap:wrap}
+.robot-actions{margin-left:auto}
+.stats{gap:12px}
+.stat strong{font-size:14px}
+.auth{display:block}
+.auth>div+div{margin-top:16px}
+.panel-head{flex-wrap:wrap}
+.tabs button{padding:12px 14px}
+.card{padding:24px}
+.onboarding ol{display:grid;gap:4px}
+.chart canvas{height:190px}
+}
+@media(max-width:460px){.shell{padding-left:16px;padding-right:16px}
+header{min-height:80px;gap:12px;flex-wrap:wrap;padding-top:16px;padding-bottom:16px}
+.brand-mark{width:32px;height:32px;border-radius:9px;font-size:12px}
+.brand-name{font-size:18px}
+.brand small{font-size:8px}
+.head-right{gap:10px;margin-left:auto}
+.pill{font-size:10px;max-width:135px}
+.head-right .install{order:3}
+.language button{padding:3px 7px;min-height:30px}
+.card{padding:20px;border-radius:12px}
+.welcome{padding:24px}
+.welcome h1{font-size:30px}
+.welcome .primary{width:100%}
+.tabs{gap:0;margin-top:24px}
+.tabs{overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:0 0 auto;padding:10px 12px;font-size:13px;white-space:nowrap}
+.robot-heading h2{font-size:20px}
+.robot-icon{width:44px;height:44px}
+.robot-actions{margin-left:0;width:100%}
+.robot-actions button{flex:1}
+.robot-actions{justify-content:flex-end}
+.robot-actions button.icon-btn{flex:0 0 44px}
+.stats{grid-template-columns:1fr;gap:12px;padding-top:16px;margin-top:16px}
+.stat{display:flex;gap:12px;justify-content:space-between;align-items:baseline}
+.stat strong{margin:0;text-align:right}
+.panel-head h2{font-size:20px}
+.section-actions button{flex:1 1 130px}
+.bars,.idx{gap:3px}
+.bar{border-radius:3px}
+.bars{height:130px}
+.row button{flex:1 1 130px}
+#logInfo,dl{grid-template-columns:minmax(80px,auto) minmax(0,1fr);gap:8px 12px}
+#logInfo{padding:12px;font-size:12px}
+.onboarding{display:block}
+.onboarding button{margin-top:12px}
+.notice{padding:16px}
+.footer{font-size:10px}
+.file-update input{font-size:11px}
+}
+
+
 </style>
 </head>
 <body>
-<main>
-<header><h1><b>PT</b> Link</h1>
-  <div class="head-right"><button class="install hidden" id="installBtn">ติดตั้งแอป</button><span id="conn" class="pill">ไม่ได้เชื่อมต่อ</span></div>
+
+<div class="topbar">
+<header class="shell">
+  <a href="#" class="brand" aria-label="PT Link — PT ROBOTICS">
+<span class="brand-mark">PT</span>
+<span>
+<span class="brand-name">PT Link</span>
+<small>PT ROBOTICS</small>
+</span>
+</a>
+  <div class="head-right">
+<span id="conn" class="pill" role="status" data-i18n="disconnected"></span>
+<button class="install ghost hidden" id="installBtn" data-i18n="installApp"></button>
+<div class="language" role="group" data-i18n-aria="language">
+<button id="langTh" lang="th" aria-pressed="false">TH</button>
+<button id="langEn" lang="en" aria-pressed="false">EN</button>
+</div>
+</div>
 </header>
-
-<section id="connectCard" class="card hidden">
-  <h2>เชื่อมต่อหุ่น</h2>
-  <p class="muted" id="connectHelp">เสียบสาย USB ระหว่างคอมกับหุ่น แล้วกดปุ่มด้านล่าง เลือกพอร์ต COM ของหุ่น (ปิด Serial Monitor / Arduino IDE ก่อน)</p>
-  <button id="usbBtn">เชื่อมต่อผ่าน USB</button>
-  <p class="muted">ใช้ Chrome หรือ Edge บนคอมพิวเตอร์ (มือถือเชื่อมต่อผ่าน USB ไม่ได้)</p>
+</div>
+<main class="shell">
+  <div id="offlineNote" class="notice hidden" role="status" data-i18n="offline"></div>
+  <section id="connectCard" class="hidden">
+    <div class="card welcome">
+<div class="welcome-copy">
+<div class="eyebrow" data-i18n="workspace"></div>
+<h1 data-i18n="welcomeTitle"></h1>
+<p class="muted" data-i18n="welcomeCopy"></p>
+<button id="usbBtn" class="primary">
+<svg viewBox="0 0 24 24" aria-hidden="true">
+<path d="M12 20V4m-3 3 3-3 3 3M12 15H7a3 3 0 0 1-3-3V9m8 3h5a3 3 0 0 0 3-3V7"/>
+<circle cx="4" cy="7" r="2"/>
+<path d="M18 3h4v4h-4z"/>
+</svg>
+<span data-i18n="connectUsb"></span>
+</button>
+<p class="fine" data-i18n="browserHint"></p>
+<div class="msg" id="connectHelp" role="status" aria-live="polite">
+</div>
+</div>
+      <ol class="steps">
+<li>
+<b data-i18n="stepCable"></b>
+<small data-i18n="stepCableHint"></small>
+</li>
+<li>
+<b data-i18n="stepPort"></b>
+<small data-i18n="stepPortHint"></small>
+</li>
+<li>
+<b data-i18n="stepReady"></b>
+<small data-i18n="stepReadyHint"></small>
+</li>
+</ol>
+    </div>
+<div class="welcome-note">
+<span class="fine" data-i18n="localHint"></span>
+</div>
+  </section>
+  <section id="authCard" class="card auth hidden">
+<div>
+<h3 data-i18n="wifiAccess"></h3>
+<p class="muted" data-i18n="wifiAuthHint"></p>
+</div>
+<div>
+<label for="pw" data-i18n="factoryPassword"></label>
+<div class="pw-field"><input id="pw" type="password" autocomplete="current-password"><button type="button" class="reveal" data-for="pw" aria-pressed="false" data-i18n-aria="pw.show"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+</div>
 </section>
-
-<section id="authCard" class="card hidden">
-  <label for="pw">รหัสผ่านหุ่น (รหัสโรงงาน) — ใช้ตอนเปลี่ยนค่าหรืออัปเดตผ่าน WiFi</label>
-  <input id="pw" type="password" autocomplete="current-password">
-</section>
-
-<section id="app" class="hidden">
-  <div class="card">
-    <h2>สถานะ</h2>
-    <dl id="status"></dl>
-    <div class="row"><button class="ghost" id="refreshBtn">รีเฟรช</button><button class="ghost" id="identifyBtn">ให้หุ่นส่งเสียง</button></div>
-    <button class="ghost" id="benchBtn">เปิดโหมดทดสอบบนโต๊ะ (พัดลมไม่หมุน)</button>
-    <p class="muted">โหมดทดสอบบนโต๊ะ: กด B แล้ววิ่งโดยไม่เปิดพัดลม — ยกล้อลอย วางกระดาษมีเส้นใต้เซนเซอร์ ดูทิศล้อและลูป/วินาที · ปิดเองทุกครั้งที่เปิดเครื่องใหม่</p>
-  </div>
-
-  <div class="card">
-    <h2>เซนเซอร์</h2>
-    <div class="bars" id="bars"></div>
-    <div class="idx" id="idx"></div>
-    <div class="track"><div class="marker" id="marker"></div></div>
-    <p class="muted" id="posText">—</p>
-    <div class="row"><button class="ghost" id="liveBtn">ดูค่าสด</button><button class="ghost" id="calViewBtn">ดูค่าคาลิเบรต</button></div>
-    <div class="row"><button id="calSpinBtn">คาลิเบรต (หมุนตัว)</button><button class="ghost" id="calManualBtn">คาลิเบรต (เลื่อนด้วยมือ)</button></div>
-    <div class="msg" id="calMsg"></div>
-    <pre id="calData" class="hidden"></pre>
-  </div>
-
-  <div class="card" id="logCardRun">
-    <h2>บันทึกการวิ่ง</h2>
-    <div class="row"><button id="logPtBtn">รอบล่าสุด (PT Link)</button><button class="ghost" id="logFlsrBtn">รอบล่าสุดของ FLSR_DM01</button></div>
-    <div class="msg" id="logMsg"></div>
-    <div id="logView" class="hidden">
-      <dl id="logInfo"></dl>
-      <div class="chart" id="chartBox">
-        <h3>ตำแหน่งเส้น (บวก = เส้นอยู่ซ้าย)</h3>
-        <canvas id="chartErr" aria-label="กราฟตำแหน่งเส้นตามเวลา"></canvas>
-        <h3 style="margin-top:10px">คำสั่งมอเตอร์ (%)</h3>
-        <canvas id="chartMotor" aria-label="กราฟคำสั่งมอเตอร์ตามเวลา"></canvas>
-        <div class="legend">
-          <span style="--c:var(--s1)">ล้อซ้าย</span><span style="--c:var(--s2)">ล้อขวา</span><span style="--c:var(--s3)">base (หลังลดตอนเข้าโค้ง)</span>
-          <span class="band" style="--c:var(--out)">ช่วงหลุดเส้น</span>
-        </div>
-        <div class="tip hidden" id="tip"></div>
+  <section id="app" class="hidden">
+    <aside id="onboarding" class="notice onboarding">
+<div>
+<strong data-i18n="firstRun"></strong>
+<ol>
+<li data-i18n="onboard1"></li>
+<li data-i18n="onboard2"></li>
+<li data-i18n="onboard3"></li>
+<li data-i18n="onboard4"></li>
+</ol>
+</div>
+<button id="dismissOnboarding" class="ghost" data-i18n="dismiss"></button>
+</aside>
+    <div class="card">
+<div class="robot-card">
+<div class="robot-heading">
+<div class="robot-icon">
+<svg viewBox="0 0 32 32" aria-hidden="true">
+<path d="M9 8h14v17H9zM13 4v4m6-4v4M5 12v10m22-10v10M13 13h6m-6 5h6m-6 4h6"/>
+</svg>
+</div>
+<div>
+<div class="eyebrow" data-i18n="connectedRobot"></div>
+<h2 id="robotName">—</h2>
+<p id="robotBoard" class="muted">—</p>
+<button type="button" id="newVersion" class="badge badge-action hidden"></button>
+</div>
+</div>
+<div class="robot-actions">
+<button class="ghost icon-btn" id="refreshBtn" data-i18n-aria="refresh" data-i18n-title="refresh"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.3-4.9L4 8"/><path d="M4 3v5h5"/><path d="M4 13a8 8 0 0 0 14.3 4.9L20 16"/><path d="M20 21v-5h-5"/></svg></button>
+<button class="ghost icon-btn" id="identifyBtn" data-i18n-aria="identify" data-i18n-title="identify"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg></button>
+</div>
+</div>
+<div class="stats">
+<div class="stat">
+<small data-i18n="firmware"></small>
+<strong><span id="robotFirmware">—</span> <span class="tag hidden" id="fwLatestTag" data-i18n="latestTag"></span></strong>
+</div>
+<div class="stat">
+<small data-i18n="runMode"></small>
+<strong id="robotMode">—</strong>
+</div>
+<div class="stat">
+<small data-i18n="lastRun"></small>
+<strong id="robotRun">—</strong>
+</div>
+</div>
+<details class="status-details">
+<summary data-i18n="robotDetails"></summary>
+<dl id="status">
+</dl>
+</details>
+</div>
+    <div id="benchNotice" class="notice warn hidden" role="status">
+<strong data-i18n="benchActive"></strong>
+<p data-i18n="benchSafety"></p>
+</div>
+    <div id="busyNotice" class="notice warn hidden" role="status" data-i18n="robotBusy"></div>
+    <nav class="tabs" role="tablist" aria-label="PT Link">
+<button id="tabRuns" role="tab" aria-controls="panelRuns" aria-selected="true" data-panel="panelRuns" data-i18n="runs"></button>
+<button id="tabSensors" role="tab" aria-controls="panelSensors" aria-selected="false" tabindex="-1" data-panel="panelSensors" data-i18n="sensors"></button>
+<button id="tabControl" role="tab" aria-controls="panelControl" aria-selected="false" tabindex="-1" data-panel="panelControl" data-i18n="control"></button>
+<button id="tabUpdate" role="tab" aria-controls="panelUpdate" aria-selected="false" tabindex="-1" data-panel="panelUpdate" data-i18n="update"></button>
+<button id="tabWifi" class="hidden" role="tab" aria-controls="panelWifi" aria-selected="false" tabindex="-1" data-panel="panelWifi" data-i18n="wifi"></button>
+<button id="tabSettings" role="tab" aria-controls="panelSettings" aria-selected="false" tabindex="-1" data-panel="panelSettings" data-i18n="settings"></button>
+</nav>
+    <section id="panelRuns" role="tabpanel" aria-labelledby="tabRuns" tabindex="0">
+      <div class="card" id="logCardRun">
+<div class="panel-head">
+<div>
+<div class="eyebrow" data-i18n="runAnalysis"></div>
+<h2 data-i18n="lastRunTitle"></h2>
+<p class="muted" data-i18n="runHint"></p>
+</div>
+<button id="logPtBtn" data-i18n="loadRun"></button>
+</div>
+<div class="msg" id="logMsg" role="status" aria-live="polite">
+</div>
+<div id="runEmpty" class="empty">
+<svg viewBox="0 0 24 24" aria-hidden="true">
+<path d="M4 4v16h16M7 15l4-5 4 3 5-7"/>
+</svg>
+<strong data-i18n="runEmpty"></strong>
+<p class="muted" data-i18n="runEmptyHint"></p>
+</div>
+        <div id="logView" class="hidden">
+<dl id="logInfo">
+</dl>
+<div class="chart" id="chartBox">
+<h3 data-i18n="errorChart"></h3>
+<canvas id="chartErr" tabindex="0" role="img" data-i18n-aria="errorChartAria">
+</canvas>
+<h3 style="margin-top:28px" data-i18n="motorChart"></h3>
+<canvas id="chartMotor" tabindex="0" role="img" data-i18n-aria="motorChartAria">
+</canvas>
+<div class="legend">
+<span style="--c:var(--s1)" data-i18n="leftWheel"></span>
+<span style="--c:var(--s2)" data-i18n="rightWheel"></span>
+<span style="--c:var(--s3)" data-i18n="curveBase"></span>
+<span class="band" style="--c:var(--out)" data-i18n="lineOutBand"></span>
+</div>
+<div class="tip hidden" id="tip">
+</div>
+</div>
+<div class="section-actions">
+<button class="ghost" id="csvBtn" data-i18n="downloadCsv"></button>
+<button class="ghost" id="tableBtn" data-i18n="viewTable"></button>
+</div>
+<pre id="logTable" class="hidden" tabindex="0">
+</pre>
+<p class="fine" data-i18n="chartKeyboard"></p>
+</div>
+        <details class="advanced">
+<summary data-i18n="olderRun"></summary>
+<p class="muted" data-i18n="olderRunHint"></p>
+<button class="ghost" id="logFlsrBtn" data-i18n="loadLegacy"></button>
+</details>
       </div>
-      <div class="row"><button class="ghost" id="csvBtn">ดาวน์โหลด CSV</button><button class="ghost" id="tableBtn">ดูเป็นตาราง</button></div>
-      <pre id="logTable" class="hidden"></pre>
-    </div>
-    <button class="ghost hidden" id="logFormatBtn">เตรียมพื้นที่เก็บ log (ล้างข้อมูล log ทั้งหมด)</button>
-  </div>
-
-  <div class="card" id="settingsCard">
-    <h2>ตั้งค่า</h2>
-    <label for="mode">โหมด</label>
-    <select id="mode"><option value="race">แข่ง — WiFi ปิดตอนเปิดเครื่อง, ตัดก่อนออกตัว</option><option value="practice">ฝึกซ้อม — WiFi เปิดตอนเปิดเครื่อง</option></select>
-    <h3 class="sub">WiFi ที่หุ่นปล่อยเอง <span class="muted">(มือถือต่อเข้าหุ่น — ไม่ใช่ WiFi บ้าน)</span></h3>
-    <label for="apSsid">ชื่อ — ตอนนี้: <b id="apNow">-</b> (เว้นว่าง = ไม่เปลี่ยน)</label>
-    <input id="apSsid" maxlength="32">
-    <label for="apPass">รหัสใหม่ (เว้นว่าง = ไม่เปลี่ยน, อย่างน้อย 8 ตัว)</label>
-    <input id="apPass" type="password" maxlength="63" autocomplete="new-password">
-    <label for="apChannel">ช่องสัญญาณ</label>
-    <select id="apChannel"></select>
-    <button id="saveBtn">บันทึก</button>
-    <button class="ghost" id="apResetBtn">คืนชื่อ / รหัส / ช่อง WiFi ของหุ่นเป็นค่าเริ่มต้น</button>
-    <div class="msg" id="saveMsg"></div>
-    <p class="muted">ค่า WiFi มีผลตอนเปิด WiFi ครั้งถัดไป · ค่าเริ่มต้น = ชื่อ PTLINK-xxxx กับรหัสโรงงานบนสติกเกอร์</p>
-  </div>
-
-  <div class="card" id="netsCard">
-    <h2>WiFi บ้าน / ฮอตสปอต ที่ให้หุ่นไปต่อ <span class="muted">(ต้องติดเสาอากาศ)</span></h2>
-    <div id="nets"></div>
-    <div class="row"><div><label for="netSsid">ชื่อ WiFi</label><input id="netSsid" maxlength="32"></div>
-      <div><label for="netPass">รหัส</label><input id="netPass" type="password" maxlength="63" autocomplete="off"></div></div>
-    <button class="ghost" id="netAddBtn">เพิ่มเครือข่าย</button>
-    <div class="msg" id="netMsg"></div>
-  </div>
-
-  <div class="card">
-    <h2>อัปเดตเฟิร์มแวร์</h2>
-    <div id="latestBox" class="hidden">
-      <p class="muted" id="latestInfo"></p>
-      <button id="latestBtn">อัปเดตเป็นเวอร์ชันล่าสุด</button>
-      <p class="muted">หรือเลือกไฟล์เอง:</p>
-    </div>
-    <input id="fwFile" type="file" accept=".bin">
-    <button class="ghost" id="fwBtn">อัปเดตจากไฟล์</button>
-    <progress id="fwProg" max="100" value="0" class="hidden"></progress>
-    <div class="msg" id="fwMsg"></div>
-  </div>
-
-  <div class="card">
-    <button class="ghost" id="rebootBtn">รีสตาร์ทหุ่น</button>
-  </div>
-
-  <div class="card hidden" id="logCard">
-    <h2>ข้อความจากหุ่น</h2>
-    <pre id="log"></pre>
-  </div>
+    </section>
+    <section id="panelSensors" class="hidden" role="tabpanel" aria-labelledby="tabSensors" tabindex="0">
+<div class="card">
+<div class="panel-head">
+<div>
+<div class="eyebrow" data-i18n="sensorCheck"></div>
+<h2 data-i18n="sensors"></h2>
+<p class="muted" data-i18n="sensorHint"></p>
+</div>
+<button class="switch" id="liveBtn" role="switch" aria-checked="false"><span data-i18n="live"></span><span class="switch-track" aria-hidden="true"><span class="switch-thumb"></span></span><span class="switch-state" aria-hidden="true">OFF</span></button>
+</div>
+<div id="calState" class="notice" role="status">
+</div>
+<div class="bars" id="bars">
+</div>
+<div class="idx" id="idx">
+</div>
+<div class="sensor-sides">
+<small class="fine" data-i18n="sensorLeft"></small>
+<small class="fine" data-i18n="sensorRight"></small>
+</div>
+<div class="track">
+<div class="marker" id="marker">
+</div>
+</div>
+<p class="muted" id="posText">—</p>
+<div class="section-actions">
+<button class="ghost" id="calViewBtn" data-i18n="viewCalibration"></button>
+</div>
+<pre id="calData" class="hidden" tabindex="0">
+</pre>
+<div class="msg" id="calMsg" role="status" aria-live="polite">
+</div>
+</div>
 </section>
+    <section id="panelUpdate" class="hidden" role="tabpanel" aria-labelledby="tabUpdate" tabindex="0">
+<div class="card">
+<div class="panel-head">
+<div>
+<div class="eyebrow" data-i18n="firmwareMaintenance"></div>
+<h2 data-i18n="updateTitle"></h2>
+<p class="muted" data-i18n="updateHint"></p>
+</div>
+</div>
+<div id="latestBox" class="hidden">
+<p id="latestInfo">
+</p>
+<div class="latest-row"><button id="latestBtn" data-i18n="updateLatest"></button><span class="tag" data-i18n="latestTag"></span></div>
+<p class="fine" data-i18n="verifiedDownload"></p>
+</div>
+<div id="latestUnavailable" class="notice" data-i18n="latestUnavailable"></div>
+<div id="fwStatus">
+<progress id="fwProg" max="100" value="0" class="hidden" data-i18n-aria="updateProgress">
+</progress>
+<div class="msg" id="fwMsg" role="status" aria-live="polite">
+</div>
+</div>
+<details class="file-update" open>
+<summary data-i18n="chooseFile"></summary>
+<label for="fwFile" data-i18n="firmwareFile"></label>
+<input id="fwFile" type="file" accept=".bin">
+<button class="ghost" id="fwBtn" data-i18n="updateFile"></button>
+</details>
+<p class="fine" style="margin-top:24px" data-i18n="updateSafety"></p>
+</div>
+</section>
+    <section id="panelControl" class="hidden" role="tabpanel" aria-labelledby="tabControl" tabindex="0">
+<div class="card">
+<h2 data-i18n="control.title"></h2>
+<p class="muted" data-i18n="control.hint"></p>
+<p class="notice warn hidden" id="controlNote" data-i18n="control.wifiOnly"></p>
+<div class="control-layout">
+<div class="board-wrap hidden" id="boardPad">
+<img id="boardImg" src="board-strom-mini.webp" width="395" height="365" alt="">
+<button class="hot" id="hotA" style="left:69.3%;top:56.3%" data-i18n-aria="control.aAria"></button>
+<button class="hot" id="hotB" style="left:69.1%;top:84.8%" data-i18n-aria="control.bAria"></button>
+<button class="hot" id="hotReset" style="left:89.4%;top:53.4%" data-i18n-aria="control.resetAria"></button>
+</div>
+<div class="control-pad">
+<button class="pad" id="padA" data-i18n-aria="control.aAria"><span class="pad-key">A</span></button>
+<button class="pad pad-run" id="padB" data-i18n-aria="control.bAria"><span class="pad-key">B</span></button>
+<button class="pad pad-reset" id="padReset" data-i18n-aria="control.resetAria"><span class="pad-key">RESET</span></button>
+</div>
+<div class="control-side">
+<div class="msg" id="controlMsg" role="status" aria-live="polite"></div>
+<button class="link-button hidden" id="askAgainBtn" data-i18n="control.askAgain"></button>
+</div>
+</div>
+<h3 class="sub" data-i18n="calibrateAdvanced"></h3>
+<p class="muted" data-i18n="calibrateSteps"></p>
+<div class="notice warn">
+<strong data-i18n="calibrateWarning"></strong>
+<p data-i18n="calibrateShared"></p>
+</div>
+<div class="row">
+<button class="ghost" id="calManualBtn" data-i18n="calManual"></button>
+<button class="ghost danger" id="calSpinBtn" data-i18n="calSpin"></button>
+</div>
+<div class="msg" id="calCtlMsg" role="status" aria-live="polite"></div>
+</div>
+</section>
+    <section id="panelWifi" class="hidden" role="tabpanel" aria-labelledby="tabWifi" tabindex="0">
+<div class="card">
+<h2 data-i18n="wifi"></h2>
+<p class="muted" data-i18n="wifi.hint"></p>
+<button class="switch" id="wifiSwitch" role="switch" aria-checked="false"><span data-i18n="wifi"></span><span class="switch-track" aria-hidden="true"><span class="switch-thumb"></span></span><span class="switch-state" aria-hidden="true">OFF</span></button>
+<div class="msg-row">
+<div class="msg" id="wifiMsg" role="status" aria-live="polite"></div>
+<button class="ghost inline-action hidden" id="wifiRetryBtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.3-4.9L4 8"/><path d="M4 3v5h5"/><path d="M4 13a8 8 0 0 0 14.3 4.9L20 16"/><path d="M20 21v-5h-5"/></svg><span data-i18n="wifi.retry"></span></button>
+</div>
+</div>
+      <section class="card" id="netsCard">
+<h2 data-i18n="homeWifiTitle"></h2>
+<p class="muted" data-i18n="homeWifiHint"></p>
+<div id="nets">
+</div>
+<div class="row fields">
+<div>
+<label for="netSsid" data-i18n="homeWifiName"></label>
+<input id="netSsid" maxlength="32" autocomplete="off">
+</div>
+<div>
+<label for="netPass" data-i18n="networkPassword"></label>
+<div class="pw-field"><input id="netPass" type="password" maxlength="63" autocomplete="off"><button type="button" class="reveal" data-for="netPass" aria-pressed="false" data-i18n-aria="pw.show"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+</div>
+</div>
+<button class="ghost" id="netAddBtn" style="margin-top:16px" data-i18n="addNetwork"></button>
+<div class="msg" id="netMsg" role="status" aria-live="polite">
+</div>
+</section>
+      <section class="card hidden" id="accessCard">
+<h2 data-i18n="access.title"></h2>
+<p class="muted" id="accessHint"></p>
+<div class="qr-row" id="qrRow"></div>
+<dl id="accessInfo"></dl>
+<h3 class="sub" data-i18n="pw.title"></h3>
+<p class="muted" data-i18n="pw.hint"></p>
+<label for="newPw" data-i18n="pw.new"></label>
+<div class="pw-field"><input id="newPw" type="password" maxlength="63" autocomplete="new-password"><button type="button" class="reveal" data-for="newPw" aria-pressed="false" data-i18n-aria="pw.show"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+<div class="section-actions">
+<button class="ghost" id="pwSaveBtn" data-i18n="pw.save"></button>
+<button class="ghost hidden" id="pwFactoryBtn" data-i18n="pw.factory"></button>
+</div>
+<div class="msg" id="pwMsg" role="status" aria-live="polite"></div>
+</section>
+    </section>
+    <section id="panelSettings" class="hidden" role="tabpanel" aria-labelledby="tabSettings" tabindex="0">
+<div class="card">
+<h2 data-i18n="settings"></h2>
+<p class="muted" data-i18n="settingsHint"></p>
+<details class="advanced">
+<summary data-i18n="benchTitle"></summary>
+<p class="muted" data-i18n="benchSafety"></p>
+<button class="switch" id="benchBtn" role="switch" aria-checked="false"><span data-i18n="benchSwitch"></span><span class="switch-track" aria-hidden="true"><span class="switch-thumb"></span></span><span class="switch-state" aria-hidden="true">OFF</span></button>
+</details>
+<details class="advanced">
+<summary data-i18n="storageMaintenance"></summary>
+<p class="muted" data-i18n="storageWarning"></p>
+<button class="ghost hidden danger" id="logFormatBtn" data-i18n="formatLog"></button>
+<p id="storageHelp" class="fine" data-i18n="storageHelp"></p>
+<button class="ghost" id="rebootBtn" data-i18n="reboot"></button>
+</details>
+</div>
+      <details class="card hidden" id="logCard">
+<summary data-i18n="robotMessages"></summary>
+<p class="fine" data-i18n="robotMessagesHint"></p>
+<pre id="log" tabindex="0">
+</pre>
+</details>
+    </section>
+  </section>
+  <footer class="footer">
+<span>PT ROBOTICS <span aria-hidden="true">/</span> PT Link</span>
+<span data-i18n="footerHint"></span>
+</footer>
+<dialog id="askDialog" class="ask">
+<form method="dialog">
+<p id="askText"></p>
+<label class="ask-skip"><input type="checkbox" id="askSkip"><span data-i18n="ask.skip"></span></label>
+<div class="section-actions">
+<button value="ok" id="askOk" data-i18n="ask.ok"></button>
+<button value="cancel" class="ghost" data-i18n="ask.cancel"></button>
+</div>
+</form>
+</dialog>
 </main>
 
 <script>
 'use strict';
 const $ = id => document.getElementById(id);
+
+const TEXT = {
+  "th": {
+    "disconnected": "ไม่ได้เชื่อมต่อ",
+    "installApp": "ติดตั้งแอป",
+    "workspace": "PT Link สำหรับทีมแข่ง",
+    "welcomeTitle": "เตรียมหุ่นยนต์ให้พร้อม\nสำหรับรอบต่อไป",
+    "welcomeCopy": "ดูผลการวิ่ง ตรวจ Sensor และอัปเดต Firmware ผ่านสาย USB",
+    "connectUsb": "เชื่อมต่อ USB",
+    "browserHint": "ใช้ Chrome หรือ Edge บนคอมพิวเตอร์",
+    "stepCable": "เสียบสาย USB",
+    "stepCableHint": "เปิดสวิตช์หุ่นยนต์ และใช้สาย USB ที่รับส่งข้อมูลได้ (ไม่ใช่สายชาร์จอย่างเดียว)",
+    "stepPort": "เลือก Port ของหุ่นยนต์",
+    "stepPortHint": "ปิด Serial Monitor และโปรแกรมหรือแท็บที่ใช้ Port อยู่",
+    "stepReady": "รอหุ่นยนต์พร้อมใช้งาน",
+    "stepReadyHint": "หุ่นยนต์จะรีสตาร์ทตอนเชื่อมต่อ อาจใช้เวลาถึง 20 วินาที",
+    "localHint": "ข้อมูลจากหุ่นยนต์ส่งตรงผ่าน USB",
+    "offline": "ออฟไลน์อยู่ ยังต่อ USB ได้\nยังตรวจเวอร์ชันใหม่ไม่ได้ ข้อมูลที่แสดงอาจเป็นข้อมูลที่เก็บไว้",
+    "wifiAccess": "เชื่อมต่อ WiFi แล้ว",
+    "wifiAuthHint": "ใส่รหัสผ่านก่อนเปลี่ยนค่า Calibrate หรืออัปเดต Firmware ระบบจะจำรหัสไว้ในเบราว์เซอร์นี้",
+    "factoryPassword": "รหัสผ่านโรงงานบนสติกเกอร์หุ่นยนต์",
+    "firstRun": "วิธีใช้งาน",
+    "onboard1": "Calibrate: ถอดสาย USB กดปุ่ม A ค้างไว้ แล้วเปิดสวิตช์หุ่นยนต์",
+    "onboard2": "วิ่ง: วางหุ่นยนต์บนสนาม แล้วกดปุ่ม B",
+    "onboard3": "ดูผล: เสียบสาย USB แล้วกดเชื่อมต่อ",
+    "onboard4": "กด “โหลดผลการวิ่ง” เพื่อดูกราฟ",
+    "dismiss": "ปิดคำแนะนำ",
+    "connectedRobot": "หุ่นยนต์ที่เชื่อมต่อ",
+    "refresh": "รีเฟรช",
+    "identify": "ให้หุ่นยนต์ส่งเสียง",
+    "firmware": "Firmware",
+    "runMode": "WiFi",
+    "lastRun": "วิ่งรอบล่าสุด",
+    "robotDetails": "สถานะ",
+    "benchActive": "เปิด bench test อยู่ พัดลมจะไม่หมุน",
+    "benchSafety": "ยกล้อให้ลอยก่อนกด B มอเตอร์จะหมุนแต่พัดลมจะไม่ทำงาน วางกระดาษที่มีเส้นไว้ใต้ Sensor เพื่อเช็กทิศทางล้อและ Loop rate โหมดนี้ปิดเองเมื่อรีสตาร์ทหุ่นยนต์",
+    "robotBusy": "หุ่นยนต์กำลังวิ่งหรือไม่ว่าง รอให้หยุดก่อนเปลี่ยนค่าหรืออัปเดต",
+    "runs": "ผลการวิ่ง",
+    "sensors": "Sensor",
+    "update": "อัปเดต",
+    "settings": "ตั้งค่า",
+    "wifi": "WiFi",
+    "wifi.hint": "เปิดแล้วหุ่นยนต์จะเชื่อมต่อเครือข่ายที่บันทึกไว้ด้านล่างเองทุกครั้งที่เปิดเครื่อง ปิดไว้เมื่อไม่ใช้ เช่น ระหว่างแข่ง",
+    "wifi.none": "ไม่มีในเฟิร์มแวร์นี้",
+    "wifi.offConfirm": "ปิด WiFi หรือไม่?\nหน้านี้เชื่อมต่อผ่าน WiFi จะขาดการเชื่อมต่อทันที เปิดใหม่ได้ผ่าน USB",
+    "wifi.turnedOn": "เปิด WiFi แล้ว หุ่นยนต์กำลังเชื่อมต่อเครือข่าย กดรีเฟรชในอีกสักครู่",
+    "wifi.joining": "เปิด WiFi แล้ว กำลังเชื่อมต่อเครือข่าย…",
+    "wifi.joined": "เปิด WiFi แล้ว เชื่อมต่อเครือข่าย {0} แล้ว",
+    "wifi.retry": "ลองอีกครั้ง",
+    "wifi.turnedOff": "ปิด WiFi แล้ว",
+    "control": "ควบคุม",
+    "control.title": "แผงควบคุม",
+    "control.wifiOnly": "แผงควบคุมและ Calibrate ใช้ได้เมื่อเชื่อมต่อผ่าน WiFi เท่านั้น เพื่อความปลอดภัย (ต่อสาย USB อยู่ หุ่นยนต์อาจลากสาย) เปิดหน้านี้ผ่าน WiFi จากคอมหรือมือถือด้วยลิงก์หรือ QR code ในแท็บ WiFi",
+    "control.askAgain": "ให้ถามก่อนกด B และ RESET อีกครั้ง",
+    "ask.skip": "ไม่ต้องถามอีก",
+    "ask.ok": "ตกลง",
+    "ask.cancel": "ยกเลิก",
+    "control.hint": "กดปุ่มบนภาพได้เหมือนกดปุ่มบนหุ่นยนต์ หุ่นยนต์ทำงานตามโค้ดของมัน",
+    "control.aAria": "ปุ่ม A",
+    "control.bAria": "ปุ่ม B: เริ่มวิ่ง",
+    "control.resetAria": "ปุ่ม RESET: รีสตาร์ทหุ่นยนต์",
+    "control.bConfirm": "กดปุ่ม B หรือไม่?\nหุ่นยนต์จะเริ่มวิ่งเหมือนกดปุ่ม B บนหุ่นยนต์ เว้นพื้นที่รอบหุ่นยนต์ให้ว่าง และระวังสาย USB ถ้าเสียบอยู่",
+    "control.started": "ส่งปุ่ม B แล้ว หน้าเว็บจะกลับมาเชื่อมต่อเมื่อวิ่งจบ",
+    "control.waitingA": "หุ่นยนต์หยุดรอปุ่ม A (waitA)",
+    "control.finished": "วิ่งจบแล้ว ดูกราฟได้ในแท็บผลการวิ่ง",
+    "control.aSent": "ส่งปุ่ม A แล้ว",
+    "control.resetDone": "หุ่นยนต์กำลังรีสตาร์ท รอ 10 วินาทีแล้วกดรีเฟรช",
+    "runAnalysis": "วิเคราะห์การวิ่ง",
+    "lastRunTitle": "ผลการวิ่งรอบล่าสุด",
+    "runHint": "ตำแหน่งเส้นเทียบกับความเร็วมอเตอร์ตลอดการวิ่ง",
+    "loadRun": "โหลดผลการวิ่ง",
+    "runEmpty": "ยังไม่ได้โหลดผลการวิ่ง",
+    "runEmptyHint": "กดโหลดผลการวิ่งเพื่ออ่านรอบล่าสุดจากหุ่นยนต์ หากยังไม่ได้วิ่ง ให้ถอด USB วางหุ่นยนต์บนสนาม แล้วกด B",
+    "errorChart": "ตำแหน่งเส้น (ค่าบวก = เส้นอยู่ทางซ้าย)",
+    "errorChartAria": "กราฟตำแหน่งเส้นตามเวลา ดูตัวเลขได้ในตารางข้อมูล",
+    "motorChart": "ความเร็วมอเตอร์ (%)",
+    "motorChartAria": "กราฟคำสั่งมอเตอร์ตามเวลา ดูตัวเลขได้ในตารางข้อมูล",
+    "leftWheel": "ล้อซ้าย",
+    "rightWheel": "ล้อขวา",
+    "curveBase": "Base (หลังลดความเร็วในโค้ง)",
+    "lineOutBand": "ช่วงหลุดเส้น",
+    "downloadCsv": "ดาวน์โหลด CSV",
+    "viewTable": "ดูตาราง",
+    "chartKeyboard": "ชี้กราฟเพื่อดูค่า หรือเลือกกราฟแล้วกดลูกศรซ้ายหรือขวา ดูข้อมูลทั้งหมดได้ในตาราง",
+    "olderRun": "Log ของ FLSR_DM01",
+    "olderRunHint": "โหลดรอบล่าสุดจาก Firmware เดิมเพื่อเปรียบเทียบ",
+    "loadLegacy": "โหลดผลจาก FLSR_DM01",
+    "sensorCheck": "ตรวจ Sensor ก่อนวิ่ง",
+    "sensorHint": "หลัง Calibrate แล้ว แท่งยิ่งสูง แปลว่า Sensor ตัวนั้นอยู่บนเส้น",
+    "live": "ค่า Sensor แบบ Real-time",
+    "sensorLeft": "S0 ด้านซ้าย (มองจากหลังหุ่นยนต์)",
+    "sensorRight": "ด้านขวา",
+    "viewCalibration": "ดูค่า Calibrate",
+    "calibrateSteps": "วิธีที่แนะนำ: ถอดสาย USB วางหุ่นยนต์คร่อมเส้น กดปุ่ม A ค้างไว้แล้วเปิดสวิตช์หุ่นยนต์ หุ่นยนต์จะหมุนตัวประมาณ 5 วินาที หรือใช้ปุ่มด้านล่างผ่าน WiFi",
+    "calibrateAdvanced": "Calibrate",
+    "calibrateWarning": "มอเตอร์จะหมุนหุ่นยนต์ เว้นพื้นที่รอบหุ่นยนต์ให้ว่าง",
+    "calibrateShared": "ค่าที่บันทึกจะเขียนทับค่า Calibrate ที่ใช้ร่วมกับ FLSR_DM01",
+    "calManual": "Calibrate แบบเลื่อนมือ",
+    "calSpin": "Calibrate แบบหมุนตัว",
+    "firmwareMaintenance": "Firmware",
+    "updateTitle": "อัปเดต Firmware",
+    "updateHint": "ติดตั้งเวอร์ชันล่าสุดสำหรับบอร์ดนี้ หรือเลือกไฟล์ที่คอมไพล์เอง",
+    "updateLatest": "ติดตั้งเวอร์ชันล่าสุด",
+    "verifiedDownload": "ระบบตรวจรุ่นบอร์ดและความสมบูรณ์ของไฟล์ก่อนติดตั้งทุกครั้ง",
+    "latestUnavailable": "ติดตั้งเวอร์ชันล่าสุดได้จากเว็บไซต์ PT Link เมื่อมีข้อมูลของบอร์ดนี้ หากเปิดไฟล์ในเครื่องหรือหน้าจากหุ่นยนต์ ให้เลือกไฟล์ .bin",
+    "chooseFile": "ติดตั้งจากไฟล์",
+    "firmwareFile": "ไฟล์ Firmware PT Link (.bin)",
+    "updateFile": "ติดตั้งไฟล์ที่เลือก",
+    "updateProgress": "ความคืบหน้าการติดตั้ง",
+    "updateSafety": "หยุดหุ่นยนต์ก่อนติดตั้ง ระหว่างติดตั้งห้ามถอดสาย USB หรือปิดสวิตช์หุ่นยนต์ ไฟล์ Firmware มีโปรแกรมวิ่ง (Manual) อยู่ในตัว ตรวจให้แน่ใจว่าเป็นไฟล์ที่ต้องการ",
+    "settingsHint": "กดที่หัวข้อเพื่อเปิดดู",
+    "benchTitle": "Bench test",
+    "benchSwitch": "โหมด Bench test",
+    "storageMaintenance": "พื้นที่เก็บ Log และรีสตาร์ท",
+    "storageWarning": "เตรียมพื้นที่ใหม่จะล้าง Log ทั้งหมด รวมของ FLSR_DM01 ดาวน์โหลด Log ที่ต้องการเก็บก่อน",
+    "formatLog": "ล้าง Log และเตรียมพื้นที่",
+    "storageHelp": "ปุ่มนี้จะแสดงเมื่อโหลด Log แล้วพบว่าพื้นที่ยังไม่พร้อม",
+    "reboot": "รีสตาร์ทหุ่นยนต์",
+    "homeWifiTitle": "เครือข่ายที่ให้หุ่นยนต์เชื่อมต่อ",
+    "homeWifiHint": "WiFi บ้าน ฮอตสปอตมือถือ หรือฮอตสปอตของโน้ตบุ๊ก (Mobile hotspot) ที่หุ่นยนต์จะเชื่อมต่อ (สูงสุด 3 เครือข่าย) คอมหรือมือถือยังใช้อินเทอร์เน็ตได้ตามปกติ",
+    "homeWifiName": "ชื่อ WiFi บ้านหรือฮอตสปอต",
+    "networkPassword": "รหัสผ่านเครือข่าย",
+    "addNetwork": "เพิ่มเครือข่าย",
+    "robotMessages": "ข้อความจากหุ่นยนต์",
+    "robotMessagesHint": "ข้อความต้นฉบับสำหรับตรวจปัญหา รหัสผ่านถูกซ่อน",
+    "footerHint": "พร้อมสำหรับรอบต่อไป",
+    "calReady": "ค่า Calibrate ใช้ได้",
+    "calInvalid": "ยังไม่ได้ Calibrate — ถอดสาย USB กดปุ่ม A ค้างไว้แล้วเปิดสวิตช์หุ่นยนต์",
+    "usbOnly": "เชื่อมต่อ USB แล้ว",
+    "noRun": "ยังไม่มีผลการวิ่ง",
+    "language": "ภาษา",
+    "connection.contacting": "กำลังเชื่อมต่อ…",
+    "connection.auto": "พบหุ่นยนต์ที่เคยเชื่อมต่อ กำลังเชื่อมต่ออัตโนมัติ…",
+    "connection.attempt": "กำลังเชื่อมต่อ หุ่นยนต์อาจกำลังรีสตาร์ท\nรอได้ถึง 20 วินาที (ครั้งที่ {0} จาก 20)",
+    "connection.usbLost": "ขาดการเชื่อมต่อ USB ตรวจสอบสายแล้วเชื่อมต่อใหม่",
+    "connection.noResponse": "การเชื่อมต่อไม่สำเร็จ\n1. ปิด Serial Monitor และโปรแกรมหรือแท็บที่ใช้ Port\n2. ตรวจสอบสาย USB และไฟเลี้ยง\n3. เชื่อมต่อใหม่แล้วเลือก Port ของหุ่นยนต์",
+    "connection.timeout": "หมดเวลารอการตอบกลับ ตรวจสอบสาย USB แล้วกดรีเฟรช",
+    "error.password": "รหัสผ่านไม่ถูกต้อง ตรวจสอบรหัสบนสติกเกอร์หุ่นยนต์แล้วลองใหม่",
+    "error.running": "หุ่นยนต์กำลังวิ่ง รอให้หยุดแล้วลองใหม่",
+    "error.busy": "หุ่นยนต์ไม่ว่าง รอให้วิ่งหรืออัปเดตเสร็จแล้วลองใหม่",
+    "error.wifiOnly": "แผงควบคุมใช้ได้เมื่อเชื่อมต่อผ่าน WiFi เท่านั้น",
+    "error.notFirmware": "ไฟล์นี้ไม่ใช่ Firmware PT Link เลือกไฟล์ .bin ของ PT Link",
+    "error.wrongBoard": "ไฟล์นี้เป็นของบอร์ดอื่น เลือก Firmware ให้ตรงบอร์ดของหุ่นยนต์",
+    "error.confirming": "หุ่นยนต์กำลังยืนยัน Firmware ใหม่ รอ 10 วินาทีแล้วลองใหม่",
+    "error.networkLimit": "บันทึกเครือข่ายครบ 3 รายการแล้ว ลบรายการเดิมก่อนเพิ่มใหม่",
+    "error.uploadLost": "ขาดการเชื่อมต่อระหว่างติดตั้ง เชื่อมต่อใหม่แล้วตรวจสอบเวอร์ชัน Firmware ก่อนลองอีกครั้ง",
+    "error.name": "ชื่อเครือข่ายยาวไม่ถูกต้อง ใช้ 1–32 ตัวอักษร",
+    "error.passwordLength": "รหัสผ่านยาวไม่ถูกต้อง ใช้ 8–63 ตัวอักษร หรือเว้นว่างตามคำแนะนำ",
+    "error.mode": "โหมดไม่ถูกต้อง เลือกแข่งหรือซ้อม",
+    "error.notSaved": "ไม่พบเครือข่ายนี้ อ่านสถานะใหม่แล้วลองอีกครั้ง",
+    "error.request": "ไม่สามารถทำรายการได้ อ่านสถานะใหม่แล้วลองอีกครั้ง",
+    "error.unsupported": "Firmware นี้ไม่รองรับรายการนี้ ตรวจสอบเวอร์ชันแล้วอัปเดตหากจำเป็น",
+    "error.noUpdate": "ยังไม่ได้เริ่มติดตั้ง เลือกไฟล์แล้วเริ่มใหม่",
+    "error.transfer": "ส่งไฟล์ไม่สำเร็จ เชื่อมต่อใหม่แล้วเริ่มติดตั้งอีกครั้ง",
+    "error.usbRequired": "ต้องใช้ USB สำหรับการติดตั้งนี้ เชื่อมต่อผ่าน USB แล้วลองใหม่",
+    "error.updateData": "ข้อมูลติดตั้งไม่ถูกต้อง เริ่มติดตั้งใหม่",
+    "error.logPosition": "ไม่สามารถอ่าน Log ได้ โหลดผลการวิ่งอีกครั้ง",
+    "error.logType": "ชนิด Log ไม่ถูกต้อง เลือก PT Link หรือ FLSR_DM01",
+    "error.sweep": "วิธี Calibrate ไม่ถูกต้อง เลือกเลื่อนมือหรือหมุนตัว",
+    "error.portBusy": "ไม่สามารถเปิด Port ได้\n1. ปิด Serial Monitor และโปรแกรมหรือแท็บที่ใช้ Port\n2. ถอดสาย USB แล้วเสียบใหม่\n3. กดเชื่อมต่อและเลือก Port ของหุ่นยนต์",
+    "error.portCancelled": "ยังไม่ได้เลือก Port กดเชื่อมต่อเพื่อลองใหม่",
+    "error.generic": "ทำรายการไม่สำเร็จ ตรวจสอบค่าที่กรอก สาย USB และไฟเลี้ยง แล้วลองใหม่\nข้อความจากระบบ: {0}",
+    "error.device": "อุปกรณ์นี้ไม่ใช่หุ่นยนต์ PT Link เลือก Port ของหุ่นยนต์",
+    "error.reach": "ไม่สามารถติดต่อหุ่นยนต์ได้ ตรวจสอบการเชื่อมต่อแล้วลองใหม่",
+    "error.usbBrowser": "เบราว์เซอร์นี้ไม่รองรับ USB ใช้ Chrome หรือ Edge บนคอมพิวเตอร์",
+    "status.robot": "หุ่นยนต์",
+    "status.board": "บอร์ด",
+    "status.slot": "OTA slot",
+    "status.pending": "รอยืนยัน Firmware",
+    "status.connection": "การเชื่อมต่อ",
+    "status.wifi": "WiFi ของหุ่นยนต์",
+    "status.network": "เครือข่ายที่เชื่อมต่อ",
+    "status.ip": "IP ของหุ่นยนต์",
+    "status.hostname": "ชื่อในเครือข่าย",
+    "status.battery": "แบตเตอรี่",
+    "status.noBattery": "บอร์ดนี้ไม่มีวงจรวัด",
+    "status.uptime": "เปิดเครื่องมาแล้ว",
+    "status.on": "เปิด",
+    "status.off": "ปิด",
+    "status.bench": "Bench test (พัดลมไม่หมุน)",
+    "run.summary": "{0} วินาที, {1} loop/s{2}",
+    "run.abortedSuffix": " (หยุดเพราะหลุดเส้น)",
+    "run.duration": "เวลาวิ่ง",
+    "run.loopRate": "Loop rate",
+    "run.interval": "บันทึกทุก",
+    "run.result": "ผลการวิ่ง",
+    "run.aborted": "หยุดก่อนครบเวลาเพราะหลุดเส้นนานเกิน",
+    "run.completed": "วิ่งครบเวลา",
+    "run.segment": "ช่วงที่ {0}",
+    "run.segmentValues": "{0}kp {1}, kd {2}\nระยะเวลา {3} ms, เริ่มที่ {4} ms",
+    "run.outDuration": "ประมาณ {0} วินาที",
+    "run.loading": "กำลังโหลดข้อมูล {0} จาก {1} จุด",
+    "run.loaded": "โหลดแล้ว {0} จุด",
+    "run.newRun": "มีผลการวิ่งรอบใหม่ กด “โหลดผลการวิ่ง” เพื่อดูกราฟ",
+    "run.noStorage": "พื้นที่เก็บ Log ยังไม่พร้อม เปิดตั้งค่า > พื้นที่เก็บ Log และรีสตาร์ท เพื่อเตรียมพื้นที่ใหม่ ขั้นตอนนี้ล้าง Log ทั้งหมด",
+    "run.noLegacy": "ไม่มี Log ของ FLSR_DM01 ในหุ่นยนต์ เลือกโหลดผลจาก PT Link หรือวิ่งด้วย FLSR_DM01 ก่อน",
+    "run.noSaved": "ยังไม่มีผลการวิ่ง ถอด USB วางหุ่นยนต์บนสนาม แล้วกด B",
+    "run.leftTick": "+750 ซ้าย",
+    "run.rightTick": "−750 ขวา",
+    "run.tip": "<b>{0} s</b><br>ช่วงที่ {1}{2}{3}<br>ตำแหน่งเส้น {4}<br>ล้อซ้าย {5} %<br>ล้อขวา {6} %<br>base {7} %",
+    "run.tipOut": "<br><b>หลุดเส้น</b>",
+    "run.tipAbort": "<br><b>หยุดวิ่ง</b>",
+    "sensor.rawTip": "S{0}: ค่าดิบ {1}",
+    "sensor.strengthTip": "S{0}: ค่าดิบ {1}, ความเข้ม {2}",
+    "sensor.position": "ตำแหน่งเส้น {0}{1}{2}{3}\n0 = กลาง, +{4} = ซ้ายสุด (S0)",
+    "sensor.out": "\nหลุดเส้น",
+    "sensor.dark": "\nทุก Sensor อ่านเป็นพื้นมืด ตำแหน่งเส้นไม่แน่นอน หุ่นยนต์อาจยกลอย อยู่บนเส้นตัด หรือพื้นดำ",
+    "sensor.bad": "\nอ่าน Sensor ผิดพลาด ตรวจ Sensor และสาย",
+    "sensor.rawOnly": "ยังไม่ได้ Calibrate — แสดงค่าดิบ (แท่งสูง = พื้นขาว)",
+    "cal.spinConfirm": "วางหุ่นยนต์คร่อมเส้น มอเตอร์จะหมุนหุ่นยนต์ 5 วินาที เว้นพื้นที่รอบหุ่นยนต์ให้ว่าง\nค่าที่บันทึกจะเขียนทับค่า Calibrate ที่ใช้ร่วมกับ FLSR_DM01\nเริ่ม Calibrate แบบหมุนตัวหรือไม่?",
+    "cal.manualConfirm": "ค่าที่บันทึกจะเขียนทับค่า Calibrate ที่ใช้ร่วมกับ FLSR_DM01\nกดตกลงแล้วรอเสียงบี๊บ จากนั้นเลื่อนหุ่นยนต์ข้ามเส้นและพื้นขาวให้ทุก Sensor อ่านทั้งสองส่วนเป็นเวลา 5 วินาที\nเริ่ม Calibrate แบบเลื่อนมือหรือไม่?",
+    "cal.progress": "กำลัง Calibrate รอประมาณ 6 วินาที",
+    "cal.saved": "บันทึกค่า Calibrate แล้ว",
+    "cal.valid": "ใช้ได้",
+    "cal.invalid": "ใช้ไม่ได้",
+    "cal.header": "ค่า Calibrate {0}\nค่าพื้น − ค่าเส้น ต้องไม่น้อยกว่า {1}",
+    "cal.row": "S{0}  เส้น {1}  พื้น {2}  ผลต่าง {3}{4}",
+    "cal.low": "  ← ต่ำไป",
+    "net.empty": "ยังไม่มีเครือข่ายที่บันทึก",
+    "net.remove": "ลบเครือข่าย",
+    "net.removed": "ลบเครือข่ายแล้ว",
+    "net.added": "เพิ่มเครือข่ายแล้ว หุ่นยนต์จะลองเชื่อมต่อภายใน 30 วินาที (เมื่อเปิด WiFi อยู่)",
+    "access.title": "เชื่อมต่อผ่าน WiFi",
+    "pw.show": "แสดงรหัสผ่าน",
+    "pw.hide": "ซ่อนรหัสผ่าน",
+    "pw.title": "ตั้งรหัสผ่านหน้าเว็บเอง",
+    "pw.hint": "ใช้แทนรหัสโรงงานเมื่อเปิดหน้านี้ผ่าน WiFi (8–63 ตัวอักษร) คอมหรือมือถือที่จำรหัสเดิมไว้ต้องเปิดลิงก์หรือสแกน QR code ใหม่",
+    "pw.new": "รหัสผ่านใหม่",
+    "pw.save": "บันทึกรหัสผ่าน",
+    "pw.factory": "กลับไปใช้รหัสโรงงาน",
+    "pw.saved": "บันทึกรหัสผ่านใหม่แล้ว",
+    "pw.factoryDone": "กลับไปใช้รหัสโรงงานแล้ว",
+    "access.joined": "หุ่นยนต์เชื่อมต่อกับเครือข่าย {0} แล้ว เปิดหน้า PT Link ผ่าน WiFi ได้ทั้งคอม/โน้ตบุ๊กและมือถือที่เชื่อมต่อเครือข่ายเดียวกัน: คลิกลิงก์ด้านล่าง หรือสแกน QR code หน้าเว็บจะเปิดในแท็บใหม่และเข้าสู่ระบบให้อัตโนมัติ",
+    "access.noNetwork": "ยังไม่ได้บันทึกเครือข่าย เพิ่ม WiFi บ้านหรือฮอตสปอตด้านบน หุ่นยนต์จะเชื่อมต่อเองภายใน 30 วินาที",
+    "access.searching": "หุ่นยนต์ยังไม่ได้เชื่อมต่อเครือข่าย ตรวจสอบว่าฮอตสปอตหรือ WiFi เปิดอยู่ (2.4 GHz) หุ่นยนต์จะลองใหม่เองทุก 30 วินาที หรือกด “ลองอีกครั้ง”",
+    "access.off": "WiFi ของหุ่นยนต์ปิดอยู่ เปิดสวิตช์ WiFi ด้านบน",
+    "access.qrPage": "สแกนด้วยมือถือ",
+    "access.address": "ที่อยู่",
+    "access.password": "รหัสผ่านหน้าเว็บ",
+    "storage.confirm": "ล้าง Log ทั้งหมดและเตรียมพื้นที่ใหม่หรือไม่?\nLog ของ FLSR_DM01 จะถูกลบด้วย ดาวน์โหลดข้อมูลที่ต้องการเก็บก่อน",
+    "storage.ready": "พื้นที่พร้อมแล้ว การวิ่งครั้งถัดไปจะบันทึกได้",
+    "restart.confirm": "รีสตาร์ทหุ่นยนต์หรือไม่?",
+    "action.working": "รอสักครู่…",
+    "action.cancelled": "ยกเลิกแล้ว",
+    "update.downgrade": "ไฟล์เวอร์ชัน {0} เก่ากว่าที่หุ่นยนต์ใช้อยู่ ({1})\nยืนยันติดตั้งเวอร์ชันเก่าหรือไม่?",
+    "update.progress": "กำลังติดตั้งเวอร์ชัน {0}: {1} %",
+    "update.successUsb": "ติดตั้งเวอร์ชัน {0} แล้ว ใช้เวลา {1} วินาที หุ่นยนต์กำลังรีสตาร์ท\nรอ 10 วินาทีแล้วกดอ่านสถานะใหม่",
+    "update.successRace": "ติดตั้งเวอร์ชัน {0} แล้ว ใช้เวลา {1} วินาที หุ่นยนต์กำลังรีสตาร์ท\nWiFi ปิดอยู่ เปิดสวิตช์ WiFi ผ่าน USB ถ้าต้องการใช้",
+    "update.successWifi": "ติดตั้งเวอร์ชัน {0} แล้ว ใช้เวลา {1} วินาที หุ่นยนต์กำลังรีสตาร์ท\nรอสักครู่แล้วเชื่อมต่อ WiFi ใหม่",
+    "update.available": "มีเวอร์ชัน {0} ให้ติดตั้ง (หุ่นยนต์ใช้ {1})",
+    "update.badge": "อัปเดตเป็นเวอร์ชัน {0}",
+    "latestTag": "ล่าสุด",
+    "update.current": "ใช้เวอร์ชันล่าสุดแล้ว ({0})",
+    "update.ahead": "หุ่นยนต์ใช้เวอร์ชัน {0} ใหม่กว่าเวอร์ชันบนเว็บ ({1})",
+    "update.installVersion": "ติดตั้งเวอร์ชัน {0}",
+    "update.reinstall": "ติดตั้งเวอร์ชัน {0} ซ้ำ",
+    "update.chooseFirst": "ยังไม่ได้เลือกไฟล์ เลือกไฟล์ .bin ก่อนติดตั้ง",
+    "update.noLatest": "ไม่มีข้อมูลเวอร์ชันล่าสุด ตรวจสอบอินเทอร์เน็ตหรือเลือกไฟล์ .bin",
+    "update.downloading": "กำลังดาวน์โหลดเวอร์ชัน {0}…",
+    "update.downloadError": "ไม่สามารถดาวน์โหลดได้ (HTTP {0}) ตรวจสอบอินเทอร์เน็ตแล้วลองใหม่",
+    "update.integrityError": "ไฟล์ดาวน์โหลดไม่สมบูรณ์ ดาวน์โหลดใหม่ก่อนติดตั้ง",
+    "unit.seconds": "{0} วินาที",
+    "unit.loopRate": "{0} loop/s"
+  },
+  "en": {
+    "disconnected": "Disconnected",
+    "installApp": "Install app",
+    "workspace": "PT Link for racing teams",
+    "welcomeTitle": "Get ready for your next run",
+    "welcomeCopy": "Review runs, check sensors and update firmware over USB.",
+    "connectUsb": "Connect via USB",
+    "browserHint": "Use Chrome or Edge on a computer.",
+    "stepCable": "Plug in USB",
+    "stepCableHint": "Power on the robot. Use a USB cable that supports data.",
+    "stepPort": "Select the robot’s port",
+    "stepPortHint": "Close Serial Monitor and any app or tab using the port.",
+    "stepReady": "Wait for the robot",
+    "stepReadyHint": "The robot restarts when you connect. This can take up to 20 s.",
+    "localHint": "Robot data is sent directly over USB.",
+    "offline": "You’re offline. USB still works.\nNew releases cannot be checked. Version details may be cached.",
+    "wifiAccess": "Connected via WiFi",
+    "wifiAuthHint": "Enter the password before changing calibration or updating firmware. This browser remembers it.",
+    "factoryPassword": "Factory password on the robot’s sticker",
+    "firstRun": "How to use",
+    "onboard1": "Calibrate: unplug USB, hold A and switch the robot on.",
+    "onboard2": "Run: place the robot on the track and press B.",
+    "onboard3": "Review: plug in USB and connect.",
+    "onboard4": "Load the latest run to view the charts.",
+    "dismiss": "Dismiss guide",
+    "connectedRobot": "Connected robot",
+    "refresh": "Refresh",
+    "identify": "Identify robot",
+    "firmware": "Firmware",
+    "runMode": "WiFi",
+    "lastRun": "Latest run",
+    "robotDetails": "Status",
+    "benchActive": "Bench test is on. The fan will not run.",
+    "benchSafety": "Lift the wheels before pressing B. The motors will run, but the fan will not. Place a paper line under the sensors to check wheel direction and loop rate. This mode turns off when the robot restarts.",
+    "robotBusy": "The robot is running or busy. Wait until it stops before changing settings or updating.",
+    "runs": "Runs",
+    "sensors": "Sensors",
+    "update": "Updates",
+    "settings": "Settings",
+    "wifi": "WiFi",
+    "wifi.hint": "When on, the robot joins a network saved below every time it starts. Turn it off when not needed, for example during a competition.",
+    "wifi.none": "Not in this firmware",
+    "wifi.offConfirm": "Turn WiFi off?\nA page connected over WiFi disconnects at once. You can turn it on again over USB.",
+    "wifi.turnedOn": "WiFi is on. The robot is joining a network; refresh in a moment.",
+    "wifi.joining": "WiFi is on. Joining a network…",
+    "wifi.joined": "WiFi is on and connected to {0}.",
+    "wifi.retry": "Try again",
+    "wifi.turnedOff": "WiFi is off.",
+    "control": "Control",
+    "control.title": "Control panel",
+    "control.wifiOnly": "The control panel and calibration work over WiFi only, for safety (with USB plugged in the robot could drag the cable). Open this page over WiFi from a computer or phone with the link or QR code in the WiFi tab.",
+    "control.askAgain": "Ask before B and RESET again",
+    "ask.skip": "Don’t ask again",
+    "ask.ok": "OK",
+    "ask.cancel": "Cancel",
+    "control.hint": "Press the buttons in the picture as you would on the robot. The robot does what its code says.",
+    "control.aAria": "Button A",
+    "control.bAria": "Button B: start run",
+    "control.resetAria": "RESET button: restart the robot",
+    "control.bConfirm": "Press B?\nThe robot starts as if B on the robot was pressed. Keep the area clear, and mind the USB cable if it is plugged in.",
+    "control.started": "B sent. The page reconnects when the run ends.",
+    "control.waitingA": "The robot is waiting for A (waitA).",
+    "control.finished": "Run finished. See the charts in the Runs tab.",
+    "control.aSent": "A sent.",
+    "control.resetDone": "The robot is restarting. Wait 10 s, then refresh.",
+    "runAnalysis": "Run review",
+    "lastRunTitle": "Latest run",
+    "runHint": "Line position against motor speed throughout the run.",
+    "loadRun": "Load latest run",
+    "runEmpty": "No run loaded",
+    "runEmptyHint": "Load the latest run from the robot. If no run is saved, unplug USB, place the robot on the track and press B.",
+    "errorChart": "Line position (positive = line on the left)",
+    "errorChartAria": "Line position over time. Values are available in the data table.",
+    "motorChart": "Motor speed (%)",
+    "motorChartAria": "Motor commands over time. Values are available in the data table.",
+    "leftWheel": "Left wheel",
+    "rightWheel": "Right wheel",
+    "curveBase": "Base after corner slowdown",
+    "lineOutBand": "Line lost",
+    "downloadCsv": "Download CSV",
+    "viewTable": "View table",
+    "chartKeyboard": "Hover to inspect a sample, or focus the chart and use the left or right arrow. Open the table for all samples.",
+    "olderRun": "FLSR_DM01 log",
+    "olderRunHint": "Load the latest run saved by FLSR_DM01 for comparison.",
+    "loadLegacy": "Load FLSR_DM01 run",
+    "sensorCheck": "Pre-run check",
+    "sensorHint": "After calibration, taller bars mean the sensor is on the line.",
+    "live": "Real-time sensor values",
+    "sensorLeft": "S0 left (viewed from behind)",
+    "sensorRight": "Right",
+    "viewCalibration": "View calibration",
+    "calibrateSteps": "Recommended: unplug USB, place the robot across the line, hold A and switch the robot on; it spins for about 5 s. Or use the buttons below over WiFi.",
+    "calibrateAdvanced": "Calibrate",
+    "calibrateWarning": "The motors spin the robot. Keep the area clear.",
+    "calibrateShared": "Saving overwrites the calibration shared with FLSR_DM01.",
+    "calManual": "Calibrate manually",
+    "calSpin": "Start spin calibration",
+    "firmwareMaintenance": "Firmware",
+    "updateTitle": "Update firmware",
+    "updateHint": "Install the latest version for this board, or choose a file you compiled.",
+    "updateLatest": "Install latest version",
+    "verifiedDownload": "Board, file size and integrity are checked before installation.",
+    "latestUnavailable": "Latest-version updates need the PT Link website and release details for this board. On a local or robot-hosted page, choose a .bin file.",
+    "chooseFile": "Install from a file",
+    "firmwareFile": "PT Link firmware file (.bin)",
+    "updateFile": "Install selected file",
+    "updateProgress": "Installation progress",
+    "updateSafety": "Stop the robot before installing. Do not unplug USB or turn off power during installation. Check that the file includes the run program you need.",
+    "settingsHint": "Expand a section to view its settings.",
+    "benchTitle": "Bench test",
+    "benchSwitch": "Bench test mode",
+    "storageMaintenance": "Log storage and restart",
+    "storageWarning": "Preparing storage erases all logs, including FLSR_DM01 logs. Download any logs you need first.",
+    "formatLog": "Erase logs and prepare storage",
+    "storageHelp": "This button appears when loading a log shows that storage is not ready.",
+    "reboot": "Restart robot",
+    "homeWifiTitle": "Network the robot joins",
+    "homeWifiHint": "Home WiFi, a phone hotspot or a laptop’s Mobile hotspot for the robot to join (up to 3). Your PC or phone keeps its internet.",
+    "homeWifiName": "Home WiFi or hotspot name",
+    "networkPassword": "Network password",
+    "addNetwork": "Add network",
+    "robotMessages": "Robot messages",
+    "robotMessagesHint": "Original diagnostic messages. Passwords are hidden.",
+    "footerHint": "Ready for the next run",
+    "calReady": "Calibration valid",
+    "calInvalid": "Calibration needed. Unplug USB and hold A while powering on.",
+    "usbOnly": "Connected via USB",
+    "noRun": "No run saved",
+    "language": "Language",
+    "connection.contacting": "Connecting…",
+    "connection.auto": "Found a robot used before. Connecting automatically…",
+    "connection.attempt": "Connecting. The robot may be restarting.\nAllow up to 20 s (attempt {0} of 20).",
+    "connection.usbLost": "USB disconnected. Check the cable and reconnect.",
+    "connection.noResponse": "Connection failed.\n1. Close Serial Monitor and any app or tab using the port.\n2. Check the USB cable and power.\n3. Reconnect and select the robot’s port.",
+    "connection.timeout": "Response timeout. Check the USB cable, then refresh.",
+    "error.password": "Incorrect password. Check the robot’s sticker and try again.",
+    "error.running": "The robot is running. Wait until it stops and try again.",
+    "error.busy": "The robot is busy. Wait for the run or update to finish, then try again.",
+    "error.wifiOnly": "The control panel works over WiFi only.",
+    "error.notFirmware": "This is not PT Link firmware. Choose a PT Link .bin file.",
+    "error.wrongBoard": "This file is for a different board. Choose firmware for the robot’s board.",
+    "error.confirming": "The robot is confirming new firmware. Wait 10 s and try again.",
+    "error.networkLimit": "Three networks are already saved. Remove one before adding another.",
+    "error.uploadLost": "Connection lost during installation. Reconnect and check the firmware version before trying again.",
+    "error.name": "Invalid network name length. Use 1–32 characters.",
+    "error.passwordLength": "Invalid password length. Use 8–63 characters, or leave it blank where indicated.",
+    "error.mode": "Invalid mode. Choose Race or Practice.",
+    "error.notSaved": "Network not found. Refresh status and try again.",
+    "error.request": "Request failed. Refresh status and try again.",
+    "error.unsupported": "This firmware does not support the request. Check the version and update if needed.",
+    "error.noUpdate": "No installation is in progress. Select a file and start again.",
+    "error.transfer": "File transfer failed. Reconnect and restart the installation.",
+    "error.usbRequired": "This installation requires USB. Connect via USB and try again.",
+    "error.updateData": "Invalid installation data. Restart the installation.",
+    "error.logPosition": "Cannot read the run log. Load the latest run again.",
+    "error.logType": "Invalid log type. Choose PT Link or FLSR_DM01.",
+    "error.sweep": "Invalid calibration method. Choose manual or spin calibration.",
+    "error.portBusy": "Port unavailable.\n1. Close Serial Monitor and any app or tab using the port.\n2. Unplug and reconnect USB.\n3. Connect again and select the robot’s port.",
+    "error.portCancelled": "No port selected. Connect again to select a port.",
+    "error.generic": "Request failed. Check the entered values, USB cable and power, then try again.\nSystem message: {0}",
+    "error.device": "This is not a PT Link robot. Select the robot’s port.",
+    "error.reach": "Cannot reach the robot. Check the connection and try again.",
+    "error.usbBrowser": "USB is not supported here. Use Chrome or Edge on a computer.",
+    "status.robot": "Robot",
+    "status.board": "Board",
+    "status.slot": "OTA slot",
+    "status.pending": "Firmware confirmation pending",
+    "status.connection": "Connection",
+    "status.wifi": "Robot WiFi",
+    "status.network": "Joined network",
+    "status.ip": "Robot IP",
+    "status.hostname": "Hostname",
+    "status.battery": "Battery",
+    "status.noBattery": "Not available on this board",
+    "status.uptime": "Uptime",
+    "status.on": "On",
+    "status.off": "Off",
+    "status.bench": "Bench test (fan off)",
+    "run.summary": "{0} s, {1} loops/s{2}",
+    "run.abortedSuffix": " (stopped after line lost)",
+    "run.duration": "Run duration",
+    "run.loopRate": "Loop rate",
+    "run.interval": "Logged every",
+    "run.result": "Run result",
+    "run.aborted": "Stopped early after prolonged line loss",
+    "run.completed": "Completed",
+    "run.segment": "Segment {0}",
+    "run.segmentValues": "{0}kp {1}, kd {2}\nDuration {3} ms, starts at {4} ms",
+    "run.outDuration": "About {0} s",
+    "run.loading": "Loading samples: {0} of {1}",
+    "run.loaded": "Loaded {0} samples.",
+    "run.newRun": "A new run is saved. Press “Load latest run” to see the charts.",
+    "run.noStorage": "Log storage is not ready. Open Settings > Log storage and restart to prepare it. This erases all logs.",
+    "run.noLegacy": "No FLSR_DM01 log is saved. Load the PT Link run, or run the robot with FLSR_DM01 first.",
+    "run.noSaved": "No run is saved. Unplug USB, place the robot on the track and press B.",
+    "run.leftTick": "+750 left",
+    "run.rightTick": "−750 right",
+    "run.tip": "<b>{0} s</b><br>Segment {1}{2}{3}<br>Line position {4}<br>Left wheel {5} %<br>Right wheel {6} %<br>Base {7} %",
+    "run.tipOut": "<br><b>Line lost</b>",
+    "run.tipAbort": "<br><b>Run stopped</b>",
+    "sensor.rawTip": "S{0}: raw value {1}",
+    "sensor.strengthTip": "S{0}: raw value {1}, strength {2}",
+    "sensor.position": "Line position {0}{1}{2}{3}\n0 = center, +{4} = far left (S0)",
+    "sensor.out": "\nLine lost",
+    "sensor.dark": "\nAll sensors read dark. Line position is uncertain. The robot may be lifted, over a crossing or on a black surface.",
+    "sensor.bad": "\nSensor read error. Check the sensors and wiring.",
+    "sensor.rawOnly": "Not calibrated. Bars show raw values; taller bars mean white floor.",
+    "cal.spinConfirm": "Place the robot across the line. The motors spin it for 5 s. Keep the area clear.\nSaving overwrites calibration shared with FLSR_DM01.\nStart spin calibration?",
+    "cal.manualConfirm": "Saving overwrites calibration shared with FLSR_DM01.\nAfter confirming, wait for the beep. Sweep every sensor across the line and white floor for 5 s.\nStart manual calibration?",
+    "cal.progress": "Calibrating. Allow about 6 s.",
+    "cal.saved": "Calibration saved.",
+    "cal.valid": "Valid",
+    "cal.invalid": "Invalid",
+    "cal.header": "Calibration: {0}\nFloor − line must be at least {1}.",
+    "cal.row": "S{0}  line {1}  floor {2}  span {3}{4}",
+    "cal.low": "  ← too low",
+    "net.empty": "No saved networks.",
+    "net.remove": "Remove network",
+    "net.removed": "Network removed.",
+    "net.added": "Network added. The robot tries it within 30 s (while WiFi is on).",
+    "access.title": "Connect over WiFi",
+    "pw.show": "Show password",
+    "pw.hide": "Hide password",
+    "pw.title": "Your own page password",
+    "pw.hint": "Used instead of the factory password when this page is opened over WiFi (8–63 characters). Computers or phones that remember the old one need the new link or QR code.",
+    "pw.new": "New password",
+    "pw.save": "Save password",
+    "pw.factory": "Use the factory password",
+    "pw.saved": "New password saved.",
+    "pw.factoryDone": "Factory password in use again.",
+    "access.joined": "The robot is connected to {0}. Open PT Link over WiFi from a computer/laptop or a phone on the same network: click a link below or scan the QR code. It opens in a new tab and signs in automatically.",
+    "access.noNetwork": "No network saved. Add your home WiFi or hotspot above; the robot joins it within 30 s.",
+    "access.searching": "The robot has not joined a network yet. Check that the hotspot or WiFi is on (2.4 GHz). It retries every 30 s, or press “Try again”.",
+    "access.off": "The robot’s WiFi is off. Turn on the WiFi switch above.",
+    "access.qrPage": "Scan with a phone",
+    "access.address": "Address",
+    "access.password": "Page password",
+    "storage.confirm": "Erase all logs and prepare storage?\nThis also deletes FLSR_DM01 logs. Download any logs you need first.",
+    "storage.ready": "Storage is ready. The next run can be recorded.",
+    "restart.confirm": "Restart the robot?",
+    "action.working": "Please wait…",
+    "action.cancelled": "Cancelled.",
+    "update.downgrade": "Version {0} is older than the robot’s current version ({1}).\nInstall the older version?",
+    "update.progress": "Installing version {0}: {1} %",
+    "update.successUsb": "Version {0} installed in {1} s. The robot is restarting.\nWait 10 s, then refresh status.",
+    "update.successRace": "Version {0} installed in {1} s. The robot is restarting.\nWiFi is off. Turn the WiFi switch on over USB to use it.",
+    "update.successWifi": "Version {0} installed in {1} s. The robot is restarting.\nWait a moment, then reconnect to WiFi.",
+    "update.available": "Version {0} is available (robot: {1}).",
+    "update.badge": "Update to version {0}",
+    "latestTag": "Latest",
+    "update.current": "Up to date ({0}).",
+    "update.ahead": "The robot uses {0}, newer than the website version ({1}).",
+    "update.installVersion": "Install version {0}",
+    "update.reinstall": "Reinstall version {0}",
+    "update.chooseFirst": "No file selected. Choose a .bin file before installing.",
+    "update.noLatest": "No latest-version details available. Check your connection or choose a .bin file.",
+    "update.downloading": "Downloading version {0}…",
+    "update.downloadError": "Download failed (HTTP {0}). Check your internet connection and try again.",
+    "update.integrityError": "The downloaded file is incomplete or corrupted. Download it again before installing.",
+    "unit.seconds": "{0} s",
+    "unit.loopRate": "{0} loops/s"
+  }
+};
+// Default language: Thai when the browser lists Thai or the computer is set to Thailand's time zone (many Thai
+// users run an English Windows); English elsewhere. A choice made with the TH/EN switch is remembered.
+function defaultLanguage() {
+  const langs = (navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || '']);
+  if (langs.some(l => l.toLowerCase().startsWith('th'))) return 'th';
+  try { if (Intl.DateTimeFormat().resolvedOptions().timeZone === 'Asia/Bangkok') return 'th'; } catch (e) {}
+  return 'en';
+}
+let language = defaultLanguage();
+try { const saved = localStorage.getItem('ptlink.language'); if (saved === 'th' || saved === 'en') language = saved; } catch (e) {}
+const textMemory = new Map();
+const messageMemory = new Map();
+const copy = (key, ...args) => ({key, args});
+function renderText(value) {
+  if (Array.isArray(value)) return value.map(renderText).join('\n');
+  if (value && typeof value === 'object' && value.key) return t(value.key, ...value.args);
+  return value == null ? '' : String(value);
+}
+function t(key, ...args) {
+  const value = TEXT[language][key];
+  if (value === undefined) throw new Error('Missing UI text: ' + key);
+  return value.replace(/\{(\d+)\}/g, (_, i) => renderText(args[i]));
+}
+function uiError(key, ...args) { const e = new Error(t(key, ...args)); e.copy = copy(key, ...args); return e; }
+function writeText(el, value) {
+  if (value === '') textMemory.delete(el); else textMemory.set(el, {value, html:false});
+  el.textContent = renderText(value);
+}
+function writeHTML(el, value) { textMemory.set(el, {value, html:true}); el.innerHTML = renderText(value); }
+function applyLanguage(next) {
+  language = next; document.documentElement.lang = next;
+  try { localStorage.setItem('ptlink.language', next); } catch (e) {}
+  document.querySelectorAll('[data-i18n]').forEach(el => el.textContent = t(el.dataset.i18n));
+  document.querySelectorAll('[data-i18n-aria]').forEach(el => el.setAttribute('aria-label',t(el.dataset.i18nAria)));
+  document.querySelectorAll('[data-i18n-title]').forEach(el => el.title = t(el.dataset.i18nTitle));
+  $('langTh').setAttribute('aria-pressed',String(next === 'th')); $('langEn').setAttribute('aria-pressed',String(next === 'en'));
+  for (const [el, v] of textMemory) {
+    if (!el.isConnected) { textMemory.delete(el); continue; }
+    if (v.html) el.innerHTML = renderText(v.value); else el.textContent = renderText(v.value);
+  }
+  for (const [id,v] of messageMemory) msg(id,v.text,v.ok);
+  if (robot) renderRobotSummary();
+  if (sensorSnapshot) { renderCalState(); renderSensorTitles(); }
+  if (runLog && !$('logView').classList.contains('hidden')) { $('tip').classList.add('hidden'); drawCharts(); }
+  updateLatestPresentation();
+}
+function showPanel(id, focus=false) {
+  for (const tab of document.querySelectorAll('[role=tab]')) {
+    const selected = tab.dataset.panel === id;
+    tab.setAttribute('aria-selected',String(selected)); tab.tabIndex = selected ? 0 : -1;
+    $(tab.dataset.panel).classList.toggle('hidden',!selected);
+    if (selected && focus) tab.focus();
+    if (selected) tab.scrollIntoView({ block: 'nearest', inline: 'nearest' });  // tab bar scrolls on phones
+  }
+  $('tip').classList.add('hidden');
+  if (id === 'panelRuns') requestAnimationFrame(drawCharts);
+  if (id === 'panelSensors') resumeLive(); else live = false;  // poll the sensors only while they are on screen
+}
+function renderRobotSummary() {
+  const s = robot, wifi = s.wifi !== undefined ? s.wifi : !s.raceBuild;
+  $('robotName').textContent = s.robot; $('robotBoard').textContent = s.board; $('robotFirmware').textContent = s.fw;
+  $('robotMode').textContent = wifi ? t(s.mode === 'practice' ? 'status.on' : 'status.off') : t('wifi.none');
+  $('robotRun').textContent = s.lastRun ? t('run.summary',(s.lastRun.ms/1000).toFixed(1),s.lastRun.ms ? Math.round(s.lastRun.loops*1000/s.lastRun.ms) : 0,s.lastRun.aborted ? copy('run.abortedSuffix') : '') : t('noRun');
+  $('benchNotice').classList.toggle('hidden',!s.bench);
+  renderControl();
+}
+let sensorSnapshot = null;
+function renderCalState() { $('calState').textContent = t(sensorSnapshot.calValid ? 'calReady' : 'calInvalid'); $('calState').classList.toggle('warn',!sensorSnapshot.calValid); }
+function updateLatestPresentation() {
+  $('latestUnavailable').classList.toggle('hidden',!!latest);
+  $('newVersion').classList.toggle('hidden',!latest || !robot || compareVersions(latest.version,robot.fw)<=0);
+  if (latest && robot && compareVersions(latest.version,robot.fw)>0) $('newVersion').textContent = t('update.badge',latest.version);
+  $('fwLatestTag').classList.toggle('hidden',!latest || !robot || compareVersions(latest.version,robot.fw)!==0);
+}
+function offlineState() { $('offlineNote').classList.toggle('hidden',navigator.onLine); }
+
 const TAG = 'PTLINK-FW|board=';
 const CHUNK = 3072;  // bytes per base64 USB chunk for older firmware (it accepts up to 4096 decoded)
 const CRC_TABLE = (() => {
@@ -188,18 +1279,38 @@ function crc32(bytes) {  // CRC-32 (IEEE), the same as the firmware's crc32_le(0
 let link = null;
 let robot = null;   // last status
 
-function msg(id, text, ok) { const e = $(id); e.textContent = text; e.className = 'msg' + (ok === true ? ' ok' : ok === false ? ' bad' : ''); }
-
+function msg(id, text, ok) {
+  messageMemory.set(id,{text,ok}); const e=$(id); e.textContent=renderText(text); e.className='msg'+(ok===true?' ok':ok===false?' bad':'');
+  if(ok===false && ['error.busy','error.running'].includes(text.key)) $('busyNotice').classList.remove('hidden');
+  if(id==='connectHelp' && ['connection.contacting','connection.attempt'].includes(text.key)) {
+    writeText($('conn'),copy('connection.contacting')); $('conn').classList.add('pending');
+  }
+  if(id==='connectHelp' && ok===false) { $('conn').classList.remove('pending'); writeText($('conn'),copy('disconnected')); }
+}
 const ERRORS = {
-  'wrong password': 'รหัสผ่านไม่ถูก',
-  'robot is running': 'หุ่นกำลังวิ่งอยู่ — รอให้หยุดก่อน',
-  'not a PT Link firmware': 'ไฟล์นี้ไม่ใช่เฟิร์มแวร์ PT Link',
-  'already 3 networks saved': 'บันทึกครบ 3 เครือข่ายแล้ว — ลบอันเดิมก่อน',
-  'robot is busy': 'หุ่นไม่ว่าง (กำลังวิ่งหรืออัปเดตอยู่)',
+  'wrong password':'error.password', 'robot is running':'error.running',
+  'not a PT Link firmware':'error.notFirmware', 'already 3 networks saved':'error.networkLimit',
+  'robot is busy':'error.busy', 'control over WiFi only':'error.wifiOnly', 'name must be 1-32 characters':'error.name',
+  'password must be 8-63 characters':'error.passwordLength', 'mode must be race or practice':'error.mode',
+   'not saved':'error.notSaved',
+  'bad request':'error.request', 'unknown command':'error.unsupported',
+  'no update in progress':'error.noUpdate', 'bad chunk encoding':'error.transfer',
+  'binary chunks need USB':'error.usbRequired', 'bad length':'error.updateData',
+  'bad start':'error.logPosition', 'file must be ptlink or flsr':'error.logType',
+  'sweep must be spin or manual':'error.sweep',
+  'การเชื่อมต่อหลุดระหว่างอัปโหลด':'error.uploadLost', 'หุ่นไม่ตอบ':'connection.timeout'
 };
 const sleep = ms => new Promise(r => setTimeout(r, ms));
-const th = e => ERRORS[e] || (e.startsWith('firmware is for another board') ? 'ไฟล์นี้เป็นของบอร์ดรุ่นอื่น' :
-  e.startsWith('current firmware not confirmed') ? 'เฟิร์มแวร์เพิ่งอัปเดต รอ 10 วินาทีแล้วลองใหม่' : e);
+function th(error) {
+  if(error && error.copy) return error.copy;
+  const e = typeof error==='string' ? error : error.message;
+  if(ERRORS[e]) return copy(ERRORS[e]);
+  if(e.startsWith('firmware is for another board')) return copy('error.wrongBoard');
+  if(e.startsWith('current firmware not confirmed')) return copy('error.confirming');
+  if(/Failed to open|already open|Access denied|NetworkError|port.*(busy|use)/i.test(e)) return copy('error.portBusy');
+  if(/NotFoundError|No port selected|cancelled|canceled/i.test(e)) return copy('error.portCancelled');
+  return copy('error.generic', e || 'unknown');
+}
 
 // ---------- WiFi: the page is served by the robot ----------
 class HttpLink {
@@ -255,7 +1366,7 @@ class SerialLink {
         this.reader.releaseLock();
       }
     }
-    if (!this.closed) { await this.close(); setConn(false, 'หลุดการเชื่อมต่อ USB'); }
+    if (!this.closed) { await this.close(); setConn(false, copy('connection.usbLost')); }
   }
   async close() {
     this.closed = true;
@@ -307,9 +1418,12 @@ class SerialLink {
 
 // ---------- UI ----------
 function setConn(ok, text) {
-  $('conn').textContent = text; $('conn').classList.toggle('on', ok);
+  $('conn').classList.remove('pending');
+  if(ok) { messageMemory.delete('connectHelp'); $('connectHelp').textContent=''; }
+  writeText($('conn'), text); $('conn').classList.toggle('on', ok);
   $('app').classList.toggle('hidden', !ok);
   if (!ok && !(link instanceof HttpLink)) $('connectCard').classList.remove('hidden');
+  if (ok) resumeLive();  // reconnecting while the Sensor tab is open
 }
 
 // Boot ROM output arrives at the wrong baud rate as replacement characters: drop those lines.
@@ -331,8 +1445,8 @@ function log(line) {
 }
 
 function row(dl, name, value) {
-  const dt = document.createElement('dt'); dt.textContent = name;
-  const dd = document.createElement('dd'); dd.textContent = value;
+  const dt = document.createElement('dt'); writeText(dt, name);
+  const dd = document.createElement('dd'); writeText(dd, value);
   dl.append(dt, dd);
 }
 
@@ -340,32 +1454,40 @@ async function refresh() {
   const s = await link.cmd({ cmd: 'status' });
   if (!s.ok) throw new Error(s.error);
   robot = s;
+  $('busyNotice').classList.add('hidden');
+  renderRobotSummary();
   const dl = $('status'); dl.textContent = '';
-  row(dl, 'หุ่น', `${s.robot} · ${s.board}`);
+  row(dl, copy('status.robot'), s.robot);
+  row(dl, copy('status.board'), s.board);
   // Firmware 0.7.0+ reports "wifi"; older firmware reported "raceBuild" (true = no WiFi).
   const wifi = s.wifi !== undefined ? s.wifi : !s.raceBuild;
-  row(dl, 'เฟิร์มแวร์', `${s.fw} · ช่อง ${s.partition}${s.otaPending ? ' · ยังไม่ยืนยัน' : ''}`);
-  if (wifi) row(dl, 'โหมด', (s.mode === 'race' ? 'แข่ง' : 'ฝึกซ้อม') + (s.bench ? ' · ทดสอบบนโต๊ะ (พัดลมไม่หมุน)' : ''));
-  else row(dl, 'การเชื่อมต่อ', 'USB' + (s.bench ? ' · ทดสอบบนโต๊ะ (พัดลมไม่หมุน)' : ''));
-  $('benchBtn').textContent = s.bench ? 'ปิดโหมดทดสอบบนโต๊ะ (กลับมาเปิดพัดลมตอนวิ่ง)' : 'เปิดโหมดทดสอบบนโต๊ะ (พัดลมไม่หมุน)';
+  row(dl, copy('firmware'), s.fw);
+  row(dl, copy('status.slot'), s.partition);
+  if(s.otaPending) row(dl, copy('status.pending'), 'OTA');
+  if (!wifi) row(dl, copy('status.connection'), 'USB');
+  if(s.bench) row(dl, copy('benchTitle'), copy('status.bench'));
+  setSwitch($('benchBtn'), !!s.bench);
   $('benchBtn').dataset.on = s.bench ? '1' : '';
-  if (wifi) row(dl, 'WiFi หุ่น', s.wifiOn ? `เปิด · ${s.apSsid} · ช่อง ${s.channel} · ต่ออยู่ ${s.clients} เครื่อง` : `ปิด · ${s.apSsid}`);
-  if (s.network) row(dl, 'ต่อเครือข่าย', `${s.network} · ${s.networkIp} · ${s.hostname}`);
+  if (wifi) {
+    row(dl, copy('status.wifi'), copy(s.wifiOn?'status.on':'status.off'));
+  }
+  if (s.network) {
+    row(dl, copy('status.network'), s.network); row(dl, copy('status.ip'), s.networkIp); row(dl, copy('status.hostname'), s.hostname);
+  }
   // Firmware without WiFi: the WiFi settings, saved networks and race/practice mode do nothing - hide them.
-  $('settingsCard').classList.toggle('hidden', !wifi);
-  $('netsCard').classList.toggle('hidden', !wifi);
-  row(dl, 'แบต', s.battery == null ? 'ไม่มีวงจรวัด' : s.battery + ' V');
+  $('tabWifi').classList.toggle('hidden', !wifi);
+  if (!wifi && !$('panelWifi').classList.contains('hidden')) showPanel('panelRuns');
+  row(dl, copy('status.battery'), s.battery == null ? copy('status.noBattery') : s.battery + ' V');
   if (s.lastRun) {
     const hz = s.lastRun.ms ? Math.round(s.lastRun.loops * 1000 / s.lastRun.ms) : 0;
-    row(dl, 'วิ่งรอบล่าสุด', `${(s.lastRun.ms / 1000).toFixed(1)} วินาที · ${hz} ลูป/วินาที${s.lastRun.aborted ? ' · หยุดเพราะหลุดเส้น' : ''}`);
+    row(dl, copy('lastRun'), copy('run.summary',(s.lastRun.ms/1000).toFixed(1),hz,s.lastRun.aborted ? copy('run.abortedSuffix') : ''));
   }
-  row(dl, 'เปิดมา', Math.round(s.uptimeMs / 1000) + ' วินาที');
+  row(dl, copy('status.uptime'), copy('unit.seconds',Math.round(s.uptimeMs/1000)));
   await showSensors();
-  $('mode').value = s.mode;
-  $('apChannel').value = String(s.apChannelSetting);
-  $('apSsid').placeholder = '';
-  $('apNow').textContent = s.apSsid;
+  setSwitch($('wifiSwitch'), s.mode === 'practice');  // stored as practice = WiFi on
+  $('wifiRetryBtn').classList.toggle('hidden', !(s.mode === 'practice' && s.wifiOn && !s.network && s.networks > 0));
   await loadNets();
+  await loadAccess();
   checkLatest();  // no await: the website check must not slow the robot view
 }
 
@@ -374,12 +1496,13 @@ let live = false;
 
 async function showSensors() {
   const r = await ok(link.cmd({ cmd: 'sensors' }));
+  sensorSnapshot = r; renderCalState();
   const n = r.raw.length, bars = $('bars');
   if (bars.children.length !== n) {
-    bars.textContent = ''; $('idx').textContent = '';
+    bars.textContent = ''; writeText($('idx'), '');
     for (let i = 0; i < n; i++) {
       const b = document.createElement('div'); b.className = 'bar'; b.append(document.createElement('i')); bars.append(b);
-      const t = document.createElement('span'); t.textContent = i; $('idx').append(t);
+      const t = document.createElement('span'); writeText(t, i); $('idx').append(t);
     }
   }
   for (let i = 0; i < n; i++) {
@@ -387,53 +1510,75 @@ async function showSensors() {
     if (r.calValid) {  // strength: tall = on the line
       b.firstChild.style.height = r.strength[i] / 10 + '%';
       b.classList.toggle('on', r.strength[i] > r.threshold);
-      b.title = `S${i} ค่าดิบ ${r.raw[i]} ความเข้ม ${r.strength[i]}`;
+      b.dataset.tipKey='sensor.strengthTip'; b.dataset.tipArgs=JSON.stringify([i,r.raw[i],r.strength[i]]); b.title=t(b.dataset.tipKey,i,r.raw[i],r.strength[i]);
     } else {           // raw: tall = white floor
       b.firstChild.style.height = r.raw[i] / 10.23 + '%';
       b.classList.remove('on');
-      b.title = `S${i} ค่าดิบ ${r.raw[i]}`;
+      b.dataset.tipKey='sensor.rawTip'; b.dataset.tipArgs=JSON.stringify([i,r.raw[i]]); b.title=t(b.dataset.tipKey,i,r.raw[i]);
     }
   }
   if (r.calValid) {
     $('marker').style.left = (r.edge - r.position) / (2 * r.edge) * 100 + '%';
     $('marker').classList.toggle('out', r.out);
-    $('posText').textContent = `ตำแหน่ง ${r.position}${r.out ? ' · หลุดเส้น' : ''}${r.allDark ? ' · มืดทุกตัว (ยกลอย/เส้นตัด/พื้นดำ — ตำแหน่งไม่แน่นอน)' : ''}${r.badRaw ? ' · อ่านเซนเซอร์ผิดพลาด' : ''}  (0 = กลาง, +${r.edge} = ฝั่ง S0 ซ้าย)`;
+    writeText($('posText'), copy('sensor.position',r.position,r.out?copy('sensor.out'):'',r.allDark?copy('sensor.dark'):'',r.badRaw?copy('sensor.bad'):'',r.edge));
   } else {
     $('marker').style.left = '50%';
-    $('posText').textContent = 'ยังไม่ได้คาลิเบรต — แท่งแสดงค่าดิบ (สูง = พื้นขาว)';
+    writeText($('posText'), copy('sensor.rawOnly'));
   }
 }
 
+function renderSensorTitles() {
+  for(const bar of $('bars').children) if(bar.dataset.tipKey) bar.title=t(bar.dataset.tipKey,...JSON.parse(bar.dataset.tipArgs));
+}
+
+// Real-time sensor view: on by default. It runs while the Sensor tab is open and the switch is on; anything that
+// needs the link (calibrate, log, update, another tab) sets live = false and the loop ends.
+let liveWanted = true;
+try { liveWanted = localStorage.getItem('ptlink.live') !== 'off'; } catch (e) {}
+let liveRun = 0;  // only the newest loop may run: switching off and on quickly must not start a second one
+
 async function liveLoop() {
-  while (live) {
-    try { await showSensors(); } catch (e) { msg('calMsg', th(e.message), false); live = false; }
+  const me = ++liveRun;
+  while (live && me === liveRun) {
+    try { await showSensors(); } catch (e) { msg('calMsg', th(e), false); live = false; }
     await sleep(100);
   }
-  $('liveBtn').textContent = 'ดูค่าสด';
+  if (me === liveRun) setSwitch($('liveBtn'), false);
+}
+
+function resumeLive() {
+  if (!liveWanted || live || !link || $('app').classList.contains('hidden') || $('panelSensors').classList.contains('hidden')) return;
+  live = true; setSwitch($('liveBtn'), true); liveLoop();
+}
+
+// On/off switch (button role="switch"): the label is translated, the ON/OFF state is the same in both languages.
+function setSwitch(el, on) {
+  el.setAttribute('aria-checked', String(on));
+  el.querySelector('.switch-state').textContent = on ? 'ON' : 'OFF';
 }
 
 async function calibrate(sweep) {
   live = false;
-  const text = sweep === 'spin'
-    ? 'วางหุ่นคร่อมเส้น หุ่นจะหมุนตัวเอง 5 วินาที (มอเตอร์ทำงาน) — เริ่มเลยไหม?'
-    : 'กดตกลงแล้ว รอเสียงบี๊บ จากนั้นเลื่อนหุ่นข้ามเส้นไปมาให้เซนเซอร์ทุกตัวผ่านทั้งเส้นและพื้นขาว 5 วินาที';
-  if (!confirm(text)) return;
-  await run('calMsg', async () => {
-    msg('calMsg', 'กำลังคาลิเบรต… (ประมาณ 6 วินาที)');
-    await ok(link.cmd({ cmd: 'calibrate', sweep }, 15000));
-    await showSensors();
-    return 'บันทึกค่าคาลิเบรตแล้ว';
-  });
+  const text = copy(sweep === 'spin' ? 'cal.spinConfirm' : 'cal.manualConfirm');
+  if (confirm(renderText(text))) {
+    await run('calCtlMsg', async () => {
+      msg('calCtlMsg', copy('cal.progress'));
+      await ok(link.cmd({ cmd: 'calibrate', sweep }, 15000));
+      await showSensors();
+      return copy('cal.saved');
+    });
+  }
+  resumeLive();
 }
 
 async function showCalibration() {
   const r = await ok(link.cmd({ cmd: 'calibration' }));
-  const lines = [`${r.calValid ? 'ใช้ได้' : 'ใช้ไม่ได้'} (พื้น − เส้น ต้อง ≥ ${r.minSpan})`];
-  r.line.forEach((l, i) => {
-    const span = r.floor[i] - l;
-    lines.push(`S${String(i).padStart(2, '0')}  เส้น ${String(l).padStart(4)}  พื้น ${String(r.floor[i]).padStart(4)}  ต่าง ${String(span).padStart(4)}${span < r.minSpan ? '  ← น้อยไป' : ''}`);
+  const lines=[copy('cal.header',copy(r.calValid?'cal.valid':'cal.invalid'),r.minSpan)];
+  r.line.forEach((l,i)=>{
+    const span=r.floor[i]-l;
+    lines.push(copy('cal.row',String(i).padStart(2,'0'),String(l).padStart(4),String(r.floor[i]).padStart(4),String(span).padStart(4),span<r.minSpan?copy('cal.low'):''));
   });
-  $('calData').textContent = lines.join('\n');
+  writeText($('calData'),lines);
   $('calData').classList.remove('hidden');
 }
 
@@ -456,11 +1601,10 @@ function decodeSamples(b64) {
 async function loadRunLog(file) {
   const info = await ok(link.cmd({ cmd: 'logInfo', file }));
   $('logFormatBtn').classList.toggle('hidden', info.storageReady);
-  if (!info.exists) throw new Error(!info.storageReady ? 'พื้นที่เก็บ log ยังไม่พร้อม — กดปุ่มเตรียมพื้นที่ด้านล่างหนึ่งครั้ง'
-    : file === 'flsr' ? 'ไม่พบ log ของ FLSR_DM01 ในหุ่น' : 'ยังไม่มีการวิ่งที่บันทึกไว้ — กด B ให้หุ่นวิ่งก่อน');
+  if (!info.exists) throw uiError(!info.storageReady ? 'run.noStorage' : file === 'flsr' ? 'run.noLegacy' : 'run.noSaved');
   const samples = [];
   while (samples.length < info.samples) {
-    msg('logMsg', `กำลังโหลด ${samples.length}/${info.samples}`);
+    msg('logMsg', copy('run.loading',samples.length,info.samples));
     const r = await ok(link.cmd({ cmd: 'logRead', file, start: samples.length, count: 300 }, 8000));
     if (!r.count) break;
     samples.push(...decodeSamples(r.b64));
@@ -468,21 +1612,23 @@ async function loadRunLog(file) {
   runLog = { file, info, samples };
   hoverIndex = -1;
   showRunLog();
-  return `โหลดแล้ว ${samples.length} จุด`;
+  return copy('run.loaded',samples.length);
 }
 
 function showRunLog() {
   const { info, samples } = runLog;
   const dl = $('logInfo'); dl.textContent = '';
   const hz = info.durationMs ? Math.round(info.loops * 1000 / info.durationMs) : 0;
-  row(dl, 'เฟิร์มแวร์', info.fw);
-  row(dl, 'เวลา', `${(info.durationMs / 1000).toFixed(2)} วินาที · ${hz} ลูป/วินาที · บันทึกทุก ${info.intervalMs} ms`);
-  row(dl, 'ผล', (info.aborted ? 'หยุดก่อนครบเวลา (หลุดเส้นนานเกิน)' : 'วิ่งครบ') +
-    (info.fanUs === 1000 ? ' · ทดสอบบนโต๊ะ (พัดลมปิด)' : ''));
-  info.segments.forEach((g, i) => row(dl, `ช่วง ${i + 1}`,
-    `${g.base ? 'base ' + g.base + ' · ' : ''}kp ${g.kp} · kd ${g.kd} · ${g.timeMs} ms (เริ่ม ${g.startMs} ms)`));
+  row(dl, copy('firmware'), info.fw);
+  row(dl, copy('run.duration'), copy('unit.seconds',(info.durationMs/1000).toFixed(2)));
+  row(dl, copy('run.loopRate'), copy('unit.loopRate',hz));
+  row(dl, copy('run.interval'), info.intervalMs+' ms');
+  row(dl, copy('run.result'), copy(info.aborted?'run.aborted':'run.completed'));
+  if(info.fanUs===1000) row(dl, copy('benchTitle'), copy('status.bench'));
+  info.segments.forEach((g,i)=>row(dl,copy('run.segment',i+1),copy('run.segmentValues',g.base?'base '+g.base+', ':'',g.kp,g.kd,g.timeMs,g.startMs)));
   const outCount = samples.filter(s => s.out).length;
-  row(dl, 'หลุดเส้น', `${(outCount * info.intervalMs / 1000).toFixed(2)} วินาทีโดยประมาณ`);
+  row(dl, copy('lineOutBand'), copy('run.outDuration',(outCount*info.intervalMs/1000).toFixed(2)));
+  $('runEmpty').classList.add('hidden');
   $('logView').classList.remove('hidden');
   $('logTable').classList.add('hidden');
   drawCharts();
@@ -505,7 +1651,7 @@ function drawChart(canvas, yMin, yMax, yTicks, series) {
   const y = v => T + (yMax - v) / (yMax - yMin) * (h - T - B);
   canvas._geom = { x, L, R, tMax, w };
 
-  g.font = '11px system-ui, sans-serif';
+  g.font = '12px Anuphan, system-ui, sans-serif';
   // line-out bands (status color, translucent, behind everything)
   g.fillStyle = css('--out'); g.globalAlpha = 0.25;
   for (let i = 0; i < samples.length; i++) {
@@ -560,14 +1706,14 @@ function drawChart(canvas, yMin, yMax, yTicks, series) {
 }
 
 function drawCharts() {
-  if (!runLog || $('logView').classList.contains('hidden')) return;
-  drawChart($('chartErr'), -800, 800, [[750, '+750 ซ้าย'], [0, '0'], [-750, '−750 ขวา']], [{ key: 'error', color: css('--s1') }]);
+  if (!runLog || $('logView').classList.contains('hidden') || $('panelRuns').classList.contains('hidden')) return;
+  drawChart($('chartErr'), -800, 800, [[750, t('run.leftTick')], [0, '0'], [-750, t('run.rightTick')]], [{ key: 'error', color: css('--s1') }]);
   drawChart($('chartMotor'), -100, 100, [[100, '100'], [50, '50'], [0, '0'], [-50, '−50'], [-100, '−100']],
     [{ key: 'base', color: css('--s3') }, { key: 'left', color: css('--s1') }, { key: 'right', color: css('--s2') }]);
 }
 
 function hover(ev) {
-  if (!runLog || !runLog.samples.length) return;
+  if (!runLog || !runLog.samples.length || !ev.currentTarget._geom) return;
   const canvas = ev.currentTarget, geom = canvas._geom, rect = canvas.getBoundingClientRect();
   const clientX = ev.touches ? ev.touches[0].clientX : ev.clientX;
   const t = (clientX - rect.left - geom.L) / (geom.w - geom.L - geom.R) * geom.tMax;
@@ -578,8 +1724,7 @@ function hover(ev) {
   hoverIndex = lo;
   drawCharts();
   const p = s[lo], tip = $('tip'), box = $('chartBox').getBoundingClientRect();
-  tip.innerHTML = `<b>${(p.t / 1000).toFixed(3)} s</b> · ช่วง ${p.seg + 1}${p.out ? ' · <b>หลุดเส้น</b>' : ''}${p.abort ? ' · <b>หยุด</b>' : ''}<br>` +
-    `ตำแหน่ง ${p.error}<br>ซ้าย ${p.left} · ขวา ${p.right} · base ${p.base}`;
+  writeHTML(tip, copy('run.tip',(p.t/1000).toFixed(3),p.seg+1,p.out?copy('run.tipOut'):'',p.abort?copy('run.tipAbort'):'',p.error,p.left,p.right,p.base));
   tip.classList.remove('hidden');
   const left = Math.min(clientX - box.left + 12, box.width - tip.offsetWidth - 4);
   tip.style.left = Math.max(0, left) + 'px';
@@ -601,22 +1746,334 @@ function runLogCsv() {
 
 async function loadNets() {
   const r = await link.cmd({ cmd: 'networks' });
-  const box = $('nets'); box.textContent = '';
-  if (!r.networks.length) { box.innerHTML = '<p class="muted">ยังไม่มี</p>'; return; }
+  const box = $('nets'); writeText(box, '');
+  if (!r.networks.length) { writeText(box, copy('net.empty')); return; }
   for (const ssid of r.networks) {
     const d = document.createElement('div'); d.className = 'net';
     const s = document.createElement('span'); s.textContent = ssid;
-    const b = document.createElement('button'); b.className = 'ghost'; b.textContent = 'ลบ';
-    b.onclick = () => run('netMsg', async () => { await ok(link.cmd({ cmd: 'netForget', ssid })); await loadNets(); return 'ลบแล้ว'; });
+    const b = document.createElement('button'); b.className = 'ghost'; writeText(b, copy('net.remove'));
+    b.onclick = () => run('netMsg', async () => { await ok(link.cmd({ cmd: 'netForget', ssid })); await loadNets(); return copy('net.removed'); });
     d.append(s, b); box.append(d);
   }
 }
 
-async function ok(promise) { const r = await promise; if (!r.ok) throw new Error(r.error); return r; }
+async function ok(promise) {
+  const r = await promise;
+  if (!r.ok) { if (r.error === 'wrong password') forgetKey(); throw new Error(r.error); }
+  return r;
+}
+
+// ---------- Password for the page served by the robot ----------
+// It comes from the QR code (#k=… in the address, removed at once) or from the last visit, so it is typed
+// at most once per phone. Saved for that robot address only (browser storage is per address).
+function rememberKey() { try { if ($('pw').value) localStorage.setItem('ptlink.key', $('pw').value); } catch (e) {} }
+function forgetKey() { try { localStorage.removeItem('ptlink.key'); } catch (e) {} }
+(() => {
+  const m = /[#&]k=([^&]*)/.exec(location.hash);
+  if (m) {
+    $('pw').value = decodeURIComponent(m[1]);
+    history.replaceState(null, '', location.pathname + location.search);
+    rememberKey();
+  } else {
+    try { const k = localStorage.getItem('ptlink.key'); if (k) $('pw').value = k; } catch (e) {}
+  }
+  $('pw').addEventListener('change', rememberKey);
+})();
+
+// ---------- QR code: byte mode, error correction M, versions 1-10 (up to 213 bytes) ----------
+const QR_EC = [10, 16, 26, 18, 24, 16, 18, 22, 22, 26];  // error correction codewords per block
+const QR_BLOCKS = [1, 1, 1, 2, 2, 4, 4, 4, 5, 5];
+const QR_ALIGN = [[], [6, 18], [6, 22], [6, 26], [6, 30], [6, 34], [6, 22, 38], [6, 24, 42], [6, 26, 46], [6, 28, 50]];
+const QR_MASKS = [(x, y) => (x + y) % 2 === 0, (x, y) => y % 2 === 0, (x, y) => x % 3 === 0, (x, y) => (x + y) % 3 === 0,
+  (x, y) => (Math.floor(x / 3) + Math.floor(y / 2)) % 2 === 0, (x, y) => x * y % 2 + x * y % 3 === 0,
+  (x, y) => (x * y % 2 + x * y % 3) % 2 === 0, (x, y) => ((x + y) % 2 + x * y % 3) % 2 === 0];
+
+function gfMul(x, y) {  // GF(256), polynomial 0x11D
+  let z = 0;
+  for (let i = 7; i >= 0; i--) { z = (z << 1) ^ ((z >>> 7) * 0x11D); z ^= ((y >>> i) & 1) * x; }
+  return z;
+}
+
+function rsEcc(data, degree) {  // Reed-Solomon remainder
+  const gen = new Array(degree).fill(0); gen[degree - 1] = 1;
+  for (let i = 0, root = 1; i < degree; i++, root = gfMul(root, 2)) {
+    for (let j = 0; j < degree; j++) { gen[j] = gfMul(gen[j], root); if (j + 1 < degree) gen[j] ^= gen[j + 1]; }
+  }
+  const rem = new Array(degree).fill(0);
+  for (const b of data) { const f = b ^ rem.shift(); rem.push(0); gen.forEach((c, i) => { rem[i] ^= gfMul(c, f); }); }
+  return rem;
+}
+
+function qrRawModules(v) {  // data + error correction modules of version v
+  let r = (16 * v + 128) * v + 64;
+  if (v >= 2) { const a = Math.floor(v / 7) + 2; r -= (25 * a - 10) * a - 55; if (v >= 7) r -= 36; }
+  return r;
+}
+
+function qrPenalty(m) {
+  const n = m.length; let p = 0, dark = 0;
+  for (let i = 0; i < n; i++) {
+    for (const line of [m[i], m.map(r => r[i])]) {
+      for (let j = 1, run = 1; j <= n; j++) {
+        if (j < n && line[j] === line[j - 1]) run++;
+        else { if (run >= 5) p += run - 2; run = 1; }
+      }
+      const s = line.join('');
+      for (const pat of ['10111010000', '00001011101']) for (let at = s.indexOf(pat); at >= 0; at = s.indexOf(pat, at + 1)) p += 40;
+    }
+  }
+  for (let y = 0; y < n - 1; y++) for (let x = 0; x < n - 1; x++) {
+    const c = m[y][x]; if (c === m[y][x + 1] && c === m[y + 1][x] && c === m[y + 1][x + 1]) p += 3;
+  }
+  m.forEach(r => r.forEach(c => { dark += c; }));
+  return p + 10 * Math.floor(Math.abs(dark * 20 / (n * n) - 10));
+}
+
+function qrMatrix(text) {
+  const bytes = [...new TextEncoder().encode(text)];
+  let v = 1, total, dataLen;
+  for (;; v++) {
+    if (v > 10) throw new Error('QR text too long');
+    total = qrRawModules(v) >> 3; dataLen = total - QR_EC[v - 1] * QR_BLOCKS[v - 1];
+    if (4 + (v < 10 ? 8 : 16) + bytes.length * 8 <= dataLen * 8) break;
+  }
+  const bits = [], put = (val, len) => { for (let i = len - 1; i >= 0; i--) bits.push((val >>> i) & 1); };
+  put(4, 4); put(bytes.length, v < 10 ? 8 : 16); bytes.forEach(b => put(b, 8));
+  put(0, Math.min(4, dataLen * 8 - bits.length));
+  while (bits.length % 8) bits.push(0);
+  const data = [];
+  for (let i = 0; i < bits.length; i += 8) data.push(parseInt(bits.slice(i, i + 8).join(''), 2));
+  for (let pad = 0xEC; data.length < dataLen; pad ^= 0xEC ^ 0x11) data.push(pad);
+
+  const nb = QR_BLOCKS[v - 1], ec = QR_EC[v - 1], shortLen = Math.floor(total / nb), numShort = nb - total % nb;
+  const blocks = [];
+  for (let i = 0, k = 0; i < nb; i++) {
+    const d = data.slice(k, k += shortLen - ec + (i < numShort ? 0 : 1));
+    blocks.push([d, rsEcc(d, ec)]);
+  }
+  const code = [];
+  for (let i = 0; i <= shortLen - ec; i++) blocks.forEach(([d]) => { if (i < d.length) code.push(d[i]); });
+  for (let i = 0; i < ec; i++) blocks.forEach(([, e]) => code.push(e[i]));
+
+  const n = 17 + 4 * v, m = [], fn = [];
+  for (let y = 0; y < n; y++) { m.push(new Array(n).fill(0)); fn.push(new Array(n).fill(false)); }
+  const set = (x, y, dark) => { m[y][x] = dark ? 1 : 0; fn[y][x] = true; };
+  for (let i = 0; i < n; i++) { set(6, i, i % 2 === 0); set(i, 6, i % 2 === 0); }
+  for (const [cx, cy] of [[3, 3], [n - 4, 3], [3, n - 4]]) {
+    for (let dy = -4; dy <= 4; dy++) for (let dx = -4; dx <= 4; dx++) {
+      const x = cx + dx, y = cy + dy, d = Math.max(Math.abs(dx), Math.abs(dy));
+      if (x >= 0 && x < n && y >= 0 && y < n) set(x, y, d !== 2 && d !== 4);
+    }
+  }
+  const al = QR_ALIGN[v - 1], last = al.length - 1;
+  al.forEach((ay, i) => al.forEach((ax, j) => {
+    if ((i === 0 && (j === 0 || j === last)) || (i === last && j === 0)) return;
+    for (let dy = -2; dy <= 2; dy++) for (let dx = -2; dx <= 2; dx++) set(ax + dx, ay + dy, Math.max(Math.abs(dx), Math.abs(dy)) !== 1);
+  }));
+  const drawFormat = mask => {  // error correction M = 00, so the data bits are just the mask number
+    let r = mask;
+    for (let i = 0; i < 10; i++) r = (r << 1) ^ ((r >>> 9) * 0x537);
+    const f = ((mask << 10) | r) ^ 0x5412, b = i => (f >>> i) & 1;
+    for (let i = 0; i <= 5; i++) set(8, i, b(i));
+    set(8, 7, b(6)); set(8, 8, b(7)); set(7, 8, b(8));
+    for (let i = 9; i < 15; i++) set(14 - i, 8, b(i));
+    for (let i = 0; i < 8; i++) set(n - 1 - i, 8, b(i));
+    for (let i = 8; i < 15; i++) set(8, n - 15 + i, b(i));
+    set(8, n - 8, 1);
+  };
+  drawFormat(0);
+  if (v >= 7) {
+    let r = v;
+    for (let i = 0; i < 12; i++) r = (r << 1) ^ ((r >>> 11) * 0x1F25);
+    const f = (v << 12) | r;
+    for (let i = 0; i < 18; i++) { const a = n - 11 + i % 3, b = Math.floor(i / 3), d = (f >>> i) & 1; set(a, b, d); set(b, a, d); }
+  }
+  for (let right = n - 1, i = 0; right >= 1; right -= 2) {  // data: two-column zigzag from the bottom right
+    if (right === 6) right = 5;
+    for (let vert = 0; vert < n; vert++) for (let j = 0; j < 2; j++) {
+      const x = right - j, y = ((right + 1) & 2) === 0 ? n - 1 - vert : vert;
+      if (!fn[y][x] && i < code.length * 8) { m[y][x] = (code[i >>> 3] >>> (7 - (i & 7))) & 1; i++; }
+    }
+  }
+  let best = null, bestScore = Infinity;
+  for (let k = 0; k < 8; k++) {
+    const flip = () => { for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) if (!fn[y][x] && QR_MASKS[k](x, y)) m[y][x] ^= 1; };
+    flip(); drawFormat(k);
+    const score = qrPenalty(m);
+    if (score < bestScore) { bestScore = score; best = m.map(r => r.slice()); }
+    flip();
+  }
+  return best;
+}
+
+function qrSvg(text) {
+  const m = qrMatrix(text), n = m.length, q = 4, size = n + 2 * q, ns = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(ns, 'svg');
+  svg.setAttribute('viewBox', `0 0 ${size} ${size}`); svg.setAttribute('class', 'qr'); svg.setAttribute('shape-rendering', 'crispEdges');
+  const bg = document.createElementNS(ns, 'rect');
+  bg.setAttribute('width', size); bg.setAttribute('height', size); bg.setAttribute('fill', '#fff');
+  let d = '';
+  m.forEach((r, y) => r.forEach((c, x) => { if (c) d += `M${x + q} ${y + q}h1v1h-1z`; }));
+  const path = document.createElementNS(ns, 'path');
+  path.setAttribute('d', d); path.setAttribute('fill', '#000');
+  svg.append(bg, path);
+  return svg;
+}
+
+// ---------- "Connect over WiFi" box (USB only: it shows the passwords) ----------
+const pageQrText = (host, pass) => `http://${host}/#k=${encodeURIComponent(pass)}`;
+// A link that opens the robot's page in a new tab, signed in (the password rides in #k=, never sent to a server).
+function rowLink(dl, name, text, href) {
+  const dt = document.createElement('dt'); writeText(dt, name);
+  const dd = document.createElement('dd'), a = document.createElement('a');
+  a.href = href; a.target = '_blank'; a.rel = 'noopener'; a.textContent = text;
+  dd.append(a); dl.append(dt, dd);
+}
+
+async function loadAccess() {
+  const card = $('accessCard'), s = robot;
+  const wifi = s && (s.wifi !== undefined ? s.wifi : !s.raceBuild);
+  if (!(link instanceof SerialLink) || !wifi) { card.classList.add('hidden'); return; }
+  let a;
+  try { a = await ok(link.cmd({ cmd: 'access' })); } catch (e) { a = null; }
+  if (!a || typeof a.password !== 'string') { card.classList.add('hidden'); return; }  // firmware before 0.8.1
+  const qr = $('qrRow'), info = $('accessInfo');
+  qr.textContent = ''; info.textContent = '';
+  const addQr = (text, caption) => {
+    const fig = document.createElement('figure'); fig.className = 'qr-item';
+    const cap = document.createElement('figcaption'); writeText(cap, caption);
+    fig.append(qrSvg(text), cap); qr.append(fig);
+  };
+  // The WiFi switch (mode) decides: off = no QR code, even before the robot has switched WiFi off.
+  const switchedOn = s.mode !== 'race';
+  if (switchedOn && s.network && s.networkIp) {
+    writeText($('accessHint'), copy('access.joined', s.network));
+    addQr(pageQrText(s.networkIp, a.password), copy('access.qrPage'));
+    // The name stays the same when the IP changes; the QR code uses the IP (Android often cannot open .local).
+    const host = s.hostname || s.networkIp;
+    rowLink(info, copy('access.address'), `http://${host}`, pageQrText(host, a.password));
+    row(info, copy('access.password'), a.password);
+  } else if (switchedOn && s.wifiOn) {
+    writeText($('accessHint'), copy(s.networks === 0 ? 'access.noNetwork' : 'access.searching'));
+    row(info, copy('access.password'), a.password);
+  } else {
+    writeText($('accessHint'), copy('access.off'));
+    row(info, copy('access.password'), a.password);
+  }
+  $('pwFactoryBtn').classList.toggle('hidden', !a.custom);
+  card.classList.remove('hidden');
+}
+
+// Your own page password (USB only; the firmware refuses it over WiFi).
+$('pwSaveBtn').onclick = () => run('pwMsg', async () => {
+  const p = $('newPw').value;
+  if (p.length < 8 || p.length > 63) throw uiError('error.passwordLength');
+  await ok(link.cmd({ cmd: 'password', password: p }));
+  $('newPw').value = '';
+  await loadAccess();
+  return copy('pw.saved');
+});
+$('pwFactoryBtn').onclick = () => run('pwMsg', async () => {
+  await ok(link.cmd({ cmd: 'password', password: '' }));
+  await loadAccess();
+  return copy('pw.factoryDone');
+});
+
+// Show / hide password fields.
+for (const b of document.querySelectorAll('button.reveal')) {
+  b.onclick = () => {
+    const input = $(b.dataset.for), show = input.type === 'password';
+    input.type = show ? 'text' : 'password';
+    b.setAttribute('aria-pressed', String(show));
+    b.dataset.i18nAria = show ? 'pw.hide' : 'pw.show';
+    b.setAttribute('aria-label', t(b.dataset.i18nAria));
+  };
+}
+
+// ---------- Control tab: A / B / RESET, the same as pressing them on the robot (firmware 0.8.1+) ----------
+// The board picture is used when it loaded (not on the page the robot serves: no room in the firmware)
+// and the robot is a Strom mini; otherwise the plain buttons.
+let boardImageOk = $('boardImg').complete && $('boardImg').naturalWidth > 0;
+$('boardImg').onload = () => { boardImageOk = true; if (robot) renderControl(); };
+// Over USB the buttons are off (the robot would drag the cable); the firmware refuses them too.
+function renderControl() {
+  const board = boardImageOk && !!robot && robot.boardId === 1, usb = link instanceof SerialLink;
+  $('boardPad').classList.toggle('hidden', !board);
+  document.querySelector('.control-pad').classList.toggle('hidden', board);
+  $('controlNote').classList.toggle('hidden', !usb);
+  $('boardPad').classList.toggle('locked', usb);
+  for (const id of ['hotA', 'hotB', 'hotReset', 'padA', 'padB', 'padReset', 'calManualBtn', 'calSpinBtn']) $(id).disabled = usb;
+  let skipped = false;
+  try { skipped = ['B', 'RESET'].some(k => localStorage.getItem('ptlink.noask.' + k) === '1'); } catch (e) {}
+  $('askAgainBtn').classList.toggle('hidden', !skipped);
+}
+
+// Confirmation with "Don't ask again" (the browser's confirm() has no checkbox). Resolves true = go ahead.
+function askFirst(key, textKey) {
+  try { if (localStorage.getItem('ptlink.noask.' + key) === '1') return Promise.resolve(true); } catch (e) {}
+  const d = $('askDialog');
+  if (typeof d.showModal !== 'function') return Promise.resolve(confirm(t(textKey)));
+  writeText($('askText'), copy(textKey));
+  $('askSkip').checked = false;
+  return new Promise(resolve => {
+    d.onclose = () => {
+      const yes = d.returnValue === 'ok';
+      if (yes && $('askSkip').checked) {
+        try { localStorage.setItem('ptlink.noask.' + key, '1'); } catch (e) {}
+        renderControl();
+      }
+      resolve(yes);
+    };
+    d.returnValue = '';
+    d.showModal();
+  });
+}
+$('askAgainBtn').onclick = () => {
+  try { ['B', 'RESET'].forEach(k => localStorage.removeItem('ptlink.noask.' + k)); } catch (e) {}
+  renderControl();
+};
+
+// The robot answers again when the run ends, or while Manual() waits for A.
+async function watchRun() {
+  await sleep(4000);
+  for (let i = 0; i < 120; i++) {
+    try {
+      const s = await link.cmd({ cmd: 'status' }, 3000);
+      if (s.ok && !s.running) { msg('controlMsg', copy('control.finished'), true); await refresh(); return; }
+      if (s.ok && s.waitingA) msg('controlMsg', copy('control.waitingA'), true);
+    } catch (e) {}
+    await sleep(1500);
+  }
+}
+
+$('padA').onclick = () => run('controlMsg', async () => {
+  await ok(link.cmd({ cmd: 'press', button: 'A' }));
+  return copy('control.aSent');
+});
+$('padB').onclick = async () => {
+  if (!await askFirst('B', 'control.bConfirm')) return;
+  live = false;
+  try { await ok(link.cmd({ cmd: 'press', button: 'B' })); } catch (e) { msg('controlMsg', th(e), false); return; }
+  msg('controlMsg', copy('control.started'), true);
+  watchRun();
+};
+$('padReset').onclick = async () => {
+  if (!await askFirst('RESET', 'restart.confirm')) return;
+  link.cmd({ cmd: 'reboot' }).catch(() => {});
+  msg('controlMsg', copy('control.resetDone'), true);
+};
+// Buttons on the board picture: a short press flash, then the same action as the plain buttons.
+for (const [hot, pad] of [['hotA', 'padA'], ['hotB', 'padB'], ['hotReset', 'padReset']]) {
+  $(hot).onclick = () => {
+    $(hot).classList.add('pressed');
+    setTimeout(() => $(hot).classList.remove('pressed'), 180);
+    $(pad).click();
+  };
+}
 
 async function run(msgId, fn) {
-  try { msg(msgId, '…'); msg(msgId, await fn(), true); }
-  catch (e) { msg(msgId, th(e.message), false); }
+  try { msg(msgId, copy('action.working')); msg(msgId, await fn(), true); }
+  catch (e) { msg(msgId, th(e), false); }
 }
 
 // The PT Link tag in a firmware file: "PTLINK-FW|board=<id>|v=<version>|". null = not PT Link.
@@ -646,19 +2103,19 @@ async function installFirmware(file) {
   if (!tag) throw new Error('not a PT Link firmware');
   if (robot && tag.board !== robot.boardId) throw new Error('firmware is for another board');
   if (robot && compareVersions(tag.version, robot.fw) < 0 &&
-      !confirm(`ไฟล์นี้เป็นเวอร์ชัน ${tag.version} เก่ากว่าที่หุ่นใช้อยู่ (${robot.fw}) — ติดตั้งเวอร์ชันเก่าจริงไหม?`)) {
-    return 'ยกเลิก';
+      !confirm(t('update.downgrade',tag.version,robot.fw))) {
+    return copy('action.cancelled');
   }
   live = false;  // keep the link free for the upload
   $('fwBtn').disabled = $('latestBtn').disabled = true;
   $('fwProg').classList.remove('hidden'); $('fwProg').value = 0;
   try {
     const t0 = Date.now();
-    await ok(link.update(file, f => { $('fwProg').value = f * 100; msg('fwMsg', `กำลังอัปโหลด ${tag.version} ${Math.round(f * 100)}%`); }));
+    await ok(link.update(file, f => { $('fwProg').value = f * 100; msg('fwMsg', copy('update.progress',tag.version,Math.round(f*100))); }));
     const sec = ((Date.now() - t0) / 1000).toFixed(1);
     return link instanceof HttpLink
-      ? `ติดตั้ง ${tag.version} สำเร็จ (${sec} วิ) หุ่นกำลังรีสตาร์ท${robot && robot.mode === 'race' ? ' — โหมดแข่ง: WiFi จะปิด กด A ค้าง 3 วิ เพื่อเปิดใหม่' : ' รอสักครู่แล้วต่อ WiFi ใหม่'}`
-      : `ติดตั้ง ${tag.version} สำเร็จ (${sec} วิ) หุ่นกำลังรีสตาร์ท รอ 10 วินาทีแล้วกดรีเฟรช`;
+      ? copy(robot && robot.mode==='race' ? 'update.successRace' : 'update.successWifi',tag.version,sec)
+      : copy('update.successUsb',tag.version,sec);
   } finally { $('fwBtn').disabled = $('latestBtn').disabled = false; }
 }
 
@@ -673,11 +2130,12 @@ async function checkLatest() {
     latest = robot && m.boards && m.boards[robot.boardId];
   } catch (e) { return; }
   $('latestBox').classList.toggle('hidden', !latest);
+  updateLatestPresentation();
   if (!latest) return;
   const cmp = compareVersions(latest.version, robot.fw);
-  $('latestInfo').textContent = cmp > 0 ? `มีเวอร์ชันใหม่ ${latest.version} (หุ่นใช้ ${robot.fw})`
-    : cmp === 0 ? `หุ่นใช้เวอร์ชันล่าสุดแล้ว (${robot.fw})` : `หุ่นใช้ ${robot.fw} ใหม่กว่าเวอร์ชันบนเว็บ (${latest.version})`;
-  $('latestBtn').textContent = cmp > 0 ? `อัปเดตเป็น ${latest.version}` : `ติดตั้ง ${latest.version} ซ้ำ`;
+  writeText($('latestInfo'), cmp > 0 ? copy('update.available',latest.version,robot.fw)
+    : cmp===0 ? copy('update.current',robot.fw) : copy('update.ahead',robot.fw,latest.version));
+  writeText($('latestBtn'), copy(cmp>0?'update.installVersion':'update.reinstall',latest.version));
   $('latestBtn').className = cmp > 0 ? '' : 'ghost';
 }
 
@@ -686,9 +2144,12 @@ async function sha256Hex(buffer) {
   return [...new Uint8Array(hash)].map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
-for (let c = 0; c <= 13; c++) $('apChannel').add(new Option(c ? 'ช่อง ' + c : 'อัตโนมัติ', String(c)));
 
-$('liveBtn').onclick = () => { live = !live; $('liveBtn').textContent = live ? 'หยุด' : 'ดูค่าสด'; if (live) liveLoop(); };
+$('liveBtn').onclick = () => {
+  liveWanted = !live;
+  try { localStorage.setItem('ptlink.live', liveWanted ? 'on' : 'off'); } catch (e) {}
+  if (liveWanted) resumeLive(); else { live = false; setSwitch($('liveBtn'), false); }
+};
 $('calSpinBtn').onclick = () => calibrate('spin');
 $('calManualBtn').onclick = () => calibrate('manual');
 $('calViewBtn').onclick = () => run('calMsg', async () => { await showCalibration(); return ''; });
@@ -696,8 +2157,8 @@ $('calViewBtn').onclick = () => run('calMsg', async () => { await showCalibratio
 $('logPtBtn').onclick = () => { live = false; run('logMsg', () => loadRunLog('ptlink')); };
 $('logFlsrBtn').onclick = () => { live = false; run('logMsg', () => loadRunLog('flsr')); };
 $('logFormatBtn').onclick = () => {
-  if (!confirm('ล้างข้อมูล log ทั้งหมดในหุ่น (รวม log ของ FLSR_DM01) แล้วเตรียมพื้นที่ใหม่?')) return;
-  run('logMsg', async () => { await ok(link.cmd({ cmd: 'logFormat' }, 15000)); $('logFormatBtn').classList.add('hidden'); return 'พร้อมแล้ว — วิ่งรอบถัดไปจะบันทึกได้'; });
+  if (!confirm(t('storage.confirm'))) return;
+  run('logMsg', async () => { await ok(link.cmd({ cmd: 'logFormat' }, 15000)); $('logFormatBtn').classList.add('hidden'); return copy('storage.ready'); });
 };
 $('csvBtn').onclick = () => {
   const a = document.createElement('a');
@@ -706,91 +2167,169 @@ $('csvBtn').onclick = () => {
   a.click();
   setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 };
-$('tableBtn').onclick = () => { $('logTable').textContent = runLogCsv(); $('logTable').classList.toggle('hidden'); };
+$('tableBtn').onclick = () => { writeText($('logTable'), runLogCsv()); $('logTable').classList.toggle('hidden'); };
 for (const id of ['chartErr', 'chartMotor']) {
   $(id).addEventListener('pointermove', hover);
   $(id).addEventListener('pointerleave', unhover);
 }
 window.addEventListener('resize', drawCharts);
+if(document.fonts) document.fonts.ready.then(drawCharts);
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change', drawCharts);
 
-$('refreshBtn').onclick = () => refresh().catch(e => setConn(false, th(e.message)));
+$('refreshBtn').onclick = () => {
+  $('refreshBtn').classList.add('spinning');
+  refresh().catch(e => setConn(false, th(e))).finally(() => $('refreshBtn').classList.remove('spinning'));
+};
 $('identifyBtn').onclick = () => link.cmd({ cmd: 'identify' });
 $('benchBtn').onclick = async () => {
   try { await ok(link.cmd({ cmd: 'bench', on: !$('benchBtn').dataset.on })); await refresh(); }
-  catch (e) { alert(th(e.message)); }
+  catch (e) { alert(renderText(th(e))); }
 };
 
-$('apResetBtn').onclick = () => {
-  if (!confirm('คืนชื่อ รหัส และช่อง WiFi ของหุ่นเป็นค่าเริ่มต้น (PTLINK-xxxx + รหัสโรงงาน)?')) return;
-  run('saveMsg', async () => {
-    await ok(link.cmd({ cmd: 'set', apSsid: '', apPass: '', apChannel: 0 }));  // "" = back to the default
-    $('apSsid').value = $('apPass').value = '';
-    await refresh();
-    return 'คืนค่าเริ่มต้นแล้ว — มีผลตอนเปิด WiFi ครั้งถัดไป';
+// WiFi switch: on/off at once (the firmware stores it as mode practice/race). Off over WiFi cuts this page.
+$('wifiSwitch').onclick = async () => {
+  const on = $('wifiSwitch').getAttribute('aria-checked') !== 'true';
+  if (!on && link instanceof HttpLink && !confirm(t('wifi.offConfirm'))) return;
+  await run('wifiMsg', async () => {
+    await ok(link.cmd({ cmd: 'set', mode: on ? 'practice' : 'race' }));
+    setSwitch($('wifiSwitch'), on);
+    if (!(link instanceof SerialLink)) return copy(on ? 'wifi.turnedOn' : 'wifi.turnedOff');
+    await sleep(600);
+    if (!on) { await refresh(); return copy('wifi.turnedOff'); }
+    return waitForJoin();
   });
 };
 
-$('saveBtn').onclick = () => run('saveMsg', async () => {
-  const req = { cmd: 'set', mode: $('mode').value, apChannel: +$('apChannel').value };
-  if ($('apSsid').value) req.apSsid = $('apSsid').value;
-  if ($('apPass').value) req.apPass = $('apPass').value;
-  await ok(link.cmd(req));
-  $('apPass').value = '';
+// Wait until the robot has joined a network (scan + join take ~3-15 s), then show it.
+async function waitForJoin() {
+  msg('wifiMsg', copy('wifi.joining'));
+  for (let i = 0; i < 20; i++) {
+    const s = await link.cmd({ cmd: 'status' }).catch(() => null);
+    if (s && s.ok && s.network) { await refresh(); return copy('wifi.joined', s.network); }
+    await sleep(2000);
+  }
   await refresh();
-  return 'บันทึกแล้ว';
-});
+  return copy(robot && robot.networks === 0 ? 'access.noNetwork' : 'access.searching');
+}
+
+// Not joined: look for the saved networks now instead of waiting for the robot's next 30 s try.
+$('wifiRetryBtn').onclick = async () => {
+  $('wifiRetryBtn').classList.add('spinning');
+  await run('wifiMsg', async () => {
+    await ok(link.cmd({ cmd: 'netRetry' }));
+    return waitForJoin();
+  });
+  $('wifiRetryBtn').classList.remove('spinning');
+};
 
 $('netAddBtn').onclick = () => run('netMsg', async () => {
   await ok(link.cmd({ cmd: 'netSave', ssid: $('netSsid').value, pass: $('netPass').value }));
   $('netSsid').value = $('netPass').value = '';
   await loadNets();
-  return 'เพิ่มแล้ว — มีผลตอนเปิด WiFi ครั้งถัดไป';
+  return copy('net.added');
 });
 
 $('fwBtn').onclick = () => run('fwMsg', async () => {
   const file = $('fwFile').files[0];
-  if (!file) throw new Error('เลือกไฟล์ .bin ก่อน');
+  $('fwStatus').scrollIntoView({ block: 'center', behavior: 'smooth' });  // the progress shows above the file picker
+  if (!file) throw uiError('update.chooseFirst');
   return installFirmware(file);
 });
 
 $('latestBtn').onclick = () => run('fwMsg', async () => {
-  if (!latest) throw new Error('ไม่พบข้อมูลเวอร์ชันล่าสุด');
-  msg('fwMsg', `กำลังดาวน์โหลด ${latest.version}…`);
+  if (!latest) throw uiError('update.noLatest');
+  msg('fwMsg', copy('update.downloading',latest.version));
   const response = await fetch(latest.file);  // cached by the service worker: works offline after one visit
-  if (!response.ok) throw new Error('ดาวน์โหลดไม่ได้ (HTTP ' + response.status + ')');
+  if (!response.ok) throw uiError('update.downloadError', response.status);
   const buffer = await response.arrayBuffer();
   if (buffer.byteLength !== latest.size || await sha256Hex(buffer) !== latest.sha256) {
-    throw new Error('ไฟล์ที่ดาวน์โหลดมาไม่สมบูรณ์ — ลองใหม่');
+    throw uiError('update.integrityError');
   }
   return installFirmware(new File([buffer], latest.file.split('/').pop()));
 });
 
-$('rebootBtn').onclick = () => { if (confirm('รีสตาร์ทหุ่น?')) link.cmd({ cmd: 'reboot' }); };
+$('rebootBtn').onclick = () => { if (confirm(t('restart.confirm'))) link.cmd({ cmd: 'reboot' }); };
 
 $('usbBtn').onclick = async () => {
-  try {
-    const port = await navigator.serial.requestPort();
-    if (link instanceof SerialLink) await link.close();  // the same port may still be open from before
-    const s = new SerialLink();
-    await s.connect(port);
-    link = s;
-    msg('connectHelp', 'กำลังติดต่อหุ่น…');
-    let hello = null;
-    // The robot may reboot when the port opens: arming the ESC (3 s) and, in practice mode, starting WiFi
-    // (up to ~12 s) keep it from answering for a while.
-    for (let i = 0; i < 20 && !hello; i++) {
-      msg('connectHelp', `กำลังติดต่อหุ่น… (หุ่นอาจกำลังเปิดเครื่อง รอได้ถึง 20 วินาที) ${i + 1}`);
-      try { hello = await link.cmd({ cmd: 'hello' }, 1000); } catch (e) {}
-    }
-    if (!hello) throw new Error('หุ่นไม่ตอบ — ตรวจว่าเลือกพอร์ตของหุ่น และปิด Serial Monitor / Arduino IDE แล้ว');
-    if (hello.app !== 'PT Link') throw new Error('อุปกรณ์นี้ไม่ใช่หุ่น PT Link');
-    s.binChunk = hello.otaChunk || 0;  // firmware 0.6.0+: raw 16 KB update chunks
-    $('connectCard').classList.add('hidden');
-    setConn(true, 'USB');
-    await refresh();
-  } catch (e) { msg('connectHelp', th(e.message), false); }
+  try { await connectUsb(await navigator.serial.requestPort()); } catch (e) { msg('connectHelp', th(e), false); }
 };
+
+async function connectUsb(port) {
+  if (link instanceof SerialLink) await link.close();  // the same port may still be open from before
+  const s = new SerialLink();
+  await s.connect(port);
+  link = s;
+  msg('connectHelp', copy('connection.contacting'));
+  let hello = null;
+  // The robot may reboot when the port opens: arming the ESC (3 s) and, in practice mode, starting WiFi
+  // (up to ~12 s) keep it from answering for a while.
+  for (let i = 0; i < 20 && !hello; i++) {
+    msg('connectHelp', copy('connection.attempt',i+1));
+    try { hello = await link.cmd({ cmd: 'hello' }, 1000); } catch (e) {}
+  }
+  if (!hello) throw uiError('connection.noResponse');
+  if (hello.app !== 'PT Link') throw uiError('error.device');
+  s.binChunk = hello.otaChunk || 0;  // firmware 0.6.0+: raw 16 KB update chunks
+  $('connectCard').classList.add('hidden');
+  setConn(true, 'USB');
+  rememberPort(port);
+  await refresh();
+}
+
+// Auto-connect: once a robot's port was picked, the browser keeps the permission, so the page connects to it
+// without the picker - when the page opens and whenever the cable is plugged in again.
+function rememberPort(port) {
+  try { const i = port.getInfo(); localStorage.setItem('ptlink.usb', JSON.stringify([i.usbVendorId, i.usbProductId])); } catch (e) {}
+}
+function knownPort(ports) {
+  let saved = null;
+  try { saved = JSON.parse(localStorage.getItem('ptlink.usb')); } catch (e) {}
+  const same = saved ? ports.filter(p => { const i = p.getInfo(); return i.usbVendorId === saved[0] && i.usbProductId === saved[1]; }) : [];
+  return same.length === 1 ? same[0] : ports.length === 1 ? ports[0] : null;
+}
+let autoConnecting = false;
+async function autoConnect(port) {
+  if (!port || autoConnecting || !$('app').classList.contains('hidden')) return;  // already connected
+  autoConnecting = true;
+  msg('connectHelp', copy('connection.auto'));
+  try { await connectUsb(port); } catch (e) { msg('connectHelp', th(e), false); }
+  autoConnecting = false;
+}
+
+// New-version badge: opens the Update tab at the install button (the user presses it).
+$('newVersion').onclick = () => {
+  showPanel('panelUpdate');
+  $('latestBtn').scrollIntoView({ block: 'center' });
+  $('latestBtn').focus({ preventScroll: true });
+  $('latestBtn').classList.add('attention');
+  setTimeout(() => $('latestBtn').classList.remove('attention'), 2400);
+};
+
+// ---------- Auto refresh: the robot's status every 5 s, so "Refresh" is rarely needed ----------
+// Light: one status request; the full refresh() only when something changed (network, WiFi, a new run,
+// a restart...). Paused while the tab is hidden, during a firmware update and while a check is pending
+// (a running robot does not answer until the run ends).
+const AUTO_REFRESH_MS = 5000;
+const STATUS_KEYS = ['fw', 'partition', 'otaPending', 'mode', 'bench', 'wifiOn', 'network', 'networkIp', 'networks', 'running'];
+let autoChecking = false;
+setInterval(async () => {
+  if (autoChecking || document.hidden || !link || !robot || $('app').classList.contains('hidden') || $('fwBtn').disabled) return;
+  autoChecking = true;
+  try {
+    const s = await link.cmd({ cmd: 'status' }, 3000);
+    if (s && s.ok) {
+      const newRun = JSON.stringify(s.lastRun) !== JSON.stringify(robot.lastRun) && !!s.lastRun;
+      const restarted = s.uptimeMs < robot.uptimeMs;
+      if (newRun || restarted || STATUS_KEYS.some(k => s[k] !== robot[k])) {
+        await refresh();
+        if (newRun) msg('logMsg', copy('run.newRun'), true);
+      }
+    }
+  } catch (e) {
+  } finally {
+    autoChecking = false;
+  }
+}, AUTO_REFRESH_MS);
 
 // Served by the robot itself (WiFi)? The PT Link website and local files have no /api/status.
 async function servedByRobot() {
@@ -826,6 +2365,34 @@ if ((location.protocol === 'https:' || location.hostname === 'localhost') && 'se
   navigator.serviceWorker.register('sw.js');
 }
 
+
+$('langTh').onclick = () => applyLanguage('th'); $('langEn').onclick = () => applyLanguage('en');
+document.querySelectorAll('[role=tab]').forEach(tab => {
+  tab.onclick = () => showPanel(tab.dataset.panel);
+  tab.onkeydown = ev => {
+    const tabs = [...document.querySelectorAll('[role=tab]:not(.hidden)')], i=tabs.indexOf(tab);
+    let j;
+    if (ev.key === 'ArrowRight') j=(i+1)%tabs.length;
+    else if(ev.key === 'ArrowLeft') j=(i+tabs.length-1)%tabs.length;
+    else if(ev.key === 'Home') j=0;
+    else if(ev.key === 'End') j=tabs.length-1;
+    else return;
+    ev.preventDefault(); showPanel(tabs[j].dataset.panel,true);
+  };
+});
+try { $('onboarding').classList.toggle('hidden',localStorage.getItem('ptlink.onboarded')==='1'); } catch(e) {}
+$('dismissOnboarding').onclick=()=>{ $('onboarding').classList.add('hidden'); try{localStorage.setItem('ptlink.onboarded','1');}catch(e){} };
+window.addEventListener('online',offlineState); window.addEventListener('offline',offlineState);
+for(const id of ['chartErr','chartMotor']) $(id).addEventListener('keydown', ev=>{
+  if(!runLog || !runLog.samples.length || !['ArrowLeft','ArrowRight','Home','End'].includes(ev.key)) return;
+  ev.preventDefault();
+  const end=runLog.samples.length-1;
+  const index=ev.key==='Home'?0:ev.key==='End'?end:Math.max(0,Math.min(end,(hoverIndex<0?0:hoverIndex)+(ev.key==='ArrowRight'?1:-1)));
+  const canvas=$(id),geom=canvas._geom;
+  if(geom) hover({currentTarget:canvas,clientX:canvas.getBoundingClientRect().left+geom.x(runLog.samples[index].t)});
+});
+applyLanguage(language); offlineState();
+
 (async () => {
   if (await servedByRobot()) {
     try {
@@ -834,13 +2401,18 @@ if ((location.protocol === 'https:' || location.hostname === 'localhost') && 'se
       setConn(true, 'WiFi');
       await refresh();
       return;
-    } catch (e) { link = null; setConn(false, 'ติดต่อหุ่นไม่ได้'); }
+    } catch (e) { link = null; setConn(false, copy('error.reach')); }
   }
   $('connectCard').classList.remove('hidden');
   if (!('serial' in navigator)) {
     $('usbBtn').disabled = true;
-    msg('connectHelp', 'เบราว์เซอร์นี้ไม่รองรับ USB — ใช้ Chrome หรือ Edge บนคอม', false);
+    msg('connectHelp', copy('error.usbBrowser'), false);
+    return;
   }
+  try {
+    navigator.serial.addEventListener('connect', e => autoConnect(e.target));
+    autoConnect(knownPort(await navigator.serial.getPorts()));
+  } catch (e) {}  // no remembered port: the connect button as usual
 })();
 </script>
 </body>
