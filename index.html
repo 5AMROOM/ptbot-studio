@@ -846,6 +846,7 @@ button.board-opt[aria-pressed=true]{border-color:transparent;background:linear-g
 </svg>
 <p class="muted" data-i18n="port.text"></p>
 <p class="fine" data-i18n="port.none"></p>
+<p class="fine"><a href="driver/PTBOT-USB-Driver.cmd" download id="driverLink" data-i18n="port.driver"></a> <span data-i18n="port.driverHint"></span></p>
 <div class="section-actions"><button value="go" data-i18n="port.go"></button><button value="" class="ghost" data-i18n="port.close"></button></div>
 </form>
 </dialog>
@@ -1344,6 +1345,10 @@ const TEXT = {
     "port.title": "เลือกหุ่นในหน้าต่างที่เด้งขึ้น",
     "port.text": "หุ่นจะขึ้นเป็นชื่อชิป USB เช่น “USB-SERIAL CH340” หรือ “CP210x” ตามด้วยเลข COM ให้เลือกบรรทัดนั้น แล้วกดเชื่อมต่อ",
     "port.none": "ไม่เห็นในรายการ? เปิดสวิตช์หุ่น ลองสายอื่น (สายชาร์จอย่างเดียวใช้ไม่ได้) และปิด Arduino IDE",
+/*site*/
+    "port.driver": "ยังไม่ขึ้น หรือใช้ Arduino แล้วต้องกด B? ดาวน์โหลดตัวติดตั้งไดรเวอร์ USB",
+    "port.driverHint": "(Windows) ดับเบิลคลิกไฟล์ แล้วกด Yes ถ้าขึ้นจอสีน้ำเงิน \"Windows protected your PC\" ให้กด More info แล้ว Run anyway",
+/*/site*/
     "port.go": "เข้าใจแล้ว เชื่อมต่อเลย",
     "port.close": "ปิด",
     "stepCable": "เสียบสาย USB",
@@ -1773,6 +1778,10 @@ const TEXT = {
     "port.title": "Pick your robot in the window that pops up",
     "port.text": "The robot shows up by its USB chip, like “USB-SERIAL CH340” or “CP210x”, with a COM number. Pick that line, then Connect.",
     "port.none": "Not in the list? Switch the robot on, try another cable (a charge-only cable will not work) and close Arduino IDE.",
+/*site*/
+    "port.driver": "Still not there, or Arduino uploads need button B? Download the USB driver installer",
+    "port.driverHint": "(Windows) Double-click the file and press Yes. If a blue \"Windows protected your PC\" screen shows, press More info, then Run anyway.",
+/*/site*/
     "port.go": "Got it, connect",
     "port.close": "Close",
     "stepCable": "Plug in USB",

@@ -1,6 +1,6 @@
 // PTBOT Studio service worker (GitHub Pages only): the page works offline after the first visit and
 // updates itself whenever it is opened online. tools/build_site.ps1 fills in CACHE and SHELL.
-const CACHE = 'ptbot-studio-0.9.14-309d04e7';
+const CACHE = 'ptbot-studio-0.9.14-038680ea';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png',
   './fonts/anuphan-400.woff2', './fonts/anuphan-600.woff2', './board-strom-mini.webp', './board-atom-mini.webp', './firmware/manifest.json', './firmware/ptbot-studio-fastline-swift-0.9.14.bin', './firmware/ptbot-studio-fastline-senior-0.9.14.bin', './firmware/ptbot-studio-fastline-junior-0.9.14.bin'];
 

@@ -2,3 +2,5 @@
 * text=auto
 *.bin binary
 *.png binary
+*.webp binary
+*.cmd binary
