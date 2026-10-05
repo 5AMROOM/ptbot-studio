@@ -1,0 +1,28 @@
+{
+    "name":  "PTBOT Studio",
+    "version":  "0.9.14",
+    "new_install_prompt_erase":  false,
+    "builds":  [
+                   {
+                       "chipFamily":  "ESP32",
+                       "parts":  [
+                                     {
+                                         "path":  "fastline-junior-bootloader.bin",
+                                         "offset":  4096
+                                     },
+                                     {
+                                         "path":  "fastline-junior-partitions.bin",
+                                         "offset":  32768
+                                     },
+                                     {
+                                         "path":  "fastline-junior-otadata.bin",
+                                         "offset":  57344
+                                     },
+                                     {
+                                         "path":  "ptbot-studio-fastline-junior-0.9.14.bin",
+                                         "offset":  65536
+                                     }
+                                 ]
+                   }
+               ]
+}

@@ -1,0 +1,12 @@
+Copyright (c) 2026 PT ROBOTICS. All rights reserved.
+
+PTBOT Studio (the web app and the robot firmware) was created by 5AM ROOM.
+
+No part of this software may be copied, modified, published or distributed without written
+permission from PT ROBOTICS. The names PTBOT and PT ROBOTICS belong to PT ROBOTICS.
+
+Parts made by others keep their own licences:
+- Anuphan font (web/fonts): SIL Open Font License 1.1, see web/fonts/OFL.txt
+- esptool-js (web/vendor/esptool-js): Apache License 2.0, see web/vendor/esptool-js/LICENSE; it contains pako
+  (MIT and Zlib licences) and atob-lite (MIT), see web/vendor/esptool-js/README.txt
+- The firmware is built with the ESP32 Arduino core and its libraries, which keep their own licences

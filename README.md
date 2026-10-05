@@ -6,4 +6,4 @@
 เปิดครั้งแรกตอนมีเน็ต หลังจากนั้นใช้ออฟไลน์ได้
 
 ไฟล์ใน repo นี้สร้างอัตโนมัติจาก repo หลัก — อย่าแก้ที่นี่
-เฟิร์มแวร์ล่าสุด: ptbot-studio-strom-mini-0.9.7.bin
+เฟิร์มแวร์ล่าสุด: ptbot-studio-fastline-swift-0.9.14.bin, ptbot-studio-fastline-senior-0.9.14.bin, ptbot-studio-fastline-junior-0.9.14.bin
