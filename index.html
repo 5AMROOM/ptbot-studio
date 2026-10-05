@@ -789,6 +789,8 @@ button.board-opt[aria-pressed=true]{border-color:transparent;background:linear-g
 #portHelpBtn{display:inline-flex;align-items:center;gap:6px;margin-top:-4px;color:#3fa9f5;font-weight:600}
 #portHelpBtn:before{content:"i";display:grid;place-items:center;width:16px;height:16px;border:1.5px solid;border-radius:50%;font:700 10px/1 serif}
 #portHelpBtn:hover{text-decoration:underline}
+#askText.multi{white-space:pre-line}
+.board-opt .last{font-size:11px;color:#3fa9f5;font-weight:600}
 /*/site*/
 </style>
 </head>
@@ -1087,7 +1089,8 @@ button.board-opt[aria-pressed=true]{border-color:transparent;background:linear-g
 <button class="ghost" id="fwBtn" data-i18n="updateFile"></button>
 </details>
 <p class="fine" style="margin-top:24px" data-i18n="updateSafety"></p>
-</div>
+<!--site--><p class="fine"><button type="button" class="link-button" id="reinstallBtn" data-i18n="home.wrongModel"></button></p>
+<!--/site--></div>
 </section>
     <section id="panelControl" class="hidden" role="tabpanel" aria-labelledby="tabControl" tabindex="0">
 <div class="card">
@@ -1123,7 +1126,6 @@ button.board-opt[aria-pressed=true]{border-color:transparent;background:linear-g
 <button class="ghost cal-opt" id="calManualBtn"><span class="cal-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 13V5.5a1.5 1.5 0 0 1 3 0V11m0-1.5a1.5 1.5 0 0 1 3 0V11m0-1a1.5 1.5 0 0 1 3 0v5a6 6 0 0 1-6 6h-.5a6 6 0 0 1-5-2.7L3.7 15a1.5 1.5 0 0 1 2.5-1.7L8 15"/></svg></span><span><b data-i18n="calManual"></b><small data-i18n="cal.manualHint"></small></span></button>
 <button class="ghost cal-opt spin" id="calSpinBtn"><span class="cal-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.3-5.7M4 4v5h5"/></svg></span><span><b data-i18n="calSpin"></b><small data-i18n="calibrateWarning"></small></span></button>
 </div>
-<p class="fine" data-i18n="calibrateShared"></p>
 <div class="msg" id="calCtlMsg" role="status" aria-live="polite"></div>
 </div>
 </section>
@@ -1334,7 +1336,7 @@ const TEXT = {
     "disconnected": "ไม่ได้เชื่อมต่อ",
     "installApp": "ติดตั้ง PTBOT Studio เป็นแอปบนเครื่องนี้",
     "installHint": "เปิดจากเมนู Start ได้เลย และพร้อมใช้ที่สนามแม้ไม่มีอินเทอร์เน็ต",
-    "welcomeTitle": "เสียบสาย\nแล้วมาวิ่งกัน!",
+    "welcomeTitle": "เสียบสาย\nแล้วไปลุยกัน!",
     "welcomeCopy": "เขียนโปรแกรม สั่งวิ่ง ดูกราฟ และตรวจเซนเซอร์ ได้ในที่เดียว",
     "connectUsb": "เชื่อมต่อ USB",
     "browserHint": "ใช้ Chrome หรือ Edge บนคอมพิวเตอร์",
@@ -1360,7 +1362,7 @@ const TEXT = {
     "lock.wrong": "รหัสผ่านไม่ถูก ลองดูสติกเกอร์อีกครั้ง",
     "firstRun": "วิธีใช้งาน",
     "onboard1": "Calibrate: ถอดสาย USB กดปุ่ม A ค้างไว้ แล้วเปิดสวิตช์หุ่นยนต์",
-    "onboard2": "วิ่ง: วางหุ่นยนต์บนสนาม แล้วกดปุ่ม B",
+    "onboard2": "ลุย: วางหุ่นบนสนาม แล้วกด B เพื่อเริ่มโปรแกรม",
     "onboard3": "ดูผล: เสียบสาย USB แล้วกดเชื่อมต่อ",
     "onboard4": "กด “รายงานผล” เพื่อดูกราฟ",
     "dismiss": "ปิดคำแนะนำ",
@@ -1369,7 +1371,7 @@ const TEXT = {
     "identify": "ให้หุ่นยนต์ส่งเสียง",
     "firmware": "Firmware",
     "runMode": "WiFi",
-    "lastRun": "วิ่งรอบล่าสุด",
+    "lastRun": "รอบล่าสุด",
     "robotDetails": "สถานะ",
     "benchActive": "เปิด bench test อยู่ พัดลมจะไม่หมุน",
     "benchSafety": "ยกล้อให้ลอยก่อนกด B มอเตอร์จะหมุนแต่พัดลมจะไม่ทำงาน วางกระดาษที่มีเส้นไว้ใต้ Sensor เพื่อเช็กทิศทางล้อและ Loop rate โหมดนี้ปิดเองเมื่อรีสตาร์ทหุ่นยนต์",
@@ -1395,13 +1397,13 @@ const TEXT = {
     "ask.cancel": "ยกเลิก",
     "control.hint": "กดปุ่มบนภาพได้เหมือนกดปุ่มบนหุ่นยนต์ หุ่นยนต์ทำงานตามคำสั่ง",
     "control.aAria": "ปุ่ม A",
-    "control.bAria": "ปุ่ม B: เริ่มวิ่ง",
+    "control.bAria": "ปุ่ม B: เริ่มโปรแกรม",
     "control.resetAria": "ปุ่ม RESET: รีสตาร์ทหุ่นยนต์",
-    "control.bConfirm": "กดปุ่ม B หรือไม่?\nหุ่นยนต์จะเริ่มวิ่งเหมือนกดปุ่ม B บนหุ่นยนต์ เว้นพื้นที่รอบหุ่นยนต์ให้ว่าง และระวังสาย USB ถ้าเสียบอยู่",
+    "control.bConfirm": "กดปุ่ม B หรือไม่?\nหุ่นยนต์จะเริ่มโปรแกรมเหมือนกดปุ่ม B บนหุ่นยนต์ เว้นพื้นที่รอบหุ่นยนต์ให้ว่าง และระวังสาย USB ถ้าเสียบอยู่",
     "control.started": "ส่งปุ่ม B แล้ว หน้าเว็บจะกลับมาเชื่อมต่อเมื่อวิ่งจบ",
     "control.waitingA": "หุ่นยนต์หยุดรอปุ่ม A (waitA)",
     "control.finished": "วิ่งจบแล้ว",
-    "control.ready": "พร้อม กด B เพื่อเริ่มวิ่ง",
+    "control.ready": "พร้อม กด B เพื่อเริ่มโปรแกรม",
     "control.viewRun": "ดูกราฟรอบนี้",
     "prog.modeAria": "โหมดเขียนโปรแกรม",
     "prog.block": "บล็อก {0}:",
@@ -1454,6 +1456,13 @@ const TEXT = {
     "install.spec": "{0} เซนเซอร์",
     "install.specFan": "{0} เซนเซอร์ + พัดลม",
 /*site*/
+    "install.last": "หุ่นที่เชื่อมล่าสุด",
+    "home.back": "ตัดการเชื่อมต่อหุ่นแล้ว กด \"เชื่อมต่อ USB\" เพื่อกลับเข้าโปรแกรม",
+    "home.running": "หุ่นกำลังวิ่งอยู่ กลับหน้าแรกจะตัดการเชื่อมต่อ (หุ่นยังวิ่งต่อ) ไปต่อไหม",
+    "home.wrongModel": "ลงผิดรุ่น? ติดตั้งรุ่นอื่น",
+    "flash.otherBoard": "เฟิร์มแวร์ในหุ่นตอนนี้เป็นของบอร์ด {0} แต่ {1} ใช้บอร์ด {2}\nดูชื่อบนตัวบอร์ด (ข้างโลโก้ PT-BOT): ถ้าเขียนว่า {2} ติดตั้งต่อได้เลย ถ้าไม่ใช่ ให้กดยกเลิกแล้วเลือกการ์ดใหม่",
+/*/site*/
+/*site*/
     "flash.title": "กำลังติดตั้ง {0}",
     "flash.prep": "กำลังเตรียมไฟล์และติดต่อหุ่น",
     "flash.write": "ติดตั้งไปแล้ว {0}%",
@@ -1488,7 +1497,7 @@ const TEXT = {
     "prog.errMax": "เกิน 50 คำสั่ง",
     "prog.errSemicolon": "ขาด ; ท้ายคำสั่ง",
     "prog.fix": "แก้บรรทัดที่ผิดก่อนบันทึก",
-    "prog.saved": "บันทึกแล้ว {0} คำสั่ง กด B เพื่อวิ่ง",
+    "prog.saved": "บันทึกแล้ว {0} คำสั่ง กด B เพื่อเริ่มโปรแกรม",
     "prog.deleted": "ลบโปรแกรมแล้ว",
     "prog.deleteConfirm": "ลบโปรแกรมจากหุ่นยนต์หรือไม่?\nกด B จะยังไม่วิ่งจนกว่าจะบันทึกโปรแกรมใหม่",
     "prog.loaded": "โหลดแล้ว",
@@ -1502,7 +1511,7 @@ const TEXT = {
     "feed.b": "ส่งปุ่ม B",
     "feed.a": "ส่งปุ่ม A",
     "feed.arming": "เตรียมพัดลม",
-    "feed.start": "เริ่มวิ่ง ช่วงที่ 1  {0}",
+    "feed.start": "เริ่มโปรแกรม ช่วงที่ 1  {0}",
     "feed.segment": "ช่วงที่ {0}  {1}",
     "feed.out": "หลุดเส้น",
     "feed.back": "กลับเข้าเส้น",
@@ -1520,12 +1529,12 @@ const TEXT = {
     "control.restartSlow": "หุ่นยนต์ยังไม่กลับมา ตรวจสอบว่าเปิดอยู่และเชื่อมต่อเครือข่ายเดิม แล้วรีเฟรชหน้านี้",
     "control.aSent": "ส่งปุ่ม A แล้ว",
     "control.resetDone": "กำลังรีสตาร์ทหุ่นยนต์ รอสักครู่ หน้าเว็บจะเชื่อมต่อใหม่เอง",
-    "runAnalysis": "วิเคราะห์การวิ่ง",
-    "lastRunTitle": "ผลการวิ่งรอบล่าสุด",
-    "runHint": "ตำแหน่งเส้นเทียบกับความเร็วมอเตอร์ตลอดการวิ่ง",
-    "loadRun": "โหลดผลการวิ่ง",
-    "runEmpty": "ยังไม่ได้โหลดผลการวิ่ง",
-    "runEmptyHint": "กดโหลดผลการวิ่งเพื่ออ่านรอบล่าสุดจากหุ่นยนต์ หากยังไม่ได้วิ่ง ให้ถอด USB วางหุ่นยนต์บนสนาม แล้วกด B",
+    "runAnalysis": "วิเคราะห์รอบ",
+    "lastRunTitle": "รอบล่าสุดของหุ่น",
+    "runHint": "ตำแหน่งเส้นเทียบกับความเร็วมอเตอร์ตลอดรอบ",
+    "loadRun": "โหลดรอบล่าสุด",
+    "runEmpty": "ยังไม่ได้โหลดรอบล่าสุด",
+    "runEmptyHint": "กด “โหลดรอบล่าสุด” เพื่ออ่านจากหุ่นยนต์ ถ้าหุ่นยังไม่เคยวิ่ง ให้ถอด USB วางหุ่นบนสนาม แล้วกด B",
     "errorChart": "ตำแหน่งเส้น (ค่าบวก = เส้นอยู่ทางซ้าย)",
     "errorChartAria": "กราฟตำแหน่งเส้นตามเวลา ดูตัวเลขได้ในตารางข้อมูล",
     "motorChart": "คำสั่งมอเตอร์ซ้าย (%)",
@@ -1548,11 +1557,10 @@ const TEXT = {
     "calibrateSteps": "วิธีที่แนะนำ: ถอดสาย USB วางหุ่นยนต์คร่อมเส้น กดปุ่ม A ค้างไว้แล้วเปิดสวิตช์หุ่นยนต์ หุ่นยนต์จะหมุนตัวประมาณ 5 วินาที หรือใช้ปุ่มด้านล่างผ่าน WiFi",
     "calibrateAdvanced": "Calibrate",
     "calibrateWarning": "มอเตอร์จะหมุนหุ่นยนต์ เว้นพื้นที่รอบหุ่นยนต์ให้ว่าง",
-    "calibrateShared": "ค่าที่บันทึกจะเขียนทับค่า Calibrate ที่ใช้ร่วมกับ FLSR_DM01",
     "calManual": "Calibrate แบบเลื่อนมือ",
     "calSpin": "Calibrate แบบหมุนตัว",
     "pad.a": "ปุ่ม A",
-    "pad.b": "เริ่มวิ่ง",
+    "pad.b": "เริ่มโปรแกรม",
     "pad.reset": "RESET",
     "cal.manualHint": "เลื่อนเซนเซอร์ทุกตัวข้ามเส้นกับพื้นขาวด้วยมือ",
     "firmwareMaintenance": "Firmware",
@@ -1618,7 +1626,7 @@ const TEXT = {
     "error.transfer": "ส่งไฟล์ไม่สำเร็จ เชื่อมต่อใหม่แล้วเริ่มติดตั้งอีกครั้ง",
     "error.usbRequired": "ต้องใช้ USB สำหรับการติดตั้งนี้ เชื่อมต่อผ่าน USB แล้วลองใหม่",
     "error.updateData": "ข้อมูลติดตั้งไม่ถูกต้อง เริ่มติดตั้งใหม่",
-    "error.logPosition": "ไม่สามารถอ่าน Log ได้ โหลดผลการวิ่งอีกครั้ง",
+    "error.logPosition": "ไม่สามารถอ่าน Log ได้ กด “โหลดรอบล่าสุด” อีกครั้ง",
     "error.logType": "ชนิด Log ไม่ถูกต้อง เลือก PTBOT Studio หรือ FLSR_DM01",
     "error.sweep": "วิธี Calibrate ไม่ถูกต้อง เลือกเลื่อนมือหรือหมุนตัว",
     "error.portBusy": "เปิดการเชื่อมต่อกับหุ่นไม่ได้\n1. หุ่นถูกใช้อยู่ในแท็บอื่นหรือโปรแกรมอื่น (เช่น PTBOT Studio อีกแท็บ หรือ Arduino IDE) ให้ปิดก่อน\n2. ถอดสาย USB แล้วเสียบใหม่\n3. กดเชื่อมต่ออีกครั้ง แล้วเลือกหุ่นในหน้าต่าง",
@@ -1645,14 +1653,14 @@ const TEXT = {
     "run.duration": "เวลาวิ่ง",
     "run.loopRate": "Loop rate",
     "run.interval": "บันทึกทุก",
-    "run.result": "ผลการวิ่ง",
+    "run.result": "ผลรอบนี้",
     "run.aborted": "หยุดก่อนครบเวลา (หลุดเส้นนานเกิน หรือกด STOP)",
     "run.completed": "วิ่งครบเวลา",
     "run.segment": "ช่วงที่ {0}",
     "run.loading": "กำลังโหลดข้อมูล {0} จาก {1} จุด",
-    "run.newRun": "มีผลการวิ่งรอบใหม่ กด “โหลดผลการวิ่ง” เพื่อดูกราฟ",
+    "run.newRun": "มีรอบใหม่ กด “โหลดรอบล่าสุด” เพื่อดูกราฟ",
     "run.noStorage": "พื้นที่เก็บ Log ยังไม่พร้อม กดปุ่ม “ล้าง Log และเตรียมพื้นที่” ด้านล่าง (Log ทั้งหมดจะถูกลบ)",
-    "run.noSaved": "ยังไม่มีผลการวิ่ง ถอด USB วางหุ่นยนต์บนสนาม แล้วกด B",
+    "run.noSaved": "ยังไม่มีรอบที่บันทึกไว้ ถอด USB วางหุ่นบนสนาม แล้วกด B",
     "run.leftTick": "+{0} ซ้าย",
     "run.rightTick": "−{0} ขวา",
     "run.tip": "<b>{0} s</b><br>ช่วงที่ {1}{2}{3}<br>ตำแหน่งเส้น {4}<br>ล้อซ้าย {5} %<br>ล้อขวา {6} %<br>base {7} %",
@@ -1665,8 +1673,8 @@ const TEXT = {
     "sensor.dark": "\nทุก Sensor อ่านเป็นพื้นมืด ตำแหน่งเส้นไม่แน่นอน หุ่นยนต์อาจยกลอย อยู่บนเส้นตัด หรือพื้นดำ",
     "sensor.bad": "\nอ่าน Sensor ผิดพลาด ตรวจ Sensor และสาย",
     "sensor.rawOnly": "ยังไม่ได้ Calibrate — แสดงค่าดิบ (แท่งสูง = พื้นขาว)",
-    "cal.spinConfirm": "วางหุ่นยนต์คร่อมเส้น มอเตอร์จะหมุนหุ่นยนต์ 5 วินาที เว้นพื้นที่รอบหุ่นยนต์ให้ว่าง\nค่าที่บันทึกจะเขียนทับค่า Calibrate ที่ใช้ร่วมกับ FLSR_DM01\nเริ่ม Calibrate แบบหมุนตัวหรือไม่?",
-    "cal.manualConfirm": "ค่าที่บันทึกจะเขียนทับค่า Calibrate ที่ใช้ร่วมกับ FLSR_DM01\nกดตกลงแล้วรอเสียงบี๊บ จากนั้นเลื่อนหุ่นยนต์ข้ามเส้นและพื้นขาวให้ทุก Sensor อ่านทั้งสองส่วนเป็นเวลา 5 วินาที\nเริ่ม Calibrate แบบเลื่อนมือหรือไม่?",
+    "cal.spinConfirm": "วางหุ่นยนต์คร่อมเส้น มอเตอร์จะหมุนหุ่นยนต์ 5 วินาที เว้นพื้นที่รอบหุ่นยนต์ให้ว่าง\nเริ่ม Calibrate แบบหมุนตัวหรือไม่?",
+    "cal.manualConfirm": "กดตกลงแล้วรอเสียงบี๊บ จากนั้นเลื่อนหุ่นยนต์ข้ามเส้นและพื้นขาวให้ทุก Sensor อ่านทั้งสองส่วนเป็นเวลา 5 วินาที\nเริ่ม Calibrate แบบเลื่อนมือหรือไม่?",
     "cal.progress": "กำลัง Calibrate รอประมาณ 6 วินาที",
     "cal.saved": "บันทึกค่า Calibrate แล้ว",
     "cal.valid": "ใช้ได้",
@@ -1697,7 +1705,7 @@ const TEXT = {
     "add.hint": "สำหรับ WiFi ที่ซ่อนชื่อ หรือฮอตสปอตที่ยังไม่ได้เปิด คอมหรือมือถือยังใช้อินเทอร์เน็ตได้ตามปกติ",
     "scan.more": "ดูอีก {0} เครือข่าย",
     "net.slots": "จำไว้ {0} จาก {1}",
-    "sig.4": "สัญญาณแรงมาก",
+    "sig.4": "สัญญาณดีมาก",
     "sig.3": "สัญญาณดี",
     "sig.2": "สัญญาณพอใช้",
     "sig.1": "สัญญาณอ่อน",
@@ -1757,7 +1765,7 @@ const TEXT = {
     "disconnected": "Disconnected",
     "installApp": "Install PTBOT Studio on this device",
     "installHint": "Open it from the Start menu, ready at the track even without internet.",
-    "welcomeTitle": "Plug in,\nlet’s run!",
+    "welcomeTitle": "Plug in,\nlet’s roll!",
     "welcomeCopy": "Write programs, start runs, see the graphs and check the sensors, all in one place.",
     "connectUsb": "Connect via USB",
     "browserHint": "Use Chrome or Edge on a computer.",
@@ -1783,7 +1791,7 @@ const TEXT = {
     "lock.wrong": "Wrong password. Check the sticker again.",
     "firstRun": "How to use",
     "onboard1": "Calibrate: unplug USB, hold A and switch the robot on.",
-    "onboard2": "Run: place the robot on the track and press B.",
+    "onboard2": "Go: place the robot on the track and press B to start the program.",
     "onboard3": "Review: plug in USB and connect.",
     "onboard4": "Load the latest run to view the charts.",
     "dismiss": "Dismiss guide",
@@ -1818,13 +1826,13 @@ const TEXT = {
     "ask.cancel": "Cancel",
     "control.hint": "Press the buttons in the picture as you would on the robot. The robot does what its code says.",
     "control.aAria": "Button A",
-    "control.bAria": "Button B: start run",
+    "control.bAria": "Button B: start the program",
     "control.resetAria": "RESET button: restart the robot",
-    "control.bConfirm": "Press B?\nThe robot starts as if B on the robot was pressed. Keep the area clear, and mind the USB cable if it is plugged in.",
+    "control.bConfirm": "Press B?\nThe robot starts its program as if B on the robot was pressed. Keep the area clear, and mind the USB cable if it is plugged in.",
     "control.started": "B sent. The page reconnects when the run ends.",
     "control.waitingA": "The robot is waiting for A (waitA).",
     "control.finished": "Run finished.",
-    "control.ready": "Ready. Press B to start a run.",
+    "control.ready": "Ready. Press B to start the program.",
     "control.viewRun": "View this run",
     "prog.modeAria": "Editor mode",
     "prog.block": "Block {0}:",
@@ -1877,6 +1885,13 @@ const TEXT = {
     "install.spec": "{0} sensors",
     "install.specFan": "{0} sensors + fan",
 /*site*/
+    "install.last": "Last connected",
+    "home.back": "The robot is disconnected. Press \"Connect USB\" to go back in.",
+    "home.running": "The robot is running. Going to the first page disconnects it (the robot keeps running). Go on?",
+    "home.wrongModel": "Wrong robot model? Install another",
+    "flash.otherBoard": "The firmware in the robot now is for the {0} board, but {1} uses the {2} board.\nLook at the name on the board (next to the PT-BOT logo): if it says {2}, go ahead. If not, cancel and pick another card.",
+/*/site*/
+/*site*/
     "flash.title": "Installing {0}",
     "flash.prep": "Getting the firmware and reaching the robot",
     "flash.write": "Installed {0}%",
@@ -1911,7 +1926,7 @@ const TEXT = {
     "prog.errMax": "More than 50 commands",
     "prog.errSemicolon": "Missing ; at the end of the command",
     "prog.fix": "Fix the marked lines before saving",
-    "prog.saved": "Saved {0} commands. Press B to run.",
+    "prog.saved": "Saved {0} commands. Press B to start the program.",
     "prog.deleted": "Program deleted.",
     "prog.deleteConfirm": "Delete the program from the robot?\nB will not start until a new program is saved.",
     "prog.loaded": "Loaded.",
@@ -1971,7 +1986,6 @@ const TEXT = {
     "calibrateSteps": "Recommended: unplug USB, place the robot across the line, hold A and switch the robot on; it spins for about 5 s. Or use the buttons below over WiFi.",
     "calibrateAdvanced": "Calibrate",
     "calibrateWarning": "The motors spin the robot. Keep the area clear.",
-    "calibrateShared": "Saving overwrites the calibration shared with FLSR_DM01.",
     "calManual": "Calibrate manually",
     "calSpin": "Start spin calibration",
     "pad.a": "Button A",
@@ -2088,8 +2102,8 @@ const TEXT = {
     "sensor.dark": "\nAll sensors read dark. Line position is uncertain. The robot may be lifted, over a crossing or on a black surface.",
     "sensor.bad": "\nSensor read error. Check the sensors and wiring.",
     "sensor.rawOnly": "Not calibrated. Bars show raw values; taller bars mean white floor.",
-    "cal.spinConfirm": "Place the robot across the line. The motors spin it for 5 s. Keep the area clear.\nSaving overwrites calibration shared with FLSR_DM01.\nStart spin calibration?",
-    "cal.manualConfirm": "Saving overwrites calibration shared with FLSR_DM01.\nAfter confirming, wait for the beep. Sweep every sensor across the line and white floor for 5 s.\nStart manual calibration?",
+    "cal.spinConfirm": "Place the robot across the line. The motors spin it for 5 s. Keep the area clear.\nStart spin calibration?",
+    "cal.manualConfirm": "After confirming, wait for the beep. Sweep every sensor across the line and white floor for 5 s.\nStart manual calibration?",
     "cal.progress": "Calibrating. Allow about 6 s.",
     "cal.saved": "Calibration saved.",
     "cal.valid": "Valid",
@@ -4030,6 +4044,7 @@ $('serialReboot').onclick = () => { flash($('serialReboot'), 'rebooting', 3500);
 /*site*/
 // Asks the browser for the port (needs the click that led here), then connects; a failure points at the helper.
 async function pickPort() {
+  autoConnecting = false;  // back from the first page (goHome)
   try { await connectUsb(await navigator.serial.requestPort()); }
   catch (e) { msg('connectHelp', th(e), false); flash($('portHelpBtn'), 'attention', 4000); }
 }
@@ -4070,6 +4085,9 @@ async function connectUsb(port) {
   $('connectCard').classList.add('hidden');
   setConn(true, 'USB');
   rememberPort(port);
+/*site*/
+  try { localStorage.setItem('ptlink.lastRobot', robotCode(hello.robot || '')); } catch (e) {}
+/*/site*/
   await refresh();
 }
 
@@ -4214,11 +4232,24 @@ async function flashRun() {
   }
   flashing = false;
   flashShow(copy('flash.doneTitle'), copy('flash.done'), 100, false);
+  autoConnecting = false;
   try { await connectUsb(flashPort); if (dlg.open) dlg.close(); }
   catch (e) { flashShow(copy('flash.doneTitle'), copy('flash.noConnect'), null, true); $('flashRetry').classList.add('hidden'); }
 }
 $('flashBtn').onclick = async () => {
   if (!flashPick) return;
+  // The firmware just seen says which board it was built for (not what the board really is: after a wrong install
+  // it can be wrong), so this only warns and points at the name printed on the board.
+  if (homeFrom && homeFrom.board && flashPick.board && homeFrom.board !== flashPick.board) {
+    const skip = document.querySelector('.ask-skip');
+    skip.classList.add('hidden');
+    const asking = askFirst('board-check', 'flash.otherBoard');  // its text is set at once: replaced here with the names
+    writeText($('askText'), copy('flash.otherBoard', boardNames[homeFrom.board] || homeFrom.board, robotTitle(flashPick.code), flashPick.boardName.replace(/^PTBOT /, '')));
+    $('askText').classList.add('multi');
+    const go = await asking;
+    skip.classList.remove('hidden'); $('askText').classList.remove('multi');
+    if (!go) return;
+  }
   try { flashPort = await navigator.serial.requestPort(); } catch (e) { return; }  // window closed: nothing picked
   flashSlow = false;
   flashRun();
@@ -4227,27 +4258,55 @@ $('flashRetry').onclick = () => flashRun();  // the same port: no window again
 $('flashClose').onclick = () => $('flashDlg').close();
 $('flashDlg').addEventListener('cancel', e => { if (flashing) e.preventDefault(); });  // no Esc while writing
 
+// Back to the first page (the logo, or "Wrong robot model?" in Update): lets go of the robot so the first install can
+// put another model on it; the page then stays there until the user connects again.
+let homeFrom = null;  // the robot just left: {code, board} for the other-board warning
+async function goHome(install) {
+  if (link instanceof SerialLink) {
+    if (robot && robot.running && !await askFirst('home-running', 'home.running')) return;
+    homeFrom = robot ? { code: robotCode(robot.robot || ''), board: robot.boardId } : null;
+    autoConnecting = true;  // keeps auto-connect off on the first page; connecting (or installing) turns it back on
+    usbGen++;
+    const l = link; link = null;
+    await l.close().catch(() => {});
+    setConn(false, t('disconnected'));
+    msg('connectHelp', copy('home.back'), true);
+    boardPick();
+  }
+  if (install && !$('firstInstall').classList.contains('hidden')) {
+    $('firstInstall').open = true;
+    $('firstInstall').scrollIntoView({ block: 'center', behavior: 'smooth' });
+  } else scrollTo({ top: 0, behavior: 'smooth' });
+}
+document.querySelector('.brand').addEventListener('click', e => { e.preventDefault(); goHome(false); });
+$('reinstallBtn').onclick = () => goHome(true);
+
 // First install: which robot? (a blank board cannot tell, and one board can carry different robots). The list is
 // the website's: a new robot shows up here as soon as its firmware is published.
 const BOARD_IMG = { 1: 'board-strom-mini.webp', 2: 'board-atom-mini.webp' };
 // What a child can count on the robot itself: the sensors, and the fan. Unknown robots get no badge.
+const boardNames = {};  // board id -> name, from the website's list
 const ROBOT_SPEC = { FastLine_Swift: [16, true], FastLine_Senior: [16, false], FastLine_Junior: [8, false] };
 async function boardPick() {
   let robots = {};
   try { robots = (await (await fetch('firmware/manifest.json', { cache: 'no-cache' })).json()).robots || {}; } catch (e) {}
   const box = $('boardPick');
   box.textContent = '';
+  let lastRobot = '';
+  try { lastRobot = localStorage.getItem('ptlink.lastRobot') || ''; } catch (e) {}
   for (const [code, r] of Object.entries(robots)) {
     const b = document.createElement('button'), slug = code.toLowerCase().replace(/_/g, '-'), img = BOARD_IMG[r.board];
     b.type = 'button'; b.className = 'board-opt'; b.setAttribute('aria-pressed', 'false');
-    b.innerHTML = (img ? '<img src="' + img + '" alt="">' : '<span class="board-ph"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10H7zM10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4"/></svg></span>') + '<b></b><span class="spec hidden"></span><small></small>';
+    b.innerHTML = (img ? '<img src="' + img + '" alt="">' : '<span class="board-ph"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v10H7zM10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4"/></svg></span>') + '<b></b><span class="spec hidden"></span><small></small><span class="last hidden" data-i18n="install.last"></span>';
     b.querySelector('b').textContent = robotTitle(r.name || code);
     const spec = ROBOT_SPEC[robotCode(code)], tag = b.querySelector('.spec');
+    if (code === lastRobot) { const l = b.querySelector('.last'); l.textContent = t('install.last'); l.classList.remove('hidden'); }
+    boardNames[r.board] = (r.boardName || '').replace(/^PTBOT /, '');
     if (spec) { tag.dataset.i18n = spec[1] ? 'install.specFan' : 'install.spec'; tag.dataset.i18nArgs = '[' + spec[0] + ']'; tag.textContent = t(tag.dataset.i18n, spec[0]); tag.classList.remove('hidden'); }
     b.querySelector('small').textContent = (r.boardName || '').replace(/^PTBOT /, '') + ' · ' + r.version;  // short: one line on a small card
     b.onclick = () => {
       for (const x of box.children) x.setAttribute('aria-pressed', String(x === b));
-      flashPick = { code, slug };
+      flashPick = { code, slug, board: r.board, boardName: r.boardName || '' };
     };
     box.append(b);
   }

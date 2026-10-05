@@ -1,5 +1,5 @@
 {
-    "generated":  "2026-10-05T07:46:43Z",
+    "generated":  "2026-10-05T08:44:04Z",
     "robots":  {
                    "FastLine_Swift":  {
                                           "name":  "FastLine_Swift",
@@ -7,8 +7,8 @@
                                           "boardName":  "PTBOT Strom mini",
                                           "version":  "0.9.14",
                                           "file":  "firmware/ptbot-studio-fastline-swift-0.9.14.bin",
-                                          "size":  1000352,
-                                          "sha256":  "dd6f938c65f5d345b335f732bcec5070d859d62e007eaa4f28486de21d5a2238"
+                                          "size":  1000256,
+                                          "sha256":  "ade2fbec5703e63712c792ff83adf77c6825a885beca7c361ea81c10077441ba"
                                       },
                    "FastLine_Senior":  {
                                            "name":  "FastLine_Senior",
@@ -16,8 +16,8 @@
                                            "boardName":  "PTBOT Atom mini",
                                            "version":  "0.9.14",
                                            "file":  "firmware/ptbot-studio-fastline-senior-0.9.14.bin",
-                                           "size":  1001344,
-                                           "sha256":  "6f3581cb570bbae8d052205d7fef5057fb08ea0ac61be9e85a6f81304d243763"
+                                           "size":  1001232,
+                                           "sha256":  "cbb341b8901034b9efa82b01bb531943dcda38f02e9ffc314d60aae53f8998d4"
                                        },
                    "FastLine_Junior":  {
                                            "name":  "FastLine_Junior",
@@ -25,8 +25,8 @@
                                            "boardName":  "PTBOT Atom mini",
                                            "version":  "0.9.14",
                                            "file":  "firmware/ptbot-studio-fastline-junior-0.9.14.bin",
-                                           "size":  1000880,
-                                           "sha256":  "bb3b43884fc5b42ed9c2fe416aff9c23f1db3a4e4f240277313d3b42f53851a0"
+                                           "size":  1000784,
+                                           "sha256":  "9a5edb6b9e2ae7a51e10e8f8d5a6d21c8593adb67b8fbd41a8d513aeea365136"
                                        }
                },
     "boards":  {
@@ -36,8 +36,8 @@
                              "boardName":  "PTBOT Strom mini",
                              "version":  "0.9.14",
                              "file":  "firmware/ptbot-studio-fastline-swift-0.9.14.bin",
-                             "size":  1000352,
-                             "sha256":  "dd6f938c65f5d345b335f732bcec5070d859d62e007eaa4f28486de21d5a2238"
+                             "size":  1000256,
+                             "sha256":  "ade2fbec5703e63712c792ff83adf77c6825a885beca7c361ea81c10077441ba"
                          }
                }
 }
