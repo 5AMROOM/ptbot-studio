@@ -789,6 +789,9 @@ button.board-opt[aria-pressed=true]{border-color:transparent;background:linear-g
 #portHelpBtn{display:inline-flex;align-items:center;gap:6px;margin-top:-4px;color:#3fa9f5;font-weight:600}
 #portHelpBtn:before{content:"i";display:grid;place-items:center;width:16px;height:16px;border:1.5px solid;border-radius:50%;font:700 10px/1 serif}
 #portHelpBtn:hover{text-decoration:underline}
+.unplug-note{display:none;margin:0 0 16px}
+.unplugged .unplug-note{display:block}
+.unplugged :is(#panelSensors,#panelControl,#panelWifi,#panelUpdate,#panelSerial,#progSaveBtn,#progLoadBtn,#progDeleteBtn,#tuneBox,#fanRow,#logPtBtn,#refreshBtn){opacity:.45;pointer-events:none}
 #askText.multi{white-space:pre-line}
 .board-opt .last{font-size:11px;color:#3fa9f5;font-weight:600}
 /*/site*/
@@ -912,6 +915,7 @@ button.board-opt[aria-pressed=true]{border-color:transparent;background:linear-g
 <button id="tabUpdate" role="tab" aria-controls="panelUpdate" aria-selected="false" tabindex="-1" data-panel="panelUpdate" data-i18n="update"></button>
 <button id="tabSerial" class="hidden" role="tab" aria-controls="panelSerial" aria-selected="false" tabindex="-1" data-panel="panelSerial">Serial Monitor</button>
 </nav>
+<!--site--><p class="notice warn unplug-note" role="status" data-i18n="usb.unplugged"></p><!--/site-->
     <aside id="onboarding" class="notice onboarding">
 <div>
 <strong data-i18n="firstRun"></strong>
@@ -1346,6 +1350,9 @@ const TEXT = {
     "port.text": "หุ่นจะขึ้นเป็นชื่อชิป USB เช่น “USB-SERIAL CH340” หรือ “CP210x” ตามด้วยเลข COM ให้เลือกบรรทัดนั้น แล้วกดเชื่อมต่อ",
     "port.none": "ไม่เห็นในรายการ? เปิดสวิตช์หุ่น ลองสายอื่น (สายชาร์จอย่างเดียวใช้ไม่ได้) และปิด Arduino IDE",
 /*site*/
+    "usb.unplugged": "หุ่นหลุดการเชื่อมต่อ เสียบสายแล้วจะเชื่อมต่อเอง ระหว่างนี้ดูและแก้โค้ด หรือดูกราฟรอบล่าสุดได้",
+/*/site*/
+/*site*/
     "port.driver": "ยังไม่ขึ้น หรือใช้ Arduino แล้วต้องกด B? ดาวน์โหลดตัวติดตั้งไดรเวอร์ USB",
     "port.driverHint": "(Windows) ดับเบิลคลิกไฟล์ แล้วกด Yes ถ้าขึ้นจอสีน้ำเงิน \"Windows protected your PC\" ให้กด More info แล้ว Run anyway",
 /*/site*/
@@ -1778,6 +1785,9 @@ const TEXT = {
     "port.title": "Pick your robot in the window that pops up",
     "port.text": "The robot shows up by its USB chip, like “USB-SERIAL CH340” or “CP210x”, with a COM number. Pick that line, then Connect.",
     "port.none": "Not in the list? Switch the robot on, try another cable (a charge-only cable will not work) and close Arduino IDE.",
+/*site*/
+    "usb.unplugged": "The robot is unplugged. Plug it in and the page connects again; meanwhile you can read and edit the program and look at the latest run.",
+/*/site*/
 /*site*/
     "port.driver": "Still not there, or Arduino uploads need button B? Download the USB driver installer",
     "port.driverHint": "(Windows) Double-click the file and press Yes. If a blue \"Windows protected your PC\" screen shows, press More info, then Run anyway.",
@@ -2384,7 +2394,7 @@ class SerialLink {
         this.reader.releaseLock();
       }
     }
-    if (!this.closed) { await this.close(); setConn(false, copy('connection.usbLost')); }
+    if (!this.closed) { await this.close(); /*site*/if (usbLostKeepApp()) return; /*/site*/setConn(false, copy('connection.usbLost')); }
   }
   async close() {
     this.closed = true;
@@ -3293,7 +3303,7 @@ $('tuneSaveBtn').onclick = () => run('tuneMsg', async () => {
 $('tuneResetBtn').onclick = () => { if (tuneDefaults) for (const k of TUNE) $('tune_' + k).value = tuneDefaults[k]; };
 
 function progOpen() {
-  tuneLoad().catch(e => msg('tuneMsg', th(e), false)); if (progSaved === null || $('progCode').value === progSaved) run('progMsg', async () => { await progLoad(); return copy('prog.loaded'); }); else progRender(); }
+  /*site*/if (!link) return progRender();/*/site*/tuneLoad().catch(e => msg('tuneMsg', th(e), false)); if (progSaved === null || $('progCode').value === progSaved) run('progMsg', async () => { await progLoad(); return copy('prog.loaded'); }); else progRender(); }
 $('scanBtn').onclick = scanNearby;
 $('progCode').oninput = progRender;
 $('progCode').onscroll = progScroll;
@@ -4092,7 +4102,7 @@ async function connectUsb(port) {
   if (!APP_IDS.includes(hello.app)) throw uiError('error.device');
   s.binChunk = hello.otaChunk || 0;  // firmware 0.6.0+: raw 16 KB update chunks
   $('connectCard').classList.add('hidden');
-  setConn(true, 'USB');
+  /*site*/document.documentElement.classList.remove('unplugged');/*/site*/setConn(true, 'USB');
   rememberPort(port);
 /*site*/
   try { localStorage.setItem('ptlink.lastRobot', robotCode(hello.robot || '')); } catch (e) {}
@@ -4113,7 +4123,7 @@ function knownPort(ports) {
 }
 let autoConnecting = false;
 async function autoConnect(port) {
-  if (!port || autoConnecting || !$('app').classList.contains('hidden')) return;  // already connected
+  if (!port || autoConnecting || /*site*/link && /*/site*/!$('app').classList.contains('hidden')) return;  // already connected
   if (flashing) return;  // the installer has the port
   autoConnecting = true;
   msg('connectHelp', copy('connection.auto'));
@@ -4267,6 +4277,17 @@ $('flashRetry').onclick = () => flashRun();  // the same port: no window again
 $('flashClose').onclick = () => $('flashDlg').close();
 $('flashDlg').addEventListener('cancel', e => { if (flashing) e.preventDefault(); });  // no Esc while writing
 
+// USB unplugged while in the app (website): stay on the same tab, so the child can keep reading or editing the
+// program and the run graph; what needs the robot is greyed out. Plugging it back in reconnects (autoConnect).
+function usbLostKeepApp() {
+  if ($('app').classList.contains('hidden')) return false;  // not in the app yet: the first page, as before
+  link = null; live = false;
+  $('conn').classList.remove('on', 'pending'); writeText($('conn'), t('disconnected'));
+  document.documentElement.classList.remove('linked');
+  document.documentElement.classList.add('unplugged');
+  return true;
+}
+
 // Back to the first page (the logo, or "Wrong robot model?" in Update): lets go of the robot so the first install can
 // put another model on it; the page then stays there until the user connects again.
 let homeFrom = null;  // the robot just left: {code, board} for the other-board warning
@@ -4280,6 +4301,11 @@ async function goHome(install) {
     await l.close().catch(() => {});
     setConn(false, t('disconnected'));
     msg('connectHelp', copy('home.back'), true);
+    boardPick();
+  } else if (document.documentElement.classList.contains('unplugged')) {  // unplugged in the app: the first page now
+    document.documentElement.classList.remove('unplugged');
+    autoConnecting = true;
+    setConn(false, t('disconnected'));
     boardPick();
   }
   if (install && !$('firstInstall').classList.contains('hidden')) {
